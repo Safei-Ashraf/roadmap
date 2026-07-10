@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap — Next 6 Months</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #10141a;
+    --surface: #171c23;
+    --surface-2: #1d232b;
+    --border: #262e38;
+    --text: #e7ebee;
+    --text-dim: #8b98a3;
+    --text-faint: #58636d;
+    --accent: #e3a63d;
+    --accent-dim: #7a5f2a;
+    --done: #7fb88f;
+    --done-dim: #3a4a3e;
+    --radius: 10px;
+    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    padding: 40px 20px 100px;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    margin-bottom: 44px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 0 28px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .stat {
+    flex: 1;
+    padding: 16px 18px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .stat-value.accent { color: var(--accent); }
+
+  .overall-bar-track {
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 14px;
+  }
+  .overall-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ---------- PARALLEL TRACK ---------- */
+  .parallel {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 40px;
+    background: repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0 10px, transparent 10px 20px);
+  }
+
+  .parallel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .parallel-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .parallel-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .parallel-desc {
+    color: var(--text-dim);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin: 6px 0 12px;
+  }
+
+  /* ---------- TIMELINE / PATH ---------- */
+  .path {
+    position: relative;
+    padding-left: 46px;
+  }
+
+  .rail {
+    position: absolute;
+    left: 17px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .rail-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: var(--accent);
+    height: 0%;
+    transition: height 0.4s ease;
+  }
+
+  .phase {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .node {
+    position: absolute;
+    left: -46px;
+    top: 2px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    z-index: 2;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+  }
+
+  .node.active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .node.complete {
+    border-color: var(--done);
+    background: var(--done-dim);
+    color: var(--done);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card-head {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    user-select: none;
+  }
+
+  .card-head:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .card-head-left { flex: 1; min-width: 0; }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+
+  .card-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .card-blurb {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 8px;
+    line-height: 1.5;
+    max-width: 56ch;
+  }
+
+  .chevron {
+    color: var(--text-faint);
+    font-size: 14px;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .phase.open .chevron { transform: rotate(180deg); }
+
+  .mini-bar-track {
+    height: 4px;
+    width: 100px;
+    background: var(--surface-2);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .tasks {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-top: 1px solid transparent;
+  }
+
+  .phase.open .tasks {
+    border-top: 1px solid var(--border);
+  }
+
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .task:last-child { border-bottom: none; }
+
+  .task input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--text-faint);
+    border-radius: 4px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    background: transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .task input[type="checkbox"]:checked {
+    background: var(--done);
+    border-color: var(--done);
+  }
+
+  .task input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid #10141a;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .task input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .task-body { flex: 1; min-width: 0; }
+
+  .task-label {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+  }
+
+  .task.done .task-label {
+    color: var(--text-faint);
+    text-decoration: line-through;
+    text-decoration-color: var(--done-dim);
+  }
+
+  .task-hours {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  footer {
+    max-width: 880px;
+    margin: 40px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .save-note {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+  }
+
+  .reset-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--text-dim); color: var(--text); }
+  .reset-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  @media (max-width: 560px) {
+    .stats-row { flex-wrap: wrap; }
+    .stat { flex: 1 1 50%; border-bottom: 1px solid var(--border); }
+    .path { padding-left: 40px; }
+    .node { left: -40px; width: 30px; height: 30px; font-size: 11px; }
+    .rail { left: 14px; }
+    .card-meta { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Personal roadmap · ~8 months · tuned to a target JD</div>
+    <h1>Frontend → senior full-stack ready</h1>
+    <p class="subtitle">DS&amp;A via your owned Udemy courses, real interview practice, Postgres + Drizzle + Supabase backend depth, serverless architecture, and a genuinely senior-weighted system design &amp; patterns block — React Native elevated back to core priority.</p>
+
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-label">Total hours</div>
+        <div class="stat-value" id="stat-total">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Logged</div>
+        <div class="stat-value accent" id="stat-done">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Phases complete</div>
+        <div class="stat-value" id="stat-phases">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Overall</div>
+        <div class="stat-value accent" id="stat-pct">—</div>
+      </div>
+    </div>
+    <div class="overall-bar-track"><div class="overall-bar-fill" id="overall-bar"></div></div>
+  </header>
+
+  <div id="parallel-container"></div>
+
+  <div class="path">
+    <div class="rail"><div class="rail-fill" id="rail-fill"></div></div>
+    <div id="phases"></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="save-note" id="save-note">Progress saves automatically</div>
+  <button class="reset-btn" id="reset-btn">Reset all progress</button>
+</footer>
+
+<script>
+const DATA = {
+  parallelTracks: [
+    {
+      id: 'eloquent',
+      title: 'Eloquent JavaScript',
+      tag: 'Parallel · no fixed week',
+      desc: 'Runs alongside every phase below, whenever there\'s time. Not sequenced — just keep chipping away. Your Socratic checkpoint method with Claude: concept → implement → hard-gate questions before moving on.',
+      tasks: [
+        { id: 'eloq-11', label: 'Chapter 11: Asynchronous Programming — callbacks, promises, async/await', hours: 2, priority: 'elective' },
+        { id: 'eloq-12', label: 'Chapter 12: Project: A Programming Language', hours: 1.5, priority: 'elective' },
+        { id: 'eloq-13', label: 'Chapter 13: JavaScript and the Browser — DOM basics, browser globals', hours: 1.5, priority: 'elective' },
+        { id: 'eloq-14', label: 'Chapter 14: The DOM — querying, manipulating, traversing', hours: 2, priority: 'elective' },
+        { id: 'eloq-15', label: 'Chapter 15: Handling Events — event listeners, delegation, default behaviors', hours: 2, priority: 'elective' },
+        { id: 'eloq-16', label: 'Chapter 16: Painting on Canvas — canvas API, drawing, animations', hours: 1.5, priority: 'elective' },
+        { id: 'eloq-17', label: 'Chapter 17: HTTP and Forms — fetch, form handling, data submission', hours: 2, priority: 'elective' },
+        { id: 'eloq-18', label: 'Chapter 18: Regular Expressions — regex syntax, pattern matching, string manipulation', hours: 1.5, priority: 'elective' },
+        { id: 'eloq-19', label: 'Chapter 19: Modules — ES modules, imports/exports, module patterns', hours: 1.5, priority: 'elective' },
+        { id: 'eloq-20', label: 'Chapter 20: Project: A Pixel Art Editor', hours: 1.5, priority: 'elective' },
+        { id: 'eloq-21', label: 'Chapter 21: Performance — optimization, memory, profiling', hours: 1, priority: 'elective' }
+      ]
+    },
+    {
+      id: 'rn-side',
+      title: 'React Native',
+      tag: 'Parallel · elevated — this JD lists RN as core tech, not optional',
+      desc: 'Earlier framed as flexible/secondary for general market resilience — this specific JD lists React Native alongside React, Next.js, and Node as main tech, not "tricky." Worth treating with more weight: keep the friend\'s live Expo codebase for real-world reading practice, but add deliberate architecture study on top rather than picking things up incidentally.',
+      tasks: [
+        { id: 'rn-t1', label: 'Read the whole codebase once — routing, state management, folder structure, navigation patterns', hours: 3, priority: 'elective' },
+        { id: 'rn-t2', label: 'Note where it differs from your ra7al-app approach (Zustand usage, expo-router setup, component structure)', hours: 2, priority: 'elective' },
+        { id: 'rn-t3', label: 'Pick one real feature or bug and own it end-to-end', hours: 8, priority: 'elective' },
+        { id: 'rn-t4', label: 'Write down 3–5 things you\'d do differently and why — feeds back into your own RN mentorship notes', hours: 2, priority: 'elective' },
+        { id: 'rn-t5', label: 'Study RN architecture deliberately: navigation patterns (stack/tab/drawer), native module bridging basics, list virtualization, re-render profiling', hours: 6, priority: 'must' },
+        { id: 'rn-t6', label: 'Apply one real architectural improvement — proper navigation typing, state colocation, or a measured performance fix — to either project', hours: 4, priority: 'must' },
+        { id: 'rn-t7', label: 'Keep contributing as time allows', hours: 10, priority: 'elective' }
+      ]
+    },
+    {
+      id: 'hackerrank',
+      title: 'HackerRank — 3-month problem plan',
+      tag: 'Parallel · daily, 25–30 min, time-boxed',
+      desc: 'Daily ritual, every day including off-days: restate the problem, set a timer, attempt solo — no searching. Stuck when time\'s up? Spend 5 min naming exactly what\'s blocking you before looking anything up, read just enough to unblock that gap, close it, then re-implement from scratch yourself — that\'s the step that actually builds retention, not the lookup. Unsolved problems get tagged "carry over" and revisited in a short Sunday review, not left to balloon. Already resumed at Week 3 (Migratory Birds done) after finishing Weeks 1–2 a while back — check those off below. 8 problems per week + 1 mock test at week end.',
+      tasks: [
+        { id: 'hr-w1-p1', label: 'Week 1, Problem 1 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p2', label: 'Week 1, Problem 2 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p3', label: 'Week 1, Problem 3 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p4', label: 'Week 1, Problem 4 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p5', label: 'Week 1, Problem 5 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p6', label: 'Week 1, Problem 6 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p7', label: 'Week 1, Problem 7 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-p8', label: 'Week 1, Problem 8 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w1-mock', label: 'Week 1 Mock Test (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p1', label: 'Week 2, Problem 1 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p2', label: 'Week 2, Problem 2 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p3', label: 'Week 2, Problem 3 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p4', label: 'Week 2, Problem 4 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p5', label: 'Week 2, Problem 5 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p6', label: 'Week 2, Problem 6 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p7', label: 'Week 2, Problem 7 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-p8', label: 'Week 2, Problem 8 (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w2-mock', label: 'Week 2 Mock Test (already done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p1', label: 'Week 3, Problem 1 (Migratory Birds — done)', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p2', label: 'Week 3, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p3', label: 'Week 3, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p4', label: 'Week 3, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p5', label: 'Week 3, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p6', label: 'Week 3, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p7', label: 'Week 3, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-p8', label: 'Week 3, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w3-mock', label: 'Week 3 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p1', label: 'Week 4, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p2', label: 'Week 4, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p3', label: 'Week 4, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p4', label: 'Week 4, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p5', label: 'Week 4, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p6', label: 'Week 4, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p7', label: 'Week 4, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-p8', label: 'Week 4, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w4-mock', label: 'Week 4 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p1', label: 'Week 5, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p2', label: 'Week 5, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p3', label: 'Week 5, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p4', label: 'Week 5, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p5', label: 'Week 5, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p6', label: 'Week 5, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p7', label: 'Week 5, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-p8', label: 'Week 5, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w5-mock', label: 'Week 5 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p1', label: 'Week 6, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p2', label: 'Week 6, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p3', label: 'Week 6, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p4', label: 'Week 6, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p5', label: 'Week 6, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p6', label: 'Week 6, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p7', label: 'Week 6, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-p8', label: 'Week 6, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w6-mock', label: 'Week 6 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p1', label: 'Week 7, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p2', label: 'Week 7, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p3', label: 'Week 7, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p4', label: 'Week 7, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p5', label: 'Week 7, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p6', label: 'Week 7, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p7', label: 'Week 7, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-p8', label: 'Week 7, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w7-mock', label: 'Week 7 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p1', label: 'Week 8, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p2', label: 'Week 8, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p3', label: 'Week 8, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p4', label: 'Week 8, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p5', label: 'Week 8, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p6', label: 'Week 8, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p7', label: 'Week 8, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-p8', label: 'Week 8, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w8-mock', label: 'Week 8 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p1', label: 'Week 9, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p2', label: 'Week 9, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p3', label: 'Week 9, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p4', label: 'Week 9, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p5', label: 'Week 9, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p6', label: 'Week 9, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p7', label: 'Week 9, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-p8', label: 'Week 9, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w9-mock', label: 'Week 9 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p1', label: 'Week 10, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p2', label: 'Week 10, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p3', label: 'Week 10, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p4', label: 'Week 10, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p5', label: 'Week 10, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p6', label: 'Week 10, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p7', label: 'Week 10, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-p8', label: 'Week 10, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w10-mock', label: 'Week 10 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p1', label: 'Week 11, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p2', label: 'Week 11, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p3', label: 'Week 11, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p4', label: 'Week 11, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p5', label: 'Week 11, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p6', label: 'Week 11, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p7', label: 'Week 11, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-p8', label: 'Week 11, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w11-mock', label: 'Week 11 Mock Test', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p1', label: 'Week 12, Problem 1', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p2', label: 'Week 12, Problem 2', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p3', label: 'Week 12, Problem 3', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p4', label: 'Week 12, Problem 4', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p5', label: 'Week 12, Problem 5', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p6', label: 'Week 12, Problem 6', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p7', label: 'Week 12, Problem 7', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-p8', label: 'Week 12, Problem 8', hours: 0.5, priority: 'elective' },
+        { id: 'hr-w12-mock', label: 'Week 12 Mock Test', hours: 0.5, priority: 'elective' }
+      ]
+    }
+  ],
+  phases: [
+    {
+      id: 'p1',
+      num: '01',
+      title: 'Frontend refresher',
+      weeks: 'Weeks 1–2',
+      hours: 15,
+      blurb: 'Manara\'s FE theory is free and skimmable — you know most of it. Skip straight to the build.',
+      tasks: [
+        { id: 'p1-t1', label: 'Skim Manara JS/React basics only where rusty — don\'t linger', hours: 2 },
+        { id: 'p1-t2', label: 'Build Manara\'s "Frontend Engineering with React" interactive project end-to-end', hours: 12 },
+        { id: 'p1-t3', label: 'Push it to GitHub as a portfolio refresh piece', hours: 1 }
+      ]
+    },
+    {
+      id: 'p2',
+      num: '02',
+      title: 'Data structures & algorithms — deep layer',
+      weeks: 'Weeks 3–14',
+      hours: 105,
+      blurb: 'Udemy Masterclass (Colt Steele): do the full course start to end, don\'t cherry-pick sections. It\'s coherently sequenced — Big O → patterns → recursion → sorts → data structures → graphs → DP — each part builds on the last. Sections are listed above for tracking progress, but skipping any gap the foundation later topics need. 22h video, 4.7★/31k ratings, updated Jan 2026, JS-native, bakes problem-solving patterns in instead of leaving them for interview prep later.',
+      tasks: [
+        { id: 'p2-t1', label: 'Udemy Masterclass: Big O notation, array & object performance analysis', hours: 6 },
+        { id: 'p2-t2', label: 'Udemy Masterclass: problem-solving patterns — frequency counter, multiple pointers, sliding window, divide & conquer', hours: 10 },
+        { id: 'p2-t3', label: 'Udemy Masterclass: recursion deep-dive + problem sets + bonus challenging problems', hours: 10 },
+        { id: 'p2-t4', label: 'Udemy Masterclass: searching algorithms + all 6 sorting algorithms (bubble → radix)', hours: 12 },
+        { id: 'p2-t5', label: 'Udemy Masterclass: linked lists, stacks, queues — built from scratch', hours: 10 },
+        { id: 'p2-t6', label: 'Udemy Masterclass: trees, BST, tree traversal, heaps, priority queues', hours: 14 },
+        { id: 'p2-t7', label: 'Udemy Masterclass: hash tables from scratch', hours: 8 },
+        { id: 'p2-t8', label: 'Udemy Masterclass: graphs, graph traversal, Dijkstra\'s shortest path', hours: 14 },
+        { id: 'p2-t9', label: 'Udemy Masterclass: dynamic programming section', hours: 15 },
+        { id: 'p2-t10', label: 'Re-implement 3–4 structures from memory, no reference, as a self-check', hours: 6 }
+      ]
+    },
+    {
+      id: 'p3',
+      num: '03',
+      title: 'Interview patterns + real mock practice',
+      weeks: 'Weeks 14–20',
+      hours: 51,
+      blurb: 'Dropped Manara\'s own LeetCode section — your owned Udemy course (Stephen Grider, 13h, 4.6/15k ratings) covers far more ground with multiple solutions per problem. Kept Manara for what nothing else replaces: real peer mock interviews and behavioral coaching.',
+      tasks: [
+        { id: 'p3-t1', label: 'Udemy — Coding Interview Bootcamp: work the problem bank (string/array tricks, recursion, trees, graphs, DP-style questions)', hours: 26 },
+        { id: 'p3-t2', label: 'Manara Basic + Advanced Behavioral: feedback, curveball questions, researching a company, active listening, EQ, body language, imposter syndrome', hours: 10 },
+        { id: 'p3-t3', label: 'Peer mock technical interviews — as many as unlock', hours: 8 },
+        { id: 'p3-t4', label: 'Peer mock behavioral interviews — as many as unlock', hours: 5 },
+        { id: 'p3-t5', label: 'Extra reps only on whatever still feels shaky after the Udemy bank', hours: 2 }
+      ]
+    },
+    {
+      id: 'p4',
+      num: '04',
+      title: 'Backend depth — Postgres, Drizzle & serverless BaaS',
+      weeks: 'Weeks 20–28',
+      hours: 80,
+      blurb: 'Reworked around your target JD: PostgreSQL is listed as main tech (not Mongo), and Drizzle/Supabase/serverless are named "tricky tech" — meaning they expect familiarity, not mastery, but familiarity is non-negotiable. Swapped the earlier Mongo-based plan for Postgres end to end. Cursor/Copilot aren\'t listed as tasks — your resume already shows AI-assisted engineering experience, that\'s covered. Convex gets light-touch exposure only since it\'s a different paradigm (reactive/document-relational) unlikely to be the primary ask even when listed.',
+      tasks: [
+        { id: 'p4-t1', label: 'Raw HTTP first: Node.js official guides — createServer, routing, req/res, auth by hand (good sequencing before touching a framework)', hours: 3 },
+        { id: 'p4-t2', label: 'freeCodeCamp Back End Development & APIs certification — Express, routing, middleware, checkpoint-tested projects (Timestamp Microservice, URL Shortener, Exercise Tracker + more)', hours: 9 },
+        { id: 'p4-t3', label: 'The Odin Project — Databases course (SQL basics + SQL Zoo): relational fundamentals before going deeper', hours: 3 },
+        { id: 'p4-t4', label: 'PostgreSQL fundamentals: schema design, joins, indexes, constraints, transactions (official Postgres tutorial / freeCodeCamp Relational Database cert)', hours: 8 },
+        { id: 'p4-t5', label: 'Drizzle ORM: official docs — schema definition, migrations, type-safe queries, relations', hours: 5 },
+        { id: 'p4-t6', label: 'Design a real schema, build an Express REST API on PostgreSQL with Drizzle', hours: 10 },
+        { id: 'p4-t7', label: 'Add auth (JWT/session), input validation, error handling', hours: 8 },
+        { id: 'p4-t8', label: 'Supabase: rebuild or extend the API on Supabase-hosted Postgres — built-in Auth, Storage, Row-Level Security — see how a BaaS layer changes what you\'d otherwise build by hand', hours: 5 },
+        { id: 'p4-t9', label: 'Convex crash course (light touch): build one small real-time feature (live counter or chat) to understand the reactive BaaS paradigm — enough to speak to it, not deep mastery', hours: 4 },
+        { id: 'p4-t10', label: 'The Odin Project — API Security lesson: rate limiting, sanitization, common attack vectors', hours: 2 },
+        { id: 'p4-t11', label: 'The Odin Project — Testing Express: testing routes/controllers, testing DB operations, applied to your own Postgres/Drizzle project', hours: 5 },
+        { id: 'p4-t12', label: 'Serverless deployment: redeploy part of the API as serverless functions (Next.js API routes on Vercel, or a basic AWS Lambda) instead of a long-running server — direct match for "tricky tech: serverless architecture"', hours: 5 },
+        { id: 'p4-t13', label: 'Wire it to a small React/Next.js frontend — complete the full-stack loop end-to-end', hours: 6 },
+        { id: 'p4-t14', label: 'Deploy it, write a proper README, add to portfolio/resume', hours: 4 },
+        { id: 'p4-t15', label: 'Write a short doc on backend decisions made — Postgres vs Mongo, Drizzle vs Prisma, when you\'d reach for Supabase/Convex vs rolling your own (for interview talking points)', hours: 3 }
+      ]
+    },
+    {
+      id: 'p5',
+      num: '05',
+      title: 'System design, architecture & cloud',
+      weeks: 'Weeks 28–35',
+      hours: 71,
+      blurb: 'Bumped up significantly — you flagged this as a must for senior level, and 10h of overview content wasn\'t going to cut it. Now includes real design-pattern study (not just system design at the "boxes and arrows" level) and dedicated serverless architecture coverage to match the JD directly, on top of actual practice designing systems rather than only watching videos about it.',
+      tasks: [
+        { id: 'p5-t1', label: 'Manara: System Design & Architecture path (3 courses)', hours: 10 },
+        { id: 'p5-t2', label: 'System Design Primer (free, GitHub) — read through core topics: scalability, load balancing, caching, DB replication/sharding, CAP theorem, message queues', hours: 8 },
+        { id: 'p5-t3', label: 'Practice designing 3 systems on paper/diagram (URL shortener, rate limiter or chat app, e-commerce checkout/inventory) — the kind of prompt a senior interview actually gives', hours: 8 },
+        { id: 'p5-t4', label: 'Design patterns: core GoF patterns relevant day-to-day (Factory, Singleton, Observer, Strategy, Decorator) plus Repository pattern and Dependency Injection', hours: 5 },
+        { id: 'p5-t5', label: 'Architectural patterns: MVC, layered/clean architecture, microservices vs monolith trade-offs, event-driven architecture, CQRS basics', hours: 5 },
+        { id: 'p5-t6', label: 'Serverless architecture, dedicated: when to use it vs long-running servers, cold starts, Lambda/Vercel functions/edge functions, statelessness constraints — direct JD match', hours: 5 },
+        { id: 'p5-t7', label: 'Manara: AWS 1 — Intro to Cloud Computing (preps AWS Cloud Practitioner exam)', hours: 23 },
+        { id: 'p5-t8', label: 'Linux fundamentals via Linux Journey (free, self-paced, complete) — filesystem, permissions, processes, shell basics', hours: 5 },
+        { id: 'p5-t9', label: 'Keep 1–2 pattern problems or a mock interview per week going', hours: 2 }
+      ]
+    }
+  ]
+};
+
+const STORAGE_KEY = 'roadmap-progress-v1';
+let state = {};
+
+function allTasks() {
+  return [...DATA.parallelTracks.flatMap(t => t.tasks), ...DATA.phases.flatMap(p => p.tasks)];
+}
+
+function totalHours() {
+  return allTasks().reduce((sum, t) => sum + t.hours, 0);
+}
+
+function doneHours() {
+  return allTasks().reduce((sum, t) => sum + (state[t.id] ? t.hours : 0), 0);
+}
+
+function phaseProgress(phase) {
+  const done = phase.tasks.filter(t => state[t.id]).length;
+  return { done, total: phase.tasks.length, pct: phase.tasks.length ? Math.round((done / phase.tasks.length) * 100) : 0 };
+}
+
+async function loadState() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY, false);
+    state = result && result.value ? JSON.parse(result.value) : {};
+  } catch (e) {
+    state = {};
+  }
+}
+
+async function saveState() {
+  const note = document.getElementById('save-note');
+  try {
+    await window.storage.set(STORAGE_KEY, JSON.stringify(state), false);
+    note.textContent = 'Saved';
+    setTimeout(() => { note.textContent = 'Progress saves automatically'; }, 1200);
+  } catch (e) {
+    note.textContent = 'Save failed — check connection';
+  }
+}
+
+function taskRow(task) {
+  const checked = !!state[task.id];
+  return `
+    <label class="task ${checked ? 'done' : ''}" data-task-row="${task.id}">
+      <input type="checkbox" data-task-id="${task.id}" ${checked ? 'checked' : ''} aria-label="${task.label}">
+      <div class="task-body">
+        <div class="task-label">${task.label}</div>
+      </div>
+      <div class="task-hours">~${task.hours}h</div>
+    </label>
+  `;
+}
+
+function renderParallel() {
+  const container = document.getElementById('parallel-container');
+  container.innerHTML = DATA.parallelTracks.map(track => `
+    <div class="parallel">
+      <div class="parallel-head">
+        <div class="parallel-title">${track.title}</div>
+        <div class="parallel-tag">${track.tag}</div>
+      </div>
+      <p class="parallel-desc">${track.desc}</p>
+      <div>${track.tasks.map(taskRow).join('')}</div>
+    </div>
+  `).join('');
+}
+
+function renderPhases() {
+  const container = document.getElementById('phases');
+  container.innerHTML = DATA.phases.map((phase, idx) => {
+    const prog = phaseProgress(phase);
+    const isComplete = prog.done === prog.total;
+    const isActive = !isComplete && (idx === 0 || phaseProgress(DATA.phases[idx - 1]).done === phaseProgress(DATA.phases[idx - 1]).total);
+    const nodeClass = isComplete ? 'complete' : (isActive ? 'active' : '');
+    const nodeContent = isComplete ? '✓' : phase.num;
+    return `
+      <div class="phase" data-phase-id="${phase.id}">
+        <div class="node ${nodeClass}">${nodeContent}</div>
+        <div class="card">
+          <div class="card-head" data-toggle="${phase.id}" tabindex="0" role="button" aria-expanded="false">
+            <div class="card-head-left">
+              <h2 class="card-title">${phase.title}</h2>
+              <div class="card-meta">
+                <span>${phase.weeks}</span>
+                <span>~${phase.hours}h</span>
+                <span data-count="${phase.id}">${prog.done}/${prog.total} done</span>
+              </div>
+              <p class="card-blurb">${phase.blurb}</p>
+            </div>
+            <div class="mini-bar-track"><div class="mini-bar-fill" data-bar="${phase.id}" style="width:${prog.pct}%"></div></div>
+            <div class="chevron">▾</div>
+          </div>
+          <div class="tasks" data-tasks="${phase.id}">
+            ${phase.tasks.map(taskRow).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderStats() {
+  const total = totalHours();
+  const done = doneHours();
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const phasesComplete = DATA.phases.filter(p => phaseProgress(p).done === phaseProgress(p).total).length;
+
+  document.getElementById('stat-total').textContent = total + 'h';
+  document.getElementById('stat-done').textContent = done + 'h';
+  document.getElementById('stat-phases').textContent = phasesComplete + '/' + DATA.phases.length;
+  document.getElementById('stat-pct').textContent = pct + '%';
+  document.getElementById('overall-bar').style.width = pct + '%';
+
+  const railFill = document.getElementById('rail-fill');
+  const railPct = phasesComplete / DATA.phases.length * 100;
+  railFill.style.height = railPct + '%';
+}
+
+function updatePhaseUI(phaseId) {
+  const phase = DATA.phases.find(p => p.id === phaseId);
+  if (!phase) return;
+  const prog = phaseProgress(phase);
+  const isComplete = prog.done === prog.total;
+
+  document.querySelector(`[data-count="${phaseId}"]`).textContent = `${prog.done}/${prog.total} done`;
+  document.querySelector(`[data-bar="${phaseId}"]`).style.width = prog.pct + '%';
+
+  const phaseEls = Array.from(document.querySelectorAll('.phase'));
+  phaseEls.forEach((el, idx) => {
+    const ph = DATA.phases[idx];
+    const p = phaseProgress(ph);
+    const complete = p.done === p.total;
+    const active = !complete && (idx === 0 || phaseProgress(DATA.phases[idx - 1]).done === phaseProgress(DATA.phases[idx - 1]).total);
+    const node = el.querySelector('.node');
+    node.classList.remove('active', 'complete');
+    if (complete) { node.classList.add('complete'); node.textContent = '✓'; }
+    else if (active) { node.classList.add('active'); node.textContent = ph.num; }
+    else { node.textContent = ph.num; }
+  });
+
+  renderStats();
+}
+
+function attachHandlers() {
+  document.body.addEventListener('change', async (e) => {
+    if (e.target.matches('input[type="checkbox"][data-task-id]')) {
+      const id = e.target.getAttribute('data-task-id');
+      state[id] = e.target.checked;
+      const row = document.querySelector(`[data-task-row="${id}"]`);
+      if (row) row.classList.toggle('done', e.target.checked);
+
+      const phaseEl = e.target.closest('.phase');
+      if (phaseEl) updatePhaseUI(phaseEl.getAttribute('data-phase-id'));
+      renderStats();
+      await saveState();
+    }
+  });
+
+  document.body.addEventListener('click', (e) => {
+    const head = e.target.closest('[data-toggle]');
+    if (head) {
+      const id = head.getAttribute('data-toggle');
+      const phaseEl = document.querySelector(`.phase[data-phase-id="${id}"]`);
+      const tasksEl = document.querySelector(`[data-tasks="${id}"]`);
+      const isOpen = phaseEl.classList.toggle('open');
+      head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      tasksEl.style.maxHeight = isOpen ? tasksEl.scrollHeight + 'px' : '0px';
+    }
+  });
+
+  document.body.addEventListener('keydown', (e) => {
+    if (e.target.matches('[data-toggle]') && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      e.target.click();
+    }
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', async () => {
+    if (!confirm('Reset all progress? This can\'t be undone.')) return;
+    state = {};
+    await saveState();
+    renderParallel();
+    renderPhases();
+    renderStats();
+  });
+}
+
+async function init() {
+  await loadState();
+  renderParallel();
+  renderPhases();
+  renderStats();
+  attachHandlers();
+}
+
+init();
+</script>
+</body>
+</html>
