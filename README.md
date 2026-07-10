@@ -6,6 +6,7 @@ A standalone single-page roadmap for a focused frontend-to-senior-full-stack pus
 
 - `index.html`: publishable static page.
 - `source/roadmap-tracker.original.html`: untouched local source copied from `/Users/safali/Downloads/roadmap-tracker.html`.
+- `FULL_STACK_HANDOVER.md`: future MERN/full-stack rebuild plan.
 
 
 ## Current Scope
@@ -18,6 +19,7 @@ A standalone single-page roadmap for a focused frontend-to-senior-full-stack pus
 - HackerRank Weeks 1-2 are removed as completed; Week 3 keeps only the mock test.
 - HackerRank practice is grouped into collapsible weekly sections.
 - Stephen Grider interview prep is split into section-level tasks so progress is trackable without video-level noise.
+- Phase 4 includes an `AFTER MERN` guide marker for rebuilding this tracker as a full-stack app.
 - Official resource links are included where a task maps to a specific course, book chapter, docs site, or platform.
 
 ## Run Locally
