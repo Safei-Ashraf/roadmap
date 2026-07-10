@@ -12,6 +12,7 @@ A standalone single-page roadmap for a focused frontend-to-senior-full-stack pus
 
 - 69 remaining tasks across MUST and ELECTIVE lanes.
 - 312h MUST, 102h ELECTIVE, 414h total remaining.
+- Pace estimates: ~6.9 months at 2h/day, ~3.5 months at 4h/day, ~2.3 months at 6h/day.
 - HackerRank Weeks 1-2 are removed as completed; Week 3 keeps only the mock test.
 - HackerRank practice is grouped into collapsible weekly sections.
 - Official resource links are included where a task maps to a specific course, book, docs site, or platform.
