@@ -13,7 +13,7 @@ A standalone single-page roadmap for a focused frontend-to-senior-full-stack pus
 - 80 remaining tasks across MUST and ELECTIVE lanes.
 - 326h MUST, 88h ELECTIVE, 414h total remaining.
 - Pace estimates: ~6.9 months at 2h/day, ~3.5 months at 4h/day, ~2.3 months at 6h/day.
-- Default view is a swimlane timeline: parallel work stays side by side by phase row.
+- Default view is a Jira-style swimlane timeline: parallel work stays side by side inside collapsible phase bands.
 - AI Automation is included as a compact lane; lower-value elective backlog was trimmed so total hours stay flat.
 - HackerRank Weeks 1-2 are removed as completed; Week 3 keeps only the mock test.
 - HackerRank practice is grouped into collapsible weekly sections.
@@ -38,4 +38,4 @@ This repo has no build step. Any static host works:
 - Cloudflare Pages: connect the repo and leave build command empty.
 - Vercel: import the repo as a static project with no build command.
 
-Progress is stored in browser `localStorage`, so it is local to the browser/device.
+Progress and phase collapse state are stored in browser `localStorage`, so they are local to the browser/device.
