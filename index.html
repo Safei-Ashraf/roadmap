@@ -1,4 +1,4 @@
-s, <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,10 +32,10 @@ s, <!doctype html>
 .paceSummary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:18px 0; } .paceCard { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; } .paceLabel { color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:4px; } .paceValue { color:var(--text); font-size:20px; font-weight:800; } .paceHint { color:var(--muted); font-size:12px; margin-top:2px; } .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-bottom:18px; } .metric { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; min-width:0; } .metricLabel { color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; } .metricValue { font-size:24px; font-weight:800; letter-spacing:0; white-space:nowrap; } .metricHint { color:var(--muted); font-size:12px; margin-top:2px; } .metric.must .metricValue { color:var(--must); } .metric.elective .metricValue { color:var(--elective); }
 .progressShell { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:22px; } .progressBar { height:12px; width:100%; background:var(--surface-2); display:flex; position:relative; } .progressDone { background:linear-gradient(90deg,var(--done),#a9d89d,var(--must)); width:0%; transition:width 220ms ease; position:relative; overflow:hidden; } .progressDone::after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 8px,transparent 8px 16px); opacity:.45; } .progressMeta { display:flex; justify-content:space-between; gap:12px; padding:11px 14px; color:var(--muted); font-size:13px; } .progressCount { color:var(--text); font-weight:850; } .progressLeft { color:var(--muted); }
 .filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px; } .filterButton.active { border-color:var(--must); background:var(--must-soft); color:var(--text); } .notice { border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; color:var(--muted); background:var(--surface); margin-bottom:18px; }
-.timelineShell { overflow-x:auto; padding-bottom:12px; } .timelineBoard { display:grid; gap:18px; min-width:1220px; } .laneHeaderGrid,.phaseGrid { display:grid; grid-template-columns:repeat(5,minmax(210px,1fr)); gap:12px; } .laneHead,.timelineCard { border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); } .laneHead { padding:12px; background:var(--surface-2); border-block-start:4px solid var(--lane-accent); min-height:96px; } .laneTitle { font-weight:850; font-size:14px; } .laneSummary { color:var(--muted); font-size:12px; margin-top:3px; } .phaseBand { border:1px dashed rgba(102,114,125,.7); border-radius:var(--radius); background:linear-gradient(180deg,var(--phase-bg,rgba(255,255,255,.04)),rgba(255,255,255,.018)); overflow:clip; box-shadow:inset 0 0 0 1px var(--phase-glow,rgba(255,255,255,.03)); } .phaseBand.urgent { --phase-bg:rgba(227,166,61,.16); --phase-glow:rgba(227,166,61,.18); } .phaseBand.active { --phase-bg:rgba(127,176,214,.12); --phase-glow:rgba(127,176,214,.14); } .phaseBand.handoff { --phase-bg:rgba(211,111,111,.12); --phase-glow:rgba(211,111,111,.14); } .phaseBand.build { --phase-bg:rgba(127,184,143,.12); --phase-glow:rgba(127,184,143,.14); } .phaseBand.senior { --phase-bg:rgba(181,140,255,.13); --phase-glow:rgba(181,140,255,.15); } .phaseBand.backlog { --phase-bg:rgba(102,114,125,.095); --phase-glow:rgba(102,114,125,.12); opacity:.96; } .phaseBand.is-active { border-color:rgba(227,166,61,.86); box-shadow:inset 0 0 0 1px rgba(227,166,61,.2); } .phaseBand.hidden { display:none; } .phaseDivider { display:flex; align-items:center; gap:12px; padding:14px; border:0; border-block-end:1px dashed rgba(102,114,125,.66); color:var(--text); background:rgba(255,255,255,.032); width:100%; text-align:start; cursor:pointer; } .phaseDivider::before,.phaseDivider::after { content:""; height:1px; flex:1; border-block-start:1px dashed rgba(102,114,125,.72); } .phaseCopy { min-width:0; max-width:860px; flex:1; } .phaseTitle { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; font-weight:900; } .phaseRange { color:var(--must); font-size:12px; text-transform:uppercase; letter-spacing:.08em; } .phaseGoal { color:var(--muted); font-size:13px; margin-top:3px; max-width:760px; } .phaseConcepts { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; } .phaseChip { display:inline-flex; align-items:center; min-height:18px; padding:0 6px; border-radius:999px; color:var(--text); background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.1); font-size:10px; font-weight:750; } .phaseChip.project { color:#10141a; background:var(--done); border-color:var(--done); } .phaseGrid { padding:12px; align-items:start; } .phaseGrid[hidden] { display:none; } .laneSlot { display:grid; gap:12px; align-content:start; min-width:0; } .emptyLane { visibility:hidden; min-height:0; border:0; } .timelineCard { overflow:hidden; box-shadow:none; min-height:120px; border-block-start:4px solid var(--lane-accent); display:flex; flex-direction:column; background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--surface); } .timelineCard.hidden { display:none; } .timelineCard.continuation { min-height:0; border-style:dashed; background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.01)),var(--surface); } .timelineCard.backlog { opacity:.9; } .timelineSummary { list-style:none; display:grid; gap:8px; padding:12px; min-height:96px; } .timelineCard.continuation .timelineSummary, .timelineCard.compactSummary .timelineSummary { min-height:0; } .timelineSummary::-webkit-details-marker { display:none; } .cardHead { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; } .cardTitleRow { display:flex; gap:6px; align-items:center; flex-wrap:wrap; } .cardTitle { font-weight:850; font-size:14px; } .cardSummary { color:var(--muted); font-size:12px; margin-top:3px; line-height:1.4; } .cardSummary .nextHint { color:var(--text); } .cardSummary .nextHint strong { color:var(--must); font-weight:750; } .continueProgress { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:6px; } .continueBar { flex:1; min-width:72px; height:4px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; } .continueBar > span { display:block; height:100%; background:var(--done); } .trackTotals,.timelineMeta { display:flex; gap:5px; flex-wrap:wrap; align-items:center; } .timelineMeta { margin-top:auto; } .taskList,.weekTasks { max-height:none; overflow:visible; } .timelineCard .task { grid-template-columns:22px minmax(0,1fr); gap:8px; cursor:pointer; padding:10px 12px; } .timelineCard .task:hover { background:rgba(255,255,255,.035); } .timelineCard .taskLabel { overflow-wrap:break-word; font-size:13px; } .taskMetaLine { grid-column:2; display:flex; gap:5px; flex-wrap:wrap; align-items:center; margin-top:3px; } .taskMetaLine .resourceLinks { justify-content:flex-start; } .taskMetaLine .taskPriority { justify-self:start; min-width:0; margin-top:0; } .taskMetaLine .hours { justify-self:start; } .doneGroup { border-top:1px solid rgba(48,57,70,.7); } .doneGroup .weekHead { opacity:.85; } .remainingLabel { padding:8px 12px 0; color:var(--faint); font-size:11px; font-weight:750; letter-spacing:.06em; text-transform:uppercase; } h2 { font-size:18px; margin:0; letter-spacing:0; } .window { color:var(--faint); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+.timelineShell { overflow-x:auto; padding-bottom:12px; } .timelineBoard { display:grid; gap:18px; min-width:1220px; } .laneHeaderGrid,.phaseGrid { display:grid; grid-template-columns:repeat(5,minmax(210px,1fr)); gap:12px; } .laneHead,.timelineCard { border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); } .laneHead { padding:12px; background:var(--surface-2); border-block-start:4px solid var(--lane-accent); min-height:96px; } .laneTitle { font-weight:850; font-size:14px; } .laneSummary { color:var(--muted); font-size:12px; margin-top:3px; } .phaseBand { border:1px dashed rgba(102,114,125,.7); border-radius:var(--radius); background:linear-gradient(180deg,var(--phase-bg,rgba(255,255,255,.04)),rgba(255,255,255,.018)); overflow:clip; box-shadow:inset 0 0 0 1px var(--phase-glow,rgba(255,255,255,.03)); } .phaseBand.urgent { --phase-bg:rgba(227,166,61,.16); --phase-glow:rgba(227,166,61,.18); } .phaseBand.active { --phase-bg:rgba(127,176,214,.12); --phase-glow:rgba(127,176,214,.14); } .phaseBand.handoff { --phase-bg:rgba(211,111,111,.12); --phase-glow:rgba(211,111,111,.14); } .phaseBand.build { --phase-bg:rgba(127,184,143,.12); --phase-glow:rgba(127,184,143,.14); } .phaseBand.senior { --phase-bg:rgba(181,140,255,.13); --phase-glow:rgba(181,140,255,.15); } .phaseBand.backlog { --phase-bg:rgba(102,114,125,.095); --phase-glow:rgba(102,114,125,.12); opacity:.96; } .phaseBand.is-active { border-color:rgba(227,166,61,.86); box-shadow:inset 0 0 0 1px rgba(227,166,61,.2); } .phaseBand.hidden { display:none; } .phaseDivider { display:flex; align-items:center; gap:12px; padding:14px; border:0; border-block-end:1px dashed rgba(102,114,125,.66); color:var(--text); background:rgba(255,255,255,.032); width:100%; text-align:start; cursor:pointer; } .phaseDivider::before,.phaseDivider::after { content:""; height:1px; flex:1; border-block-start:1px dashed rgba(102,114,125,.72); } .phaseCopy { min-width:0; max-width:860px; flex:1; } .phaseTitle { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; font-weight:900; } .phaseRange { color:var(--must); font-size:12px; text-transform:uppercase; letter-spacing:.08em; } .phaseGoal { color:var(--muted); font-size:13px; margin-top:3px; max-width:760px; } .phaseConcepts { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; } .phaseChip { display:inline-flex; align-items:center; min-height:18px; padding:0 6px; border-radius:999px; color:var(--text); background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.1); font-size:10px; font-weight:750; } .phaseChip.project { color:#10141a; background:var(--done); border-color:var(--done); } .phaseGrid { padding:12px; align-items:start; } .phaseGrid[hidden] { display:none; } .laneSlot { display:grid; gap:12px; align-content:start; min-width:0; } .emptyLane { visibility:hidden; min-height:0; border:0; } .timelineCard { overflow:hidden; box-shadow:none; min-height:120px; border-block-start:4px solid var(--lane-accent); display:flex; flex-direction:column; background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--surface); } .timelineCard.hidden { display:none; } .timelineCard.continuation { min-height:0; border-style:dashed; background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.01)),var(--surface); } .timelineCard.backlog { opacity:.9; } .timelineSummary { list-style:none; display:grid; gap:8px; padding:12px; min-height:96px; } .timelineCard.continuation .timelineSummary, .timelineCard.compactSummary .timelineSummary { min-height:0; } .timelineSummary::-webkit-details-marker { display:none; } .cardHead { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; } .cardTitleRow { display:flex; gap:6px; align-items:center; flex-wrap:wrap; } .cardTitle { font-weight:850; font-size:14px; min-width:0; overflow-wrap:anywhere; } .cardSummary { color:var(--muted); font-size:12px; margin-top:3px; line-height:1.45; overflow-wrap:anywhere; max-width:100%; } .cardSummary .nextHint { color:var(--text); } .cardSummary .nextHint strong { color:var(--must); font-weight:750; } .continueProgress { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:6px; } .continueBar { flex:1; min-width:72px; height:4px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; } .continueBar > span { display:block; height:100%; background:var(--done); } .trackTotals,.timelineMeta { display:flex; gap:4px; flex-wrap:wrap; align-items:center; } .timelineMeta { margin-top:8px; padding-top:8px; border-top:1px solid rgba(48,57,70,.55); } .cardHead > div { min-width:0; flex:1; } .taskList,.weekTasks { max-height:none; overflow:visible; } .timelineCard .task { grid-template-columns:22px minmax(0,1fr); gap:8px; cursor:pointer; padding:10px 12px; } .timelineCard .task:hover { background:rgba(255,255,255,.035); } .timelineCard .taskLabel { overflow-wrap:break-word; font-size:13px; } .taskMetaLine { grid-column:2; display:flex; gap:5px; flex-wrap:wrap; align-items:center; margin-top:3px; } .taskMetaLine .resourceLinks { justify-content:flex-start; } .taskMetaLine .taskPriority { justify-self:start; min-width:0; margin-top:0; } .taskMetaLine .hours { justify-self:start; } .doneGroup { border-top:1px solid rgba(48,57,70,.7); } .doneGroup .weekHead { opacity:.85; } .remainingLabel { padding:8px 12px 0; color:var(--faint); font-size:11px; font-weight:750; letter-spacing:.06em; text-transform:uppercase; } h2 { font-size:18px; margin:0; letter-spacing:0; } .window { color:var(--faint); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
 .readingGuide { border-top:1px solid rgba(48,57,70,.82); background:rgba(127,176,214,.04); } .readingGuideHead { list-style:none; display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 12px; color:var(--elective); font-size:11px; font-weight:750; cursor:pointer; } .readingGuideHead::-webkit-details-marker { display:none; } .readingGuideBody { padding:0 12px 10px; color:var(--muted); font-size:12px; line-height:1.55; overflow-wrap:anywhere; } .readingGuideBody p { margin:0 0 8px; } .readingGuideBody strong { color:var(--text); } .guideChapters { margin:8px 0 0; padding-left:18px; } .guideChapters li { margin-bottom:4px; } .guideLinks { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
-.pill { display:inline-flex; align-items:center; min-height:18px; padding:0 6px; border-radius:999px; font-size:10px; font-weight:750; line-height:1; border:1px solid var(--border); color:var(--muted); } .pill.must { color:#10141a; background:var(--must); border-color:var(--must); } .pill.elective { color:#10141a; background:var(--elective); border-color:var(--elective); } .pill.continues { color:var(--text); background:rgba(255,255,255,.055); border-color:rgba(255,255,255,.12); } .pill.guide { color:#10141a; background:var(--done); border-color:var(--done); } .pill.doneSoft { color:var(--done); background:rgba(127,184,143,.12); border-color:rgba(127,184,143,.35); } .chevron { color:var(--faint); transition:transform 160ms ease; font-weight:900; font-size:11px; } .phaseDivider .chevron { color:var(--must); } .phaseDivider[aria-expanded="false"] .chevron { transform:rotate(-90deg); } .timelineSummary .chevron { color:var(--lane-accent); } .weekHead .chevron { color:var(--elective); } details[open] > summary .chevron { transform:rotate(180deg); }
-.taskList { display:grid; border-top:1px solid rgba(48,57,70,.82); background:rgba(8,11,15,.18); } .weekGroup { border-top:1px solid rgba(48,57,70,.82); border-left:3px solid var(--lane-accent); background:rgba(127,176,214,.055); } .weekGroup:nth-of-type(even) { background:rgba(227,166,61,.045); } .weekGroup.hidden { display:none; } .weekHead { list-style:none; display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; padding:10px 12px; background:rgba(255,255,255,.028); } .weekHead::-webkit-details-marker { display:none; } .weekTitle { display:flex; align-items:center; gap:6px; flex-wrap:wrap; } .weekTitle strong { font-size:13px; } .weekSummary { color:var(--muted); font-size:11px; margin-top:2px; } .weekTasks { border-top:1px solid rgba(48,57,70,.7); background:rgba(8,11,15,.22); } .task { display:grid; grid-template-columns:26px minmax(0,1fr) auto 72px 36px; gap:8px; align-items:start; padding:11px 12px; border-bottom:1px solid rgba(48,57,70,.7); } .weekTasks .task { padding-inline-start:24px; background:rgba(255,255,255,.01); } .task:last-child { border-bottom:0; } .task.hidden { display:none; } .task.done .taskLabel { color:var(--faint); text-decoration:line-through; } .task input { width:16px; height:16px; margin:2px 0 0; accent-color:var(--done); } .taskLabel { color:var(--text); font-size:13px; } .resourceLinks { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; } .resourceLink { justify-self:end; color:var(--elective); font-size:10px; font-weight:750; text-decoration:none; border:1px solid rgba(127,176,214,.32); border-radius:999px; min-height:18px; padding:1px 6px; white-space:nowrap; line-height:1.4; } .resourceLink:hover { background:var(--elective-soft); } .taskPriority { justify-self:stretch; justify-content:center; min-width:64px; font-weight:800; } .hours { justify-self:end; color:var(--muted); font-size:11px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.pill { display:inline-flex; align-items:center; min-height:16px; padding:0 5px; border-radius:999px; font-size:9px; font-weight:750; line-height:1; border:1px solid var(--border); color:var(--muted); white-space:nowrap; } .pill.must { color:var(--must); background:var(--must-soft); border-color:rgba(227,166,61,.4); } .pill.elective { color:var(--elective); background:var(--elective-soft); border-color:rgba(127,176,214,.4); } .pill.continues { color:var(--text); background:rgba(255,255,255,.055); border-color:rgba(255,255,255,.12); } .pill.guide { color:var(--done); background:rgba(127,184,143,.12); border-color:rgba(127,184,143,.35); } .pill.doneSoft { color:var(--done); background:rgba(127,184,143,.12); border-color:rgba(127,184,143,.35); } .chevron { color:var(--faint); transition:transform 160ms ease; font-weight:900; font-size:11px; flex-shrink:0; } .phaseDivider .chevron { color:var(--must); } .phaseDivider[aria-expanded="false"] .chevron { transform:rotate(-90deg); } .timelineSummary .chevron { color:var(--lane-accent); } .weekHead .chevron { color:var(--elective); } details[open] > summary .chevron { transform:rotate(180deg); }
+.taskList { display:grid; border-top:1px solid rgba(48,57,70,.82); background:rgba(8,11,15,.18); } .weekGroup { border-top:1px solid rgba(48,57,70,.82); border-left:3px solid var(--lane-accent); background:rgba(127,176,214,.055); } .weekGroup:nth-of-type(even) { background:rgba(227,166,61,.045); } .weekGroup.hidden { display:none; } .weekHead { list-style:none; display:grid; gap:6px; padding:10px 12px; background:rgba(255,255,255,.028); cursor:pointer; } .weekHead::-webkit-details-marker { display:none; } .weekHeadTop { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; min-width:0; } .weekHeadTop strong { font-size:13px; font-weight:800; line-height:1.3; min-width:0; flex:1; overflow-wrap:anywhere; } .weekHeadMeta { display:flex; flex-wrap:wrap; gap:4px; align-items:center; justify-content:flex-end; flex:0 1 auto; max-width:48%; } .weekSummary { color:var(--muted); font-size:11px; line-height:1.45; margin:0; overflow-wrap:anywhere; max-width:100%; } .weekTasks { border-top:1px solid rgba(48,57,70,.7); background:rgba(8,11,15,.22); } .task { display:grid; grid-template-columns:26px minmax(0,1fr) auto 72px 36px; gap:8px; align-items:start; padding:11px 12px; border-bottom:1px solid rgba(48,57,70,.7); } .weekTasks .task { padding-inline-start:24px; background:rgba(255,255,255,.01); } .task:last-child { border-bottom:0; } .task.hidden { display:none; } .task.done .taskLabel { color:var(--faint); text-decoration:line-through; } .task input { width:16px; height:16px; margin:2px 0 0; accent-color:var(--done); } .taskLabel { color:var(--text); font-size:13px; } .resourceLinks { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; } .resourceLink { justify-self:end; color:var(--elective); font-size:10px; font-weight:750; text-decoration:none; border:1px solid rgba(127,176,214,.32); border-radius:999px; min-height:16px; padding:1px 5px; white-space:nowrap; line-height:1.4; } .resourceLink:hover { background:var(--elective-soft); } .taskPriority { justify-self:stretch; justify-content:center; min-width:64px; font-weight:800; } .hours { justify-self:end; color:var(--muted); font-size:11px; font-variant-numeric:tabular-nums; white-space:nowrap; }
 .empty { display:none; color:var(--muted); border:1px dashed var(--border); border-radius:var(--radius); padding:18px; text-align:center; margin-top:12px; } .footer { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:22px; color:var(--muted); font-size:13px; } .danger { color:var(--danger); }
 @media (max-width:820px) { .topbar { display:block; } .actions { justify-content:flex-start; margin-top:16px; } .paceSummary,.metrics { grid-template-columns:repeat(2,minmax(0,1fr)); } .timelineBoard { min-width:1120px; } .laneHeaderGrid,.phaseGrid { grid-template-columns:repeat(5,200px); } .trackTotals { justify-content:flex-start; } }
 @media (max-width:520px) { .page { padding:24px 14px 88px; } .kicker { font-size:10px; letter-spacing:.04em; line-height:1.4; } h1 { font-size:1.65rem; line-height:1.12; } .lede,.progressMeta { max-width:100%; overflow-wrap:break-word; } .paceSummary,.metrics { grid-template-columns:1fr; } .task { grid-template-columns:26px minmax(0,1fr) auto; } .resourceLinks { grid-column:2; justify-content:flex-start; margin-top:4px; } .resourceLink { justify-self:start; } .taskPriority { grid-column:3; grid-row:1; min-width:78px; align-self:start; } .hours { grid-column:3; grid-row:2; justify-self:center; } .progressMeta,.footer { display:block; } .footer .actions { margin-top:10px; } }
@@ -71,37 +71,37 @@ s, <!doctype html>
 @keyframes focusPulse { 0% { background:rgba(227,166,61,.28); } 100% { background:transparent; } }
 .focusOverlay { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(8,11,15,.72); backdrop-filter:blur(4px); }
 .focusOverlay.open { display:flex; }
-.focusPanel { width:min(480px,100%); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); overflow:hidden; }
-.focusPanelHead { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); }
-.focusPanelHead h2 { margin:0; font-size:16px; }
-.focusClose { border:1px solid var(--border); background:var(--surface-2); color:var(--muted); border-radius:var(--radius); min-height:32px; padding:0 10px; }
-.focusPath { display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--border); background:rgba(255,255,255,.02); }
-.focusPathStep { display:inline-flex; align-items:center; gap:5px; max-width:100%; min-height:22px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:11px; font-weight:750; color:var(--text); background:var(--surface-2); }
-.focusPathStep.must { border-color:rgba(227,166,61,.45); }
-.focusPathStep.elective { border-color:rgba(127,176,214,.45); color:var(--elective); }
-.focusPathArrow { color:var(--faint); font-size:11px; font-weight:900; }
-.focusList { display:grid; gap:0; max-height:min(70vh,520px); overflow:auto; }
-.focusItem { display:grid; gap:4px; width:100%; text-align:start; border:0; border-bottom:1px solid var(--border); background:transparent; color:var(--text); padding:14px 16px; cursor:pointer; }
-.focusItem:hover { background:rgba(255,255,255,.04); }
-.focusItem:last-child { border-bottom:0; }
-.focusItem.electiveSlot { background:rgba(127,176,214,.04); }
-.focusKind { display:inline-flex; align-items:center; min-height:18px; padding:0 7px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:.04em; }
-.focusKind.now { background:var(--must); color:#10141a; }
-.focusKind.nextMust { background:var(--must); color:#10141a; }
-.focusKind.nextElective { background:var(--elective); color:#10141a; }
-.focusKind.clear { background:rgba(127,184,143,.2); color:var(--done); }
-.focusMeta { color:var(--muted); font-size:12px; }
-.focusLabel { font-size:14px; font-weight:700; line-height:1.35; }
-.focusEmpty { padding:18px 16px; color:var(--muted); font-size:13px; }
-.focusSectionLabel { padding:8px 16px 0; color:var(--faint); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.focusPanel { width:min(520px,100%); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); overflow:hidden; }
+.focusPanelHead { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:16px 18px 12px; }
+.focusPanelHead h2 { margin:0; font-size:18px; letter-spacing:-.02em; }
+.focusSub { margin:4px 0 0; color:var(--muted); font-size:13px; line-height:1.4; }
+.focusClose { border:1px solid var(--border); background:var(--surface-2); color:var(--muted); border-radius:var(--radius); min-height:32px; padding:0 10px; flex-shrink:0; }
+.focusList { display:grid; gap:18px; max-height:min(72vh,560px); overflow:auto; padding:0 18px 18px; }
+.focusBlock { display:grid; gap:8px; }
+.focusBlockTitle { color:var(--faint); font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.focusPrimary { display:grid; gap:8px; width:100%; text-align:start; border:1px solid rgba(227,166,61,.45); border-radius:10px; background:linear-gradient(180deg,rgba(227,166,61,.14),rgba(227,166,61,.04)); color:var(--text); padding:14px 14px 12px; cursor:pointer; }
+.focusPrimary:hover { border-color:var(--must); background:linear-gradient(180deg,rgba(227,166,61,.2),rgba(227,166,61,.07)); }
+.focusPrimaryEyebrow { color:var(--must); font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+.focusPrimaryTitle { font-size:16px; font-weight:750; line-height:1.35; }
+.focusPrimaryMeta { color:var(--muted); font-size:12px; }
+.focusPrimaryCta { color:var(--must); font-size:12px; font-weight:750; }
+.focusQuiet { display:grid; gap:2px; width:100%; text-align:start; border:0; border-radius:8px; background:transparent; color:var(--text); padding:8px 2px; cursor:pointer; }
+.focusQuiet:hover { background:rgba(255,255,255,.03); }
+.focusQuietTitle { font-size:13px; font-weight:650; line-height:1.35; }
+.focusQuietMeta { color:var(--muted); font-size:12px; }
+.focusLaneGrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; }
+.focusLane { display:grid; gap:6px; align-content:start; width:100%; text-align:start; border:1px solid var(--border); border-radius:10px; background:var(--surface-2); color:var(--text); padding:12px; cursor:pointer; min-height:96px; }
+.focusLane:hover { border-color:rgba(127,176,214,.55); background:rgba(127,176,214,.08); }
+.focusLaneName { color:var(--elective); font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+.focusLaneTask { font-size:13px; font-weight:650; line-height:1.35; }
+.focusLaneMeta { color:var(--muted); font-size:11px; margin-top:auto; }
+.focusEmpty { padding:8px 0; color:var(--muted); font-size:13px; line-height:1.45; }
+.focusDoneMark { display:inline-flex; align-items:center; min-height:22px; padding:0 8px; border-radius:999px; background:rgba(127,184,143,.18); color:var(--done); font-size:11px; font-weight:800; }
 
-.wipBtn { border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--muted); border-radius:999px; min-height:18px; padding:0 7px; font-size:10px; font-weight:800; letter-spacing:.03em; }
+.wipBtn { border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--muted); border-radius:999px; min-height:16px; padding:0 6px; font-size:9px; font-weight:800; letter-spacing:.03em; }
 .wipBtn:hover { border-color:var(--must); color:var(--text); }
 .wipBtn.active { background:var(--must); border-color:var(--must); color:#10141a; }
 .timelineCard.isWip { box-shadow:0 0 0 1px rgba(227,166,61,.45); }
-.focusKind.parallel { background:rgba(255,255,255,.1); color:var(--text); border:1px solid var(--border); }
-.focusKind.pick { background:var(--elective); color:#10141a; }
-.focusHint { padding:10px 16px; color:var(--muted); font-size:12px; border-bottom:1px solid var(--border); line-height:1.45; }
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
@@ -123,7 +123,7 @@ s, <!doctype html>
       <span class="statusStat" id="visible-count"></span>
     </div>
     <div class="statusActions">
-      <button class="focusBtn" id="focus-open" type="button">Focus · Path</button>
+      <button class="focusBtn" id="focus-open" type="button">Focus</button>
     </div>
   </div>
   <details class="paceDetails"><summary>Pace estimates</summary>
@@ -137,8 +137,13 @@ s, <!doctype html>
 </main>
 <div class="focusOverlay" id="focus-overlay" role="dialog" aria-modal="true" aria-labelledby="focus-title" hidden>
   <div class="focusPanel">
-    <div class="focusPanelHead"><h2 id="focus-title">Your path</h2><button class="focusClose" id="focus-close" type="button">Close</button></div>
-    <div class="focusPath" id="focus-path" hidden></div>
+    <div class="focusPanelHead">
+      <div>
+        <h2 id="focus-title">Focus</h2>
+        <p class="focusSub" id="focus-sub"></p>
+      </div>
+      <button class="focusClose" id="focus-close" type="button">Close</button>
+    </div>
     <div class="focusList" id="focus-list"></div>
   </div>
 </div>
@@ -146,7 +151,7 @@ s, <!doctype html>
 const ROADMAP = {
     "meta": {
         "title": "Frontend to Senior Full-Stack Roadmap",
-        "horizon": "458h · pace plan",
+        "horizon": "477h · pace plan",
         "baseline": "Already done: HackerRank Weeks 1-2 plus Week 3 practice problems. Week 3 mock test remains; those completed items are excluded from remaining-hour totals.",
         "updated": "2026-07-11"
     },
@@ -603,48 +608,254 @@ const ROADMAP = {
             "id": "mobile",
             "title": "React Native",
             "window": "Parallel",
-            "summary": "RN matters for the target role, but split deliberate architecture practice from incidental side-project contribution.",
-            "tasks": [
+            "summary": "Role-relevant RN via free Expo and React Native docs. Apply on ra7al-app or another real codebase when ready. Paid courses only as optional electives.",
+            "groups": [
                 {
-                    "id": "rn-architecture",
-                    "label": "Study RN architecture: navigation patterns, native module bridging basics, list virtualization, re-render profiling",
-                    "hours": 6,
-                    "priority": "must"
+                    "id": "rn-foundations",
+                    "title": "Expo foundations",
+                    "summary": "Official free path: build the Expo tutorial app, then skim RN core concepts you don't already know from web React.",
+                    "guide": {
+                        "startWhen": "Anytime in Phase 1+ — parallel with DSA, no backend required",
+                        "prerequisites": "Solid React (hooks, lists, async). TypeScript basics help.",
+                        "doneMeans": "StickerSmash tutorial finished on device or simulator; you can explain View/Text/StyleSheet vs web DOM",
+                        "chapters": [
+                            "Expo tutorial: create app → navigation → screen → gestures → platform differences",
+                            "RN docs: Core Components and Native Components overview",
+                            "Skip anything you already know cold from React web"
+                        ],
+                        "links": [
+                            {
+                                "label": "Expo tutorial",
+                                "url": "https://docs.expo.dev/tutorial/introduction/"
+                            },
+                            {
+                                "label": "RN getting started",
+                                "url": "https://reactnative.dev/docs/getting-started"
+                            },
+                            {
+                                "label": "Core Components",
+                                "url": "https://reactnative.dev/docs/components-and-apis"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "rn-expo-tutorial",
+                            "label": "Complete official Expo tutorial (StickerSmash) on Android/iOS or web",
+                            "hours": 4,
+                            "priority": "must",
+                            "url": "https://docs.expo.dev/tutorial/introduction/"
+                        },
+                        {
+                            "id": "rn-core-components",
+                            "label": "RN core: View/Text/Pressable/TextInput, StyleSheet, Platform, SafeArea — skim gaps only",
+                            "hours": 3,
+                            "priority": "must",
+                            "url": "https://reactnative.dev/docs/components-and-apis"
+                        }
+                    ]
                 },
                 {
-                    "id": "rn-improvement",
-                    "label": "Apply one architectural improvement to either project: typed navigation, state colocation, or measured performance fix",
+                    "id": "rn-navigation",
+                    "title": "Navigation (Expo Router)",
+                    "summary": "File-based routing is the default Expo path. Learn layouts, stacks/tabs, params, and typed routes from free docs.",
+                    "guide": {
+                        "startWhen": "Right after Expo foundations",
+                        "prerequisites": "Expo tutorial done (it already introduces basic tabs)",
+                        "doneMeans": "Can sketch a small app route tree (auth gate, tabs, stack detail) and name how params/deep links work",
+                        "chapters": [
+                            "Expo Router introduction + core concepts",
+                            "Navigating between pages, layouts, stacks and tabs",
+                            "Typed routes / linking basics"
+                        ],
+                        "links": [
+                            {
+                                "label": "Expo Router intro",
+                                "url": "https://docs.expo.dev/router/introduction/"
+                            },
+                            {
+                                "label": "Core concepts",
+                                "url": "https://docs.expo.dev/router/basics/core-concepts/"
+                            },
+                            {
+                                "label": "Navigating pages",
+                                "url": "https://docs.expo.dev/router/basics/navigation/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "rn-expo-router",
+                            "label": "Expo Router: file routes, _layout, stacks/tabs, params, Link/useRouter",
+                            "hours": 4,
+                            "priority": "must",
+                            "url": "https://docs.expo.dev/router/introduction/"
+                        },
+                        {
+                            "id": "rn-linking-typed",
+                            "label": "Deep linking + typed routes overview (docs only — note patterns for real apps)",
+                            "hours": 2,
+                            "priority": "elective",
+                            "url": "https://docs.expo.dev/router/reference/typed-routes/"
+                        }
+                    ]
+                },
+                {
+                    "id": "rn-lists-perf",
+                    "title": "Lists and performance",
+                    "summary": "Interview- and role-relevant: virtualization, re-renders, and when FlashList helps. All free/open docs.",
+                    "guide": {
+                        "startWhen": "After navigation basics",
+                        "prerequisites": "Comfortable with FlatList-style lists in React",
+                        "doneMeans": "Written notes: 3 FlatList knobs + when you'd reach for FlashList; one profiling tip from RN debugger docs",
+                        "chapters": [
+                            "FlatList optimizing configuration",
+                            "FlashList docs (Shopify, open source)",
+                            "RN debugging / performance monitor"
+                        ],
+                        "links": [
+                            {
+                                "label": "Optimizing FlatList",
+                                "url": "https://reactnative.dev/docs/optimizing-flatlist-configuration"
+                            },
+                            {
+                                "label": "FlashList",
+                                "url": "https://shopify.github.io/flash-list/"
+                            },
+                            {
+                                "label": "Debugging",
+                                "url": "https://reactnative.dev/docs/debugging"
+                            },
+                            {
+                                "label": "Expo debugging tools",
+                                "url": "https://docs.expo.dev/debugging/tools/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "rn-lists-virtualization",
+                            "label": "FlatList optimization + FlashList overview; note 3 perf levers for long lists",
+                            "hours": 3,
+                            "priority": "must",
+                            "links": [
+                                {
+                                    "label": "FlatList",
+                                    "url": "https://reactnative.dev/docs/optimizing-flatlist-configuration"
+                                },
+                                {
+                                    "label": "FlashList",
+                                    "url": "https://shopify.github.io/flash-list/"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "rn-debug-profile",
+                            "label": "Debugging & profiling: RN debugger, Expo tools, Perf Monitor basics",
+                            "hours": 2,
+                            "priority": "must",
+                            "url": "https://reactnative.dev/docs/debugging"
+                        }
+                    ]
+                },
+                {
+                    "id": "rn-data-native",
+                    "title": "Data, storage, native surface",
+                    "summary": "Enough networking and persistence for real apps, plus a light native-modules mental model — no paid SDK required.",
+                    "guide": {
+                        "startWhen": "After lists/perf, or when a real feature needs fetch/storage",
+                        "prerequisites": "Fetch/async familiarity from web JS",
+                        "doneMeans": "Can explain fetch vs Expo SecureStore/AsyncStorage choice; can describe what a native module is without implementing one",
+                        "chapters": [
+                            "RN Networking",
+                            "Expo Store data (AsyncStorage / SecureStore)",
+                            "Expo Modules overview (optional depth)"
+                        ],
+                        "links": [
+                            {
+                                "label": "Networking",
+                                "url": "https://reactnative.dev/docs/network"
+                            },
+                            {
+                                "label": "Store data",
+                                "url": "https://docs.expo.dev/develop/user-interface/store-data/"
+                            },
+                            {
+                                "label": "Expo Modules overview",
+                                "url": "https://docs.expo.dev/modules/overview/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "rn-networking-storage",
+                            "label": "Networking + local storage: fetch patterns, AsyncStorage vs SecureStore",
+                            "hours": 3,
+                            "priority": "must",
+                            "links": [
+                                {
+                                    "label": "Network",
+                                    "url": "https://reactnative.dev/docs/network"
+                                },
+                                {
+                                    "label": "Store data",
+                                    "url": "https://docs.expo.dev/develop/user-interface/store-data/"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "rn-native-modules",
+                            "label": "Native modules / Expo Modules overview (read — implement only if a feature needs it)",
+                            "hours": 3,
+                            "priority": "elective",
+                            "url": "https://docs.expo.dev/modules/overview/"
+                        }
+                    ]
+                }
+            ],
+            "tasks": [
+                {
+                    "id": "rn-apply-one",
+                    "label": "After the modules above: apply one improvement (typed routes, list virtualization, storage, or measured perf) on ra7al-app or the tutorial app",
                     "hours": 4,
-                    "priority": "must"
+                    "priority": "must",
+                    "url": "https://docs.expo.dev/guides/"
                 },
                 {
                     "id": "rn-read-codebase",
-                    "label": "Read friend's Expo codebase: routing, state, folder structure, navigation patterns",
+                    "label": "Optional: read a real Expo codebase (friend's or ra7al-app) — routing, state, folders",
                     "hours": 3,
                     "priority": "elective"
                 },
                 {
                     "id": "rn-compare",
-                    "label": "Compare it with ra7al-app and write 3-5 differences",
+                    "label": "Optional: compare that codebase with yours — write 3–5 architectural differences",
                     "hours": 2,
                     "priority": "elective"
                 },
                 {
                     "id": "rn-feature",
-                    "label": "Own one real feature or bug end to end",
+                    "label": "Optional: own one real feature or bug end-to-end on a live RN app",
                     "hours": 8,
                     "priority": "elective"
                 },
                 {
                     "id": "rn-notes",
-                    "label": "Write notes on what you would do differently and why",
+                    "label": "Optional: short write-up — what you would change and why",
                     "hours": 2,
                     "priority": "elective"
                 },
                 {
+                    "id": "rn-optional-video",
+                    "label": "Optional free video: freeCodeCamp Expo Router meditation app (only if docs feel too dry)",
+                    "hours": 3,
+                    "priority": "elective",
+                    "url": "https://www.youtube.com/watch?v=9UKCv9T_rIo"
+                },
+                {
                     "id": "rn-extra",
-                    "label": "Keep contributing as time allows",
-                    "hours": 10,
+                    "label": "Keep contributing to RN work as capacity allows",
+                    "hours": 8,
                     "priority": "elective"
                 }
             ]
@@ -1214,8 +1425,8 @@ const ROADMAP = {
                 "label": "Phase 1 · Foundation",
                 "range": "Weeks 1-4",
                 "tone": "urgent",
-                "goal": "Start the main DSA spine while keeping HackerRank, Eloquent, TS unlocks, RN, and AI in parallel but controlled.",
-                "concepts": ["DSA base", "JS core", "TS unlock", "RN reading", "AI contracts"],
+                "goal": "Start the main DSA spine while keeping HackerRank, Eloquent, TS unlocks, RN (Expo), and AI in parallel but controlled.",
+                "concepts": ["DSA base", "JS core", "TS unlock", "RN Expo", "AI contracts"],
                 "active": true
             },
             {
@@ -1286,7 +1497,7 @@ const ROADMAP = {
             {
                 "id": "mobile",
                 "title": "React Native",
-                "summary": "Role-relevant mobile practice alongside core work.",
+                "summary": "Free Expo/RN docs path + optional real-app practice.",
                 "accent": "#7fb88f"
             },
             {
@@ -1554,28 +1765,46 @@ const ROADMAP = {
                 "lane": "mobile",
                 "row": "start",
                 "span": 3,
-                "title": "React Native role lane",
-                "summary": "Read real Expo code, compare patterns, own one feature, then apply one architecture improvement.",
+                "title": "React Native · Expo path",
+                "summary": "Learn free Expo/RN docs modules first (foundations → navigation → lists → data), then apply one improvement. Paid courses only if stuck.",
+                "trackId": "mobile",
+                "groupIds": [
+                    "rn-foundations",
+                    "rn-navigation",
+                    "rn-lists-perf",
+                    "rn-data-native"
+                ],
+                "taskIds": [
+                    "rn-apply-one"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-mobile-practice",
+                "lane": "mobile",
+                "row": "momentum",
+                "span": 2,
+                "title": "RN on real projects",
+                "summary": "Optional: read/compare/ship on ra7al-app or another Expo codebase after foundations. Skip if capacity is tight.",
                 "trackId": "mobile",
                 "taskIds": [
                     "rn-read-codebase",
                     "rn-compare",
                     "rn-feature",
-                    "rn-notes",
-                    "rn-architecture",
-                    "rn-improvement"
+                    "rn-notes"
                 ],
-                "defaultOpen": true
+                "defaultOpen": false
             },
             {
                 "id": "card-mobile-extra",
                 "lane": "mobile",
                 "row": "capacity",
                 "span": 1,
-                "title": "RN extra contribution",
-                "summary": "Only after core work is moving.",
+                "title": "RN extras",
+                "summary": "Optional free video backup + ongoing contribution. Prefer docs over another course.",
                 "trackId": "mobile",
                 "taskIds": [
+                    "rn-optional-video",
                     "rn-extra"
                 ],
                 "defaultOpen": false
@@ -1643,6 +1872,36 @@ const allTasks = () => [...taskLookup.values()];
 const byPriority = priority => allTasks().filter(task => task.priority === priority);
 const sum = tasks => tasks.reduce((total, task) => total + task.hours, 0);
 const formatMonths = hoursPerDay => { const months = ROADMAP_TOTAL_HOURS / (hoursPerDay * 30); return months < 1 ? '<1 month' : '~' + (Math.round(months * 10) / 10).toString().replace(/\.0$/, '') + ' months'; };
+function formatDurationUnit(days, forceWeeks = false) {
+    if (!forceWeeks && days < 7) {
+        if (days < 1) return '<1d';
+        return Math.max(1, Math.round(days)) + 'd';
+    }
+    const weeks = Math.round((days / 7) * 10) / 10;
+    if (weeks < 0.1) return '<1 wk';
+    return (Number.isInteger(weeks) ? String(weeks) : weeks.toFixed(1).replace(/\.0$/, '')) + ' wk';
+}
+function formatPaceRange(hours) {
+    if (hours <= 0) return 'Done';
+    const minDays = hours / 6;
+    const maxDays = hours / 2;
+    const useWeeks = maxDays >= 7;
+    const minLabel = formatDurationUnit(minDays, useWeeks);
+    const maxLabel = formatDurationUnit(maxDays, useWeeks);
+    return minLabel === maxLabel ? '~' + minLabel : minLabel + '–' + maxLabel;
+}
+function phaseRemainingHours(row) {
+    let total = 0;
+    for (const card of cardsForPhase(row)) {
+        const span = Math.max(1, card.span || 1);
+        const left = cardTasks(card).filter(task => !isDone(task));
+        total += sum(left) / span;
+    }
+    return total;
+}
+function phaseEstimateLabel(row) {
+    return formatPaceRange(phaseRemainingHours(row));
+}
 const isDone = task => Boolean(progress[task.id]);
 const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function loadProgress() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
@@ -1651,7 +1910,7 @@ function saveUiState() { localStorage.setItem(UI_STORAGE_KEY, JSON.stringify(uiS
 function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); const status = document.getElementById('save-status'); status.textContent = 'Saved locally.'; window.setTimeout(() => { status.textContent = 'Progress saves locally in this browser.'; }, 1200); }
 function esc(value) { return String(value).replace(/[&<>"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[char]); }
 function render() { document.getElementById('horizon').textContent = ROADMAP.meta.horizon; document.getElementById('baseline').textContent = ROADMAP.meta.baseline; document.getElementById('pace-2h').textContent = formatMonths(2); document.getElementById('pace-4h').textContent = formatMonths(4); document.getElementById('pace-6h').textContent = formatMonths(6); renderTimeline(); updateStats(); applyFilter(); }
-function cardTasks(card) { const direct = (card.taskIds || []).map(id => taskLookup.get(id)).filter(Boolean); const grouped = (card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean)); if (direct.length || grouped.length) return [...direct, ...grouped]; if (!card.trackId) return []; const track = ROADMAP.tracks.find(item => item.id === card.trackId); return track ? [...(track.tasks || []), ...(track.groups || []).flatMap(group => group.tasks || [])].map(task => taskLookup.get(task.id)).filter(Boolean) : []; }
+function cardTasks(card) { const direct = (card.taskIds || []).map(id => taskLookup.get(id)).filter(Boolean); const grouped = (card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean)); if (direct.length || grouped.length) return [...grouped, ...direct]; if (!card.trackId) return []; const track = ROADMAP.tracks.find(item => item.id === card.trackId); return track ? [...(track.groups || []).flatMap(group => group.tasks || []), ...(track.tasks || [])].map(task => taskLookup.get(task.id)).filter(Boolean) : []; }
 function renderTimeline() { const container = document.getElementById('timeline-board'); const lanes = ROADMAP.timeline.lanes; const laneHeads = `<div class="laneHeaderGrid">${lanes.map(lane => `<div class="laneHead" style="--lane-accent:${esc(lane.accent || '#66727d')}"><div class="laneTitle">${esc(lane.title)}</div><div class="laneSummary">${esc(lane.summary)}</div></div>`).join('')}</div>`; const phaseBands = ROADMAP.timeline.rows.map(row => phaseBand(row, lanes)).join(''); container.innerHTML = laneHeads + phaseBands; }
 function rowIndex(rowId) { return ROADMAP.timeline.rows.findIndex(row => row.id === rowId); }
 function cardAppearsInPhase(card, row) { const start = rowIndex(card.row); const current = rowIndex(row.id); const span = card.span || 1; return start >= 0 && current >= start && current < start + span; }
@@ -1663,7 +1922,7 @@ function snapshotOpenCards() { return [...document.querySelectorAll('details.tim
 function restoreOpenCards(snapshot) { for (const item of snapshot) { if (!item.phaseId || !item.cardId) continue; const phase = document.querySelector(`[data-phase-id="${CSS.escape(item.phaseId)}"]`); if (!phase) continue; const selector = item.continuation ? `details.timelineCard.continuation[data-card-id="${CSS.escape(item.cardId)}"]` : `details.timelineCard[data-card-id="${CSS.escape(item.cardId)}"]:not(.continuation)`; const card = phase.querySelector(selector); if (card) card.open = true; } }
 function phaseRangeLabel(card) { const start = rowIndex(card.row); const span = card.span || 1; if (start < 0 || span <= 1) return ''; const end = Math.min(start + span - 1, ROADMAP.timeline.rows.length - 1); const a = ROADMAP.timeline.rows[start]; const b = ROADMAP.timeline.rows[end]; const short = label => String(label || '').replace(/^Phase\s*/i, '').split('·')[0].trim(); return span === 1 ? '' : `Spans ${span} phases · ${short(a.label)}–${short(b.label)}`; }
 function laneSpanChips(row, lane, laneCards) { const chips = laneCards.filter(card => card.row === row.id && (card.span || 1) > 1).map(card => `<span class="spanChip" title="${esc(card.title)}">${esc(card.title)} · ${esc(phaseRangeLabel(card))}</span>`); return chips.length ? `<div class="spanChipRow">${chips.join('')}</div>` : ''; }
-function phaseBand(row, lanes) { const cards = cardsForPhase(row); const collapsed = uiState.collapsedPhases?.includes(row.id); const laneCells = lanes.map(lane => { const laneCards = cards.filter(card => card.lane === lane.id); const chips = laneSpanChips(row, lane, laneCards); const content = laneCards.map(card => timelineCard(card, row, lane, card.row !== row.id)).join(''); return `<div class="laneSlot" style="--lane-accent:${esc(lane.accent || '#66727d')}">${chips}${content || '<div class="emptyLane" aria-hidden="true"></div>'}</div>`; }).join(''); const concepts = phaseConceptChips(row); return `<section class="phaseBand ${row.active ? 'is-active' : ''} ${esc(row.tone || '')}" data-phase-id="${esc(row.id)}"><button class="phaseDivider" type="button" aria-expanded="${collapsed ? 'false' : 'true'}"><span class="phaseCopy"><span class="phaseTitle">${esc(row.label)} <span class="phaseRange">${esc(row.range)}</span></span><span class="phaseGoal">${esc(row.goal || '')}</span>${concepts ? `<span class="phaseConcepts">${concepts}</span>` : ''}</span><span class="chevron">v</span></button><div class="phaseGrid" ${collapsed ? 'hidden' : ''}>${laneCells}</div></section>`; }
+function phaseBand(row, lanes) { const cards = cardsForPhase(row); const collapsed = uiState.collapsedPhases?.includes(row.id); const laneCells = lanes.map(lane => { const laneCards = cards.filter(card => card.lane === lane.id); const chips = laneSpanChips(row, lane, laneCards); const content = laneCards.map(card => timelineCard(card, row, lane, card.row !== row.id)).join(''); return `<div class="laneSlot" style="--lane-accent:${esc(lane.accent || '#66727d')}">${chips}${content || '<div class="emptyLane" aria-hidden="true"></div>'}</div>`; }).join(''); const concepts = phaseConceptChips(row); const estimate = phaseEstimateLabel(row); return `<section class="phaseBand ${row.active ? 'is-active' : ''} ${esc(row.tone || '')}" data-phase-id="${esc(row.id)}"><button class="phaseDivider" type="button" aria-expanded="${collapsed ? 'false' : 'true'}"><span class="phaseCopy"><span class="phaseTitle">${esc(row.label)} <span class="phaseRange" title="Min at 6h/day · max at 2h/day">${esc(estimate)}</span></span><span class="phaseGoal">${esc(row.goal || '')}</span>${concepts ? `<span class="phaseConcepts">${concepts}</span>` : ''}</span><span class="chevron">v</span></button><div class="phaseGrid" ${collapsed ? 'hidden' : ''}>${laneCells}</div></section>`; }
 function timelineCard(card, row, lane, isContinuation = false) {
     const tasks = cardTasks(card);
     const stats = cardProgress(tasks);
@@ -1678,15 +1937,15 @@ function timelineCard(card, row, lane, isContinuation = false) {
     const wipBtn = isContinuation || card.guideOnly && !tasks.length ? '' : `<button type="button" class="wipBtn${isWip ? ' active' : ''}" data-wip-card="${esc(card.id)}" title="Mark this section as in progress for Focus">${isWip ? 'In progress' : 'Set WIP'}</button>`;
     const summary = isContinuation ? continuationSummary(card, stats) : `<div class="cardSummary">${esc(card.summary || '')}</div>`;
     const meta = isContinuation
-        ? `${stats.leftCount ? `<span class="pill continues">${stats.leftCount} left · ${formatHours(stats.leftHours)}</span>` : '<span class="pill doneSoft">Complete</span>'}${mustLeft ? `<span class="pill must">MUST ${formatHours(mustLeft)}</span>` : ''}${electiveLeft ? `<span class="pill elective">ELECTIVE ${formatHours(electiveLeft)}</span>` : ''}<span class="pill">${pct}%</span>`
-        : `${mustLeft || sum(tasks.filter(task => task.priority === 'must')) ? `<span class="pill must">MUST ${formatHours(isContinuation ? mustLeft : sum(tasks.filter(task => task.priority === 'must')))}</span>` : ''}${electiveLeft || sum(tasks.filter(task => task.priority === 'elective')) ? `<span class="pill elective">ELECTIVE ${formatHours(isContinuation ? electiveLeft : sum(tasks.filter(task => task.priority === 'elective')))}</span>` : ''}<span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}${wipBtn}`;
+        ? `${stats.leftCount ? `<span class="pill continues">${stats.leftCount} left · ${formatHours(stats.leftHours)}</span>` : '<span class="pill doneSoft">Complete</span>'}${mustLeft ? `<span class="pill must">${formatHours(mustLeft)}</span>` : ''}${electiveLeft ? `<span class="pill elective">${formatHours(electiveLeft)}</span>` : ''}<span class="pill">${pct}%</span>`
+        : `${mustLeft || sum(tasks.filter(task => task.priority === 'must')) ? `<span class="pill must" title="MUST">${formatHours(isContinuation ? mustLeft : sum(tasks.filter(task => task.priority === 'must')))}</span>` : ''}${electiveLeft || sum(tasks.filter(task => task.priority === 'elective')) ? `<span class="pill elective" title="ELECTIVE">${formatHours(isContinuation ? electiveLeft : sum(tasks.filter(task => task.priority === 'elective')))}</span>` : ''}<span class="pill">${tasks.length}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}${wipBtn}`;
     return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}${compact}${isWip ? ' isWip' : ''}" ${open} data-card-id="${esc(card.id)}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}${isWip ? '<span class="pill must">WIP</span>' : ''}</div>${summary}</div><span class="chevron">v</span></div><div class="timelineMeta">${meta}</div></summary>${isContinuation ? renderContinuationBody(card, row.id, stats) : renderCardBody(card, row.id)}</details>`;
 }
 function continuationSummary(card, stats) { if (!stats.total) return `<div class="cardSummary">${esc(card.summary || '')}</div>`; if (!stats.leftCount) return `<div class="cardSummary"><span class="nextHint">All items done in earlier phases.</span><div class="continueProgress"><span class="continueBar" aria-hidden="true"><span style="width:100%"></span></span><span class="pill doneSoft">${stats.doneCount}/${stats.total}</span></div></div>`; const pct = Math.round((stats.doneCount / stats.total) * 100); return `<div class="cardSummary"><span class="nextHint"><strong>Up next:</strong> ${esc(shortLabel(stats.next.label))}</span><div class="continueProgress"><span class="continueBar" aria-hidden="true"><span style="width:${pct}%"></span></span><span class="pill doneSoft">${stats.doneCount} done</span><span class="pill continues">${stats.leftCount} continuing</span></div></div>`; }
-function renderContinuationBody(card, contextId, stats) { const ctx = `${card.id}-${contextId}-cont`; if (!stats.leftCount) return `<div class="remainingLabel">Nothing left — finished earlier</div>`; const remaining = `<div class="remainingLabel">Still open</div><div class="taskList">${stats.leftTasks.map(task => taskRow(task, ctx)).join('')}</div>`; const done = stats.doneCount ? `<details class="weekGroup doneGroup" data-group-id="${esc(card.id)}-done"><summary class="weekHead"><div><div class="weekTitle"><strong>Done earlier</strong><span class="pill doneSoft">${stats.doneCount}</span></div><div class="weekSummary">Completed in a previous phase — shared progress.</div></div><div class="trackTotals"><span class="chevron">v</span></div></summary><div class="weekTasks">${stats.doneTasks.map(task => taskRow(task, `${ctx}-done`)).join('')}</div></details>` : ''; return remaining + done; }
+function renderContinuationBody(card, contextId, stats) { const ctx = `${card.id}-${contextId}-cont`; if (!stats.leftCount) return `<div class="remainingLabel">Nothing left — finished earlier</div>`; const remaining = `<div class="remainingLabel">Still open</div><div class="taskList">${stats.leftTasks.map(task => taskRow(task, ctx)).join('')}</div>`; const done = stats.doneCount ? `<details class="weekGroup doneGroup" data-group-id="${esc(card.id)}-done"><summary class="weekHead"><div class="weekHeadTop"><strong>Done earlier</strong><span class="weekHeadMeta"><span class="pill doneSoft">${stats.doneCount}</span><span class="chevron">v</span></span></div><p class="weekSummary">Completed in a previous phase — shared progress.</p></summary><div class="weekTasks">${stats.doneTasks.map(task => taskRow(task, `${ctx}-done`)).join('')}</div></details>` : ''; return remaining + done; }
 function renderGuide(guide) { if (!guide) return ''; const chapters = (guide.chapters || []).map(chapter => `<li>${esc(chapter)}</li>`).join(''); const links = (guide.links || []).map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label)}</a>`; }).join(''); return `<details class="readingGuide"><summary class="readingGuideHead"><span>How to read</span><span class="chevron">v</span></summary><div class="readingGuideBody">${guide.startWhen ? `<p><strong>Start when:</strong> ${esc(guide.startWhen)}</p>` : ''}${guide.prerequisites ? `<p><strong>Prerequisites:</strong> ${esc(guide.prerequisites)}</p>` : ''}${guide.doneMeans ? `<p><strong>Done means:</strong> ${esc(guide.doneMeans)}</p>` : ''}${chapters ? `<ul class="guideChapters">${chapters}</ul>` : ''}${links ? `<div class="guideLinks">${links}</div>` : ''}</div></details>`; }
-function renderCardBody(card, contextId) { const guideBlock = renderGuide(card.guide); const groups = (card.groupIds || []).map(id => groupRow(groupLookup.get(id), `${card.id}-${contextId}`)).join(''); const groupTaskIds = new Set((card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => task.id))); const directTasks = cardTasks(card).filter(task => !groupTaskIds.has(task.id)); const taskList = directTasks.length ? `<div class="taskList">${directTasks.map(task => taskRow(task, `${card.id}-${contextId}`)).join('')}</div>` : ''; return guideBlock + taskList + groups; }
-function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = tasks.length > 1 ? 'open' : ''; return `<details class="weekGroup" ${open} data-group-id="${esc(group.id)}"><summary class="weekHead"><div><div class="weekTitle"><strong>${esc(group.title)}</strong><span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span></div><div class="weekSummary">${esc(group.summary || '')}</div></div><div class="trackTotals">${must ? `<span class="pill must">MUST ${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">ELECTIVE ${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></div></summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
+function renderCardBody(card, contextId) { const guideBlock = renderGuide(card.guide); const groups = (card.groupIds || []).map(id => groupRow(groupLookup.get(id), `${card.id}-${contextId}`)).join(''); const groupTaskIds = new Set((card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => task.id))); const directTasks = cardTasks(card).filter(task => !groupTaskIds.has(task.id)); const taskList = directTasks.length ? `<div class="taskList">${directTasks.map(task => taskRow(task, `${card.id}-${contextId}`)).join('')}</div>` : ''; return guideBlock + groups + taskList; }
+function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = tasks.length > 1 ? 'open' : ''; return `<details class="weekGroup" ${open} data-group-id="${esc(group.id)}"><summary class="weekHead"><div class="weekHeadTop"><strong>${esc(group.title)}</strong><span class="weekHeadMeta"><span class="pill">${tasks.length}</span>${must ? `<span class="pill must">${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></span></div>${group.summary ? `<p class="weekSummary">${esc(group.summary)}</p>` : ''}</summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
 function resourceLinks(task) { const links = task.links || (task.url ? [{ label: 'Open', url: task.url }] : []); return links.length ? `<span class="resourceLinks">${links.map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label || 'Open')}</a>`; }).join('')}</span>` : ''; }
 function taskRow(task, contextId = 'main') { const checked = progress[task.id] ? 'checked' : ''; const doneClass = progress[task.id] ? ' done' : ''; const inputId = 'task-' + task.id + '-' + contextId; return `<div class="task${doneClass}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="hours">${formatHours(task.hours)}</span></div></div>`; }
 function orderedFocusCandidates() {
@@ -1792,68 +2051,50 @@ function pickFocusTargets() {
     const parallels = parallelLaneHeads(wipCard.row, wipCard.id);
     return { now, nextMust, nextElectives, parallels, needsWip: false, wipCard };
 }
-function focusKindLabel(kind) {
-    if (kind === 'now') return 'NOW';
-    if (kind === 'nextMust') return 'NEXT ON CARD';
-    if (kind === 'nextElective') return 'ELECTIVE';
-    if (kind === 'parallel') return 'PARALLEL';
-    if (kind === 'pick') return 'PICK WIP';
-    return 'NEXT';
+function focusJumpAttrs(item, { setWip = false, className = 'focusItem' } = {}) {
+    return `class="${esc(className)}" type="button" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"${setWip ? ' data-set-wip="true"' : ''}`;
 }
-function focusItemHtml(kind, item, extra = '') {
-    if (!item) return '';
-    const electiveClass = kind === 'nextElective' ? ' electiveSlot' : '';
-    return `<button class="focusItem${electiveClass}" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}" ${extra}><span class="focusKind ${esc(kind)}">${focusKindLabel(kind)}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.lane.title)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`;
+function focusPrimaryHtml(item) {
+    return `<button ${focusJumpAttrs(item, { className: 'focusPrimary focusItem' })}><span class="focusPrimaryEyebrow">Do now</span><span class="focusPrimaryTitle">${esc(item.task.label)}</span><span class="focusPrimaryMeta">${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span><span class="focusPrimaryCta">Open on board →</span></button>`;
 }
-function focusPathHtml(now, nextElectives, nextMust, parallels) {
-    if (!now && !parallels?.length) return '';
-    const step = (item, cls) => `<span class="focusPathStep ${cls}">${esc(shortLabel(item.card.title, 18))}: ${esc(shortLabel(item.task.label, 20))}</span>`;
-    const parts = [];
-    if (now) parts.push(step(now, now.task.priority));
-    for (const elective of nextElectives || []) {
-        parts.push('<span class="focusPathArrow">→</span>');
-        parts.push(step(elective, 'elective'));
-    }
-    if (nextMust && (!now || nextMust.task.id !== now.task.id)) {
-        parts.push('<span class="focusPathArrow">→</span>');
-        parts.push(step(nextMust, 'must'));
-    }
-    for (const parallel of (parallels || []).slice(0, 3)) {
-        parts.push('<span class="focusPathArrow">∥</span>');
-        parts.push(step(parallel, 'elective'));
-    }
-    return parts.join('');
+function focusQuietHtml(item, note = '') {
+    const noteText = note ? ` · ${note}` : '';
+    return `<button ${focusJumpAttrs(item, { className: 'focusQuiet focusItem' })}><span class="focusQuietTitle">${esc(shortLabel(item.task.label, 88))}</span><span class="focusQuietMeta">${formatHours(item.task.hours)}${noteText}</span></button>`;
+}
+function focusLaneHtml(item) {
+    return `<button ${focusJumpAttrs(item, { setWip: true, className: 'focusLane focusItem' })}><span class="focusLaneName">${esc(item.lane.title)}</span><span class="focusLaneTask">${esc(shortLabel(item.task.label, 72))}</span><span class="focusLaneMeta">${esc(shortLabel(item.card.title, 28))} · ${formatHours(item.task.hours)} · switch WIP</span></button>`;
+}
+function focusLanesBlock(parallels, title) {
+    if (!parallels?.length) return '';
+    return `<div class="focusBlock"><div class="focusBlockTitle">${esc(title)}</div><div class="focusLaneGrid">${parallels.map(focusLaneHtml).join('')}</div></div>`;
 }
 function openFocusOverlay() {
     const targets = pickFocusTargets();
-    const { now, nextMust, nextElectives, parallels, needsWip, wipDone } = targets;
+    const { now, nextMust, nextElectives, parallels, needsWip, wipDone, wipCard } = targets;
     const list = document.getElementById('focus-list');
-    const path = document.getElementById('focus-path');
+    const sub = document.getElementById('focus-sub');
+
     if (needsWip) {
-        path.hidden = false;
-        path.innerHTML = focusPathHtml(null, [], null, parallels);
-        list.innerHTML = `<div class="focusHint">Mark a section as <strong>In progress</strong> (Set WIP on a card), or pick a parallel track below. DSA and HackerRank are meant to run side by side.</div><div class="focusSectionLabel">Parallel tracks to start</div>${(parallels || []).map(item => focusItemHtml('pick', item, 'data-set-wip="true"')).join('') || '<div class="focusEmpty">Nothing left to start.</div>'}`;
+        sub.textContent = 'Pick what you are working on. Lanes in the same phase can run side by side.';
+        list.innerHTML = focusLanesBlock(parallels, 'Start a track') || `<div class="focusEmpty">Nothing left to start.</div>`;
     } else if (wipDone) {
-        path.hidden = true;
-        path.innerHTML = '';
-        list.innerHTML = `<div class="focusHint">This WIP section is complete. Pick another parallel track or set a new WIP on a card.</div><div class="focusSectionLabel">Parallel tracks</div>${(parallels || []).map(item => focusItemHtml('pick', item, 'data-set-wip="true"')).join('') || '<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span></div>'}`;
+        sub.textContent = `${wipCard.title} is done on this phase. Pick the next WIP.`;
+        list.innerHTML = focusLanesBlock(parallels, 'Switch to') || `<div class="focusEmpty"><span class="focusDoneMark">All clear</span></div>`;
     } else if (!now) {
-        path.hidden = true;
-        list.innerHTML = `<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span><div class="focusLabel" style="margin-top:8px">No incomplete tasks left.</div></div>`;
+        sub.textContent = '';
+        list.innerHTML = `<div class="focusEmpty"><span class="focusDoneMark">All clear</span><div style="margin-top:8px">No incomplete tasks left.</div></div>`;
     } else {
-        path.hidden = false;
-        path.innerHTML = focusPathHtml(now, nextElectives, nextMust, parallels);
-        const electiveBlock = nextElectives.length
-            ? `<div class="focusSectionLabel">Optional on this card</div>${nextElectives.map(item => focusItemHtml('nextElective', item)).join('')}`
+        const phaseLabel = now.row.label;
+        sub.textContent = `Working on ${now.card.title} · ${phaseLabel}`;
+        const thenItems = [];
+        if (nextMust && nextMust.task.id !== now.task.id) thenItems.push(focusQuietHtml(nextMust, 'next MUST'));
+        for (const elective of nextElectives) thenItems.push(focusQuietHtml(elective, 'optional'));
+        const thenBlock = thenItems.length
+            ? `<div class="focusBlock"><div class="focusBlockTitle">Then on this track</div>${thenItems.join('')}</div>`
             : '';
-        const continueBlock = nextMust && nextMust.task.id !== now.task.id
-            ? `<div class="focusSectionLabel">Next on this card</div>${focusItemHtml('nextMust', nextMust)}`
-            : '';
-        const parallelBlock = parallels.length
-            ? `<div class="focusSectionLabel">Parallel lanes (same phase)</div>${parallels.map(item => focusItemHtml('parallel', item, 'data-set-wip="true"')).join('')}`
-            : '';
-        list.innerHTML = `<div class="focusHint">WIP: <strong>${esc(now.card.title)}</strong> · switch tracks anytime with Set WIP or Parallel.</div><div class="focusSectionLabel">In progress</div>${focusItemHtml('now', now)}${electiveBlock}${continueBlock}${parallelBlock}`;
+        list.innerHTML = `<div class="focusBlock">${focusPrimaryHtml(now)}</div>${thenBlock}${focusLanesBlock(parallels, `Also in ${phaseLabel}`)}`;
     }
+
     const overlay = document.getElementById('focus-overlay');
     overlay.hidden = false;
     overlay.classList.add('open');
