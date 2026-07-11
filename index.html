@@ -94,6 +94,14 @@ s, <!doctype html>
 .focusLabel { font-size:14px; font-weight:700; line-height:1.35; }
 .focusEmpty { padding:18px 16px; color:var(--muted); font-size:13px; }
 .focusSectionLabel { padding:8px 16px 0; color:var(--faint); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+
+.wipBtn { border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--muted); border-radius:999px; min-height:18px; padding:0 7px; font-size:10px; font-weight:800; letter-spacing:.03em; }
+.wipBtn:hover { border-color:var(--must); color:var(--text); }
+.wipBtn.active { background:var(--must); border-color:var(--must); color:#10141a; }
+.timelineCard.isWip { box-shadow:0 0 0 1px rgba(227,166,61,.45); }
+.focusKind.parallel { background:rgba(255,255,255,.1); color:var(--text); border:1px solid var(--border); }
+.focusKind.pick { background:var(--elective); color:#10141a; }
+.focusHint { padding:10px 16px; color:var(--muted); font-size:12px; border-bottom:1px solid var(--border); line-height:1.45; }
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
@@ -1638,7 +1646,7 @@ const formatMonths = hoursPerDay => { const months = ROADMAP_TOTAL_HOURS / (hour
 const isDone = task => Boolean(progress[task.id]);
 const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function loadProgress() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
-function loadUiState() { try { return JSON.parse(localStorage.getItem(UI_STORAGE_KEY) || '{"collapsedPhases":[]}'); } catch { return { collapsedPhases: [] }; } }
+function loadUiState() { try { return { collapsedPhases: [], wipCardId: null, ...JSON.parse(localStorage.getItem(UI_STORAGE_KEY) || '{}') }; } catch { return { collapsedPhases: [], wipCardId: null }; } }
 function saveUiState() { localStorage.setItem(UI_STORAGE_KEY, JSON.stringify(uiState)); }
 function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); const status = document.getElementById('save-status'); status.textContent = 'Saved locally.'; window.setTimeout(() => { status.textContent = 'Progress saves locally in this browser.'; }, 1200); }
 function esc(value) { return String(value).replace(/[&<>"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[char]); }
@@ -1656,10 +1664,24 @@ function restoreOpenCards(snapshot) { for (const item of snapshot) { if (!item.p
 function phaseRangeLabel(card) { const start = rowIndex(card.row); const span = card.span || 1; if (start < 0 || span <= 1) return ''; const end = Math.min(start + span - 1, ROADMAP.timeline.rows.length - 1); const a = ROADMAP.timeline.rows[start]; const b = ROADMAP.timeline.rows[end]; const short = label => String(label || '').replace(/^Phase\s*/i, '').split('·')[0].trim(); return span === 1 ? '' : `Spans ${span} phases · ${short(a.label)}–${short(b.label)}`; }
 function laneSpanChips(row, lane, laneCards) { const chips = laneCards.filter(card => card.row === row.id && (card.span || 1) > 1).map(card => `<span class="spanChip" title="${esc(card.title)}">${esc(card.title)} · ${esc(phaseRangeLabel(card))}</span>`); return chips.length ? `<div class="spanChipRow">${chips.join('')}</div>` : ''; }
 function phaseBand(row, lanes) { const cards = cardsForPhase(row); const collapsed = uiState.collapsedPhases?.includes(row.id); const laneCells = lanes.map(lane => { const laneCards = cards.filter(card => card.lane === lane.id); const chips = laneSpanChips(row, lane, laneCards); const content = laneCards.map(card => timelineCard(card, row, lane, card.row !== row.id)).join(''); return `<div class="laneSlot" style="--lane-accent:${esc(lane.accent || '#66727d')}">${chips}${content || '<div class="emptyLane" aria-hidden="true"></div>'}</div>`; }).join(''); const concepts = phaseConceptChips(row); return `<section class="phaseBand ${row.active ? 'is-active' : ''} ${esc(row.tone || '')}" data-phase-id="${esc(row.id)}"><button class="phaseDivider" type="button" aria-expanded="${collapsed ? 'false' : 'true'}"><span class="phaseCopy"><span class="phaseTitle">${esc(row.label)} <span class="phaseRange">${esc(row.range)}</span></span><span class="phaseGoal">${esc(row.goal || '')}</span>${concepts ? `<span class="phaseConcepts">${concepts}</span>` : ''}</span><span class="chevron">v</span></button><div class="phaseGrid" ${collapsed ? 'hidden' : ''}>${laneCells}</div></section>`; }
-function timelineCard(card, row, lane, isContinuation = false) { const tasks = cardTasks(card); const stats = cardProgress(tasks); const mustLeft = sum(stats.leftTasks.filter(task => task.priority === 'must')); const electiveLeft = sum(stats.leftTasks.filter(task => task.priority === 'elective')); const open = !isContinuation && card.defaultOpen ? 'open' : ''; const compact = isContinuation || !card.defaultOpen ? ' compactSummary' : ''; const pct = stats.total ? Math.round((stats.doneCount / stats.total) * 100) : 0; const continuation = isContinuation ? `<span class="pill continues">${stats.doneCount}/${stats.total} done</span>` : ''; const guideBadge = card.badge ? `<span class="pill guide">${esc(card.badge)}</span>` : ''; const summary = isContinuation ? continuationSummary(card, stats) : `<div class="cardSummary">${esc(card.summary || '')}</div>`; const meta = isContinuation
+function timelineCard(card, row, lane, isContinuation = false) {
+    const tasks = cardTasks(card);
+    const stats = cardProgress(tasks);
+    const mustLeft = sum(stats.leftTasks.filter(task => task.priority === 'must'));
+    const electiveLeft = sum(stats.leftTasks.filter(task => task.priority === 'elective'));
+    const open = !isContinuation && card.defaultOpen ? 'open' : '';
+    const compact = isContinuation || !card.defaultOpen ? ' compactSummary' : '';
+    const pct = stats.total ? Math.round((stats.doneCount / stats.total) * 100) : 0;
+    const isWip = !isContinuation && uiState.wipCardId === card.id;
+    const continuation = isContinuation ? `<span class="pill continues">${stats.doneCount}/${stats.total} done</span>` : '';
+    const guideBadge = card.badge ? `<span class="pill guide">${esc(card.badge)}</span>` : '';
+    const wipBtn = isContinuation || card.guideOnly && !tasks.length ? '' : `<button type="button" class="wipBtn${isWip ? ' active' : ''}" data-wip-card="${esc(card.id)}" title="Mark this section as in progress for Focus">${isWip ? 'In progress' : 'Set WIP'}</button>`;
+    const summary = isContinuation ? continuationSummary(card, stats) : `<div class="cardSummary">${esc(card.summary || '')}</div>`;
+    const meta = isContinuation
         ? `${stats.leftCount ? `<span class="pill continues">${stats.leftCount} left · ${formatHours(stats.leftHours)}</span>` : '<span class="pill doneSoft">Complete</span>'}${mustLeft ? `<span class="pill must">MUST ${formatHours(mustLeft)}</span>` : ''}${electiveLeft ? `<span class="pill elective">ELECTIVE ${formatHours(electiveLeft)}</span>` : ''}<span class="pill">${pct}%</span>`
-        : `${sum(tasks.filter(task => task.priority === 'must')) ? `<span class="pill must">MUST ${formatHours(sum(tasks.filter(task => task.priority === 'must')))}</span>` : ''}${sum(tasks.filter(task => task.priority === 'elective')) ? `<span class="pill elective">ELECTIVE ${formatHours(sum(tasks.filter(task => task.priority === 'elective')))}</span>` : ''}<span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}`;
-    return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}${compact}" ${open} data-card-id="${esc(card.id)}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}</div>${summary}</div><span class="chevron">v</span></div><div class="timelineMeta">${meta}</div></summary>${isContinuation ? renderContinuationBody(card, row.id, stats) : renderCardBody(card, row.id)}</details>`; }
+        : `${mustLeft || sum(tasks.filter(task => task.priority === 'must')) ? `<span class="pill must">MUST ${formatHours(isContinuation ? mustLeft : sum(tasks.filter(task => task.priority === 'must')))}</span>` : ''}${electiveLeft || sum(tasks.filter(task => task.priority === 'elective')) ? `<span class="pill elective">ELECTIVE ${formatHours(isContinuation ? electiveLeft : sum(tasks.filter(task => task.priority === 'elective')))}</span>` : ''}<span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}${wipBtn}`;
+    return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}${compact}${isWip ? ' isWip' : ''}" ${open} data-card-id="${esc(card.id)}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}${isWip ? '<span class="pill must">WIP</span>' : ''}</div>${summary}</div><span class="chevron">v</span></div><div class="timelineMeta">${meta}</div></summary>${isContinuation ? renderContinuationBody(card, row.id, stats) : renderCardBody(card, row.id)}</details>`;
+}
 function continuationSummary(card, stats) { if (!stats.total) return `<div class="cardSummary">${esc(card.summary || '')}</div>`; if (!stats.leftCount) return `<div class="cardSummary"><span class="nextHint">All items done in earlier phases.</span><div class="continueProgress"><span class="continueBar" aria-hidden="true"><span style="width:100%"></span></span><span class="pill doneSoft">${stats.doneCount}/${stats.total}</span></div></div>`; const pct = Math.round((stats.doneCount / stats.total) * 100); return `<div class="cardSummary"><span class="nextHint"><strong>Up next:</strong> ${esc(shortLabel(stats.next.label))}</span><div class="continueProgress"><span class="continueBar" aria-hidden="true"><span style="width:${pct}%"></span></span><span class="pill doneSoft">${stats.doneCount} done</span><span class="pill continues">${stats.leftCount} continuing</span></div></div>`; }
 function renderContinuationBody(card, contextId, stats) { const ctx = `${card.id}-${contextId}-cont`; if (!stats.leftCount) return `<div class="remainingLabel">Nothing left — finished earlier</div>`; const remaining = `<div class="remainingLabel">Still open</div><div class="taskList">${stats.leftTasks.map(task => taskRow(task, ctx)).join('')}</div>`; const done = stats.doneCount ? `<details class="weekGroup doneGroup" data-group-id="${esc(card.id)}-done"><summary class="weekHead"><div><div class="weekTitle"><strong>Done earlier</strong><span class="pill doneSoft">${stats.doneCount}</span></div><div class="weekSummary">Completed in a previous phase — shared progress.</div></div><div class="trackTotals"><span class="chevron">v</span></div></summary><div class="weekTasks">${stats.doneTasks.map(task => taskRow(task, `${ctx}-done`)).join('')}</div></details>` : ''; return remaining + done; }
 function renderGuide(guide) { if (!guide) return ''; const chapters = (guide.chapters || []).map(chapter => `<li>${esc(chapter)}</li>`).join(''); const links = (guide.links || []).map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label)}</a>`; }).join(''); return `<details class="readingGuide"><summary class="readingGuideHead"><span>How to read</span><span class="chevron">v</span></summary><div class="readingGuideBody">${guide.startWhen ? `<p><strong>Start when:</strong> ${esc(guide.startWhen)}</p>` : ''}${guide.prerequisites ? `<p><strong>Prerequisites:</strong> ${esc(guide.prerequisites)}</p>` : ''}${guide.doneMeans ? `<p><strong>Done means:</strong> ${esc(guide.doneMeans)}</p>` : ''}${chapters ? `<ul class="guideChapters">${chapters}</ul>` : ''}${links ? `<div class="guideLinks">${links}</div>` : ''}</div></details>`; }
@@ -1700,64 +1722,137 @@ function dedupeByTaskPreferHome(items) {
     }
     return out;
 }
+function cardHomeContext(card) {
+    const row = ROADMAP.timeline.rows.find(r => r.id === card.row) || ROADMAP.timeline.rows[0];
+    const lane = ROADMAP.timeline.lanes.find(l => l.id === card.lane) || ROADMAP.timeline.lanes[0];
+    return { row, lane };
+}
+function itemsForCard(card) {
+    const { row, lane } = cardHomeContext(card);
+    return cardTasks(card).map(task => ({ task, card, row, lane, isHome: true }));
+}
+function firstIncompleteOnCard(card, priority = null) {
+    const items = itemsForCard(card).filter(item => !isDone(item.task));
+    if (priority) {
+        const match = items.find(item => item.task.priority === priority);
+        if (match) return match;
+    }
+    return items[0] || null;
+}
+function parallelLaneHeads(phaseId, excludeCardId = null) {
+    const row = ROADMAP.timeline.rows.find(r => r.id === phaseId);
+    if (!row) return [];
+    const parallels = [];
+    for (const lane of ROADMAP.timeline.lanes) {
+        const cards = ROADMAP.timeline.cards.filter(card => card.lane === lane.id && card.row === phaseId && card.id !== excludeCardId);
+        for (const card of cards) {
+            const head = firstIncompleteOnCard(card, 'must') || firstIncompleteOnCard(card);
+            if (head) {
+                parallels.push(head);
+                break;
+            }
+        }
+    }
+    return parallels;
+}
 function pickFocusTargets() {
-    const plan = dedupeByTaskPreferHome(orderedFocusCandidates().filter(item => !isDone(item.task)));
-    const now = plan.find(item => item.task.priority === 'must') || plan[0] || null;
-    if (!now) return { now: null, nextMust: null, nextElectives: [] };
+    const wipCard = ROADMAP.timeline.cards.find(card => card.id === uiState.wipCardId) || null;
+    if (!wipCard) {
+        const phase = ROADMAP.timeline.rows.find(row => parallelLaneHeads(row.id).length) || ROADMAP.timeline.rows[0];
+        return {
+            now: null,
+            nextMust: null,
+            nextElectives: [],
+            parallels: parallelLaneHeads(phase.id),
+            needsWip: true,
+            phase
+        };
+    }
 
-    const nowIdx = plan.findIndex(item => item.task.id === now.task.id);
-    const afterNow = plan.slice(nowIdx + 1);
+    const onCard = itemsForCard(wipCard).filter(item => !isDone(item.task));
+    const now = onCard.find(item => item.task.priority === 'must') || onCard[0] || null;
+    if (!now) {
+        return {
+            now: null,
+            nextMust: null,
+            nextElectives: [],
+            parallels: parallelLaneHeads(wipCard.row, wipCard.id),
+            needsWip: false,
+            wipDone: true,
+            wipCard
+        };
+    }
+
+    const afterNow = onCard.slice(onCard.findIndex(item => item.task.id === now.task.id) + 1);
     const nextMust = afterNow.find(item => item.task.priority === 'must') || null;
     const gap = nextMust
         ? afterNow.slice(0, afterNow.findIndex(item => item.task.id === nextMust.task.id))
         : afterNow;
-    // Electives between NOW and next MUST (optional detours). Cap at 3 for a tight UI.
     const nextElectives = gap.filter(item => item.task.priority === 'elective').slice(0, 3);
-    return { now, nextMust, nextElectives };
+    const parallels = parallelLaneHeads(wipCard.row, wipCard.id);
+    return { now, nextMust, nextElectives, parallels, needsWip: false, wipCard };
 }
 function focusKindLabel(kind) {
     if (kind === 'now') return 'NOW';
-    if (kind === 'nextMust') return 'NEXT MUST';
+    if (kind === 'nextMust') return 'NEXT ON CARD';
     if (kind === 'nextElective') return 'ELECTIVE';
+    if (kind === 'parallel') return 'PARALLEL';
+    if (kind === 'pick') return 'PICK WIP';
     return 'NEXT';
 }
-function focusItemHtml(kind, item) {
+function focusItemHtml(kind, item, extra = '') {
     if (!item) return '';
     const electiveClass = kind === 'nextElective' ? ' electiveSlot' : '';
-    return `<button class="focusItem${electiveClass}" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"><span class="focusKind ${esc(kind)}">${focusKindLabel(kind)}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.lane.title)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`;
+    return `<button class="focusItem${electiveClass}" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}" ${extra}><span class="focusKind ${esc(kind)}">${focusKindLabel(kind)}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.lane.title)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`;
 }
-function focusPathHtml(now, nextElectives, nextMust) {
-    if (!now) return '';
-    const step = (item, cls) => `<span class="focusPathStep ${cls}">${esc(shortLabel(item.task.label, 28))}</span>`;
-    const parts = [step(now, now.task.priority)];
-    for (const elective of nextElectives) {
+function focusPathHtml(now, nextElectives, nextMust, parallels) {
+    if (!now && !parallels?.length) return '';
+    const step = (item, cls) => `<span class="focusPathStep ${cls}">${esc(shortLabel(item.card.title, 18))}: ${esc(shortLabel(item.task.label, 20))}</span>`;
+    const parts = [];
+    if (now) parts.push(step(now, now.task.priority));
+    for (const elective of nextElectives || []) {
         parts.push('<span class="focusPathArrow">→</span>');
         parts.push(step(elective, 'elective'));
     }
-    if (nextMust && nextMust.task.id !== now.task.id) {
+    if (nextMust && (!now || nextMust.task.id !== now.task.id)) {
         parts.push('<span class="focusPathArrow">→</span>');
         parts.push(step(nextMust, 'must'));
+    }
+    for (const parallel of (parallels || []).slice(0, 3)) {
+        parts.push('<span class="focusPathArrow">∥</span>');
+        parts.push(step(parallel, 'elective'));
     }
     return parts.join('');
 }
 function openFocusOverlay() {
-    const { now, nextMust, nextElectives } = pickFocusTargets();
+    const targets = pickFocusTargets();
+    const { now, nextMust, nextElectives, parallels, needsWip, wipDone } = targets;
     const list = document.getElementById('focus-list');
     const path = document.getElementById('focus-path');
-    if (!now) {
+    if (needsWip) {
+        path.hidden = false;
+        path.innerHTML = focusPathHtml(null, [], null, parallels);
+        list.innerHTML = `<div class="focusHint">Mark a section as <strong>In progress</strong> (Set WIP on a card), or pick a parallel track below. DSA and HackerRank are meant to run side by side.</div><div class="focusSectionLabel">Parallel tracks to start</div>${(parallels || []).map(item => focusItemHtml('pick', item, 'data-set-wip="true"')).join('') || '<div class="focusEmpty">Nothing left to start.</div>'}`;
+    } else if (wipDone) {
         path.hidden = true;
         path.innerHTML = '';
+        list.innerHTML = `<div class="focusHint">This WIP section is complete. Pick another parallel track or set a new WIP on a card.</div><div class="focusSectionLabel">Parallel tracks</div>${(parallels || []).map(item => focusItemHtml('pick', item, 'data-set-wip="true"')).join('') || '<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span></div>'}`;
+    } else if (!now) {
+        path.hidden = true;
         list.innerHTML = `<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span><div class="focusLabel" style="margin-top:8px">No incomplete tasks left.</div></div>`;
     } else {
         path.hidden = false;
-        path.innerHTML = focusPathHtml(now, nextElectives, nextMust);
+        path.innerHTML = focusPathHtml(now, nextElectives, nextMust, parallels);
         const electiveBlock = nextElectives.length
-            ? `<div class="focusSectionLabel">Optional along the way</div>${nextElectives.map(item => focusItemHtml('nextElective', item)).join('')}`
+            ? `<div class="focusSectionLabel">Optional on this card</div>${nextElectives.map(item => focusItemHtml('nextElective', item)).join('')}`
             : '';
-        const mustBlock = nextMust && nextMust.task.id !== now.task.id
-            ? `<div class="focusSectionLabel">Next commitment</div>${focusItemHtml('nextMust', nextMust)}`
-            : `<div class="focusEmpty">No further MUST after this — finish NOW, then electives.</div>`;
-        list.innerHTML = `<div class="focusSectionLabel">In progress</div>${focusItemHtml('now', now)}${electiveBlock}${mustBlock}`;
+        const continueBlock = nextMust && nextMust.task.id !== now.task.id
+            ? `<div class="focusSectionLabel">Next on this card</div>${focusItemHtml('nextMust', nextMust)}`
+            : '';
+        const parallelBlock = parallels.length
+            ? `<div class="focusSectionLabel">Parallel lanes (same phase)</div>${parallels.map(item => focusItemHtml('parallel', item, 'data-set-wip="true"')).join('')}`
+            : '';
+        list.innerHTML = `<div class="focusHint">WIP: <strong>${esc(now.card.title)}</strong> · switch tracks anytime with Set WIP or Parallel.</div><div class="focusSectionLabel">In progress</div>${focusItemHtml('now', now)}${electiveBlock}${continueBlock}${parallelBlock}`;
     }
     const overlay = document.getElementById('focus-overlay');
     overlay.hidden = false;
@@ -1765,11 +1860,11 @@ function openFocusOverlay() {
     document.getElementById('focus-close').focus();
 }
 function closeFocusOverlay() { const overlay = document.getElementById('focus-overlay'); overlay.classList.remove('open'); overlay.hidden = true; }
-function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
+function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
 function updateStats() { const tasks = allTasks(); const mustTasks = byPriority('must'); const doneTasks = tasks.filter(isDone); const mustRemaining = sum(mustTasks.filter(task => !isDone(task))); const total = sum(tasks); const done = sum(doneTasks); const pct = total ? Math.round((done / total) * 100) : 0; document.getElementById('must-remaining').textContent = formatHours(mustRemaining); document.getElementById('must-total').textContent = 'of ' + formatHours(sum(mustTasks)); document.getElementById('total-remaining').textContent = formatHours(total - done); document.getElementById('completed-pct').textContent = pct + '%'; document.getElementById('overall-progress').style.width = pct + '%'; }
 function applyFilter() { const tasks = allTasks(); let visible = 0; for (const task of tasks) { const rows = document.querySelectorAll(`[data-task-id="${CSS.escape(task.id)}"]`); const show = taskMatchesFilter(task); rows.forEach(row => row.classList.toggle('hidden', !show)); if (show) visible += 1; } document.querySelectorAll('.weekGroup').forEach(group => { group.classList.toggle('hidden', !group.querySelector('.task:not(.hidden)')); }); document.querySelectorAll('.timelineCard').forEach(card => { const showGuide = card.dataset.guideOnly && activeFilter === 'all'; const hasVisibleTask = card.querySelector('.task:not(.hidden)'); const isContinuation = card.classList.contains('continuation'); const showContinuationEmpty = isContinuation && activeFilter === 'all'; card.classList.toggle('hidden', !showGuide && !hasVisibleTask && !showContinuationEmpty); }); document.querySelectorAll('.phaseBand').forEach(phase => { phase.classList.toggle('hidden', !phase.querySelector('.timelineCard:not(.hidden)')); }); const doneCount = tasks.filter(isDone).length; const leftCount = tasks.length - doneCount; const filterNote = activeFilter === 'all' ? '' : ` · ${visible} visible`; document.getElementById('visible-count').innerHTML = `<strong>${doneCount}/${tasks.length}</strong> <span style="color:var(--muted);font-weight:500">${leftCount} left${filterNote}</span>`; document.getElementById('empty-state').style.display = visible ? 'none' : 'block'; document.querySelectorAll('.filterButton').forEach(button => { button.classList.toggle('active', button.dataset.filter === activeFilter); }); }
 function toggleTask(row, checked = undefined) { const checkbox = row.querySelector('input[type="checkbox"]'); const id = row.dataset.taskId; const next = checked ?? !checkbox.checked; progress[id] = next; if (!next) delete progress[id]; const openSnap = snapshotOpenCards(); saveProgress(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); }
-function bindEvents() { document.body.addEventListener('change', event => { const checkbox = event.target.closest('input[type="checkbox"]'); if (!checkbox) return; const row = checkbox.closest('[data-task-id]'); toggleTask(row, checkbox.checked); }); document.body.addEventListener('click', event => { const phaseButton = event.target.closest('.phaseDivider'); if (phaseButton) { const phase = phaseButton.closest('[data-phase-id]'); const id = phase.dataset.phaseId; const grid = phase.querySelector('.phaseGrid'); const collapsed = !grid.hidden; grid.hidden = collapsed; phaseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); const set = new Set(uiState.collapsedPhases || []); collapsed ? set.add(id) : set.delete(id); uiState.collapsedPhases = [...set]; saveUiState(); return; } const focusItem = event.target.closest('.focusItem'); if (focusItem) { jumpToFocus(focusItem.dataset.taskId, focusItem.dataset.cardId, focusItem.dataset.phaseId); return; } const row = event.target.closest('[data-task-id]'); if (!row || event.target.closest('a, button, input, label, summary')) return; toggleTask(row); }); document.querySelector('.filters').addEventListener('click', event => { const button = event.target.closest('[data-filter]'); if (!button || !FILTERS.has(button.dataset.filter)) return; activeFilter = button.dataset.filter; applyFilter(); }); document.getElementById('expand-all').addEventListener('click', () => { uiState.collapsedPhases = []; saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = true; }); }); document.getElementById('collapse-all').addEventListener('click', () => { uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id); saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = false; }); }); document.getElementById('reset-progress').addEventListener('click', () => { if (!confirm('Reset all local progress?')) return; progress = {}; saveProgress(); render(); }); document.getElementById('focus-open').addEventListener('click', openFocusOverlay); document.getElementById('focus-close').addEventListener('click', closeFocusOverlay); document.getElementById('focus-overlay').addEventListener('click', event => { if (event.target.id === 'focus-overlay') closeFocusOverlay(); }); document.addEventListener('keydown', event => { if (event.key === 'Escape') closeFocusOverlay(); }); }
+function bindEvents() { document.body.addEventListener('change', event => { const checkbox = event.target.closest('input[type="checkbox"]'); if (!checkbox) return; const row = checkbox.closest('[data-task-id]'); toggleTask(row, checkbox.checked); }); document.body.addEventListener('click', event => { const phaseButton = event.target.closest('.phaseDivider'); if (phaseButton) { const phase = phaseButton.closest('[data-phase-id]'); const id = phase.dataset.phaseId; const grid = phase.querySelector('.phaseGrid'); const collapsed = !grid.hidden; grid.hidden = collapsed; phaseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); const set = new Set(uiState.collapsedPhases || []); collapsed ? set.add(id) : set.delete(id); uiState.collapsedPhases = [...set]; saveUiState(); return; } const wipButton = event.target.closest('[data-wip-card]'); if (wipButton) { event.preventDefault(); event.stopPropagation(); const id = wipButton.dataset.wipCard; uiState.wipCardId = uiState.wipCardId === id ? null : id; saveUiState(); const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); applyFilter(); return; } const focusItem = event.target.closest('.focusItem'); if (focusItem) { if (focusItem.dataset.setWip === 'true') { uiState.wipCardId = focusItem.dataset.cardId; saveUiState(); } jumpToFocus(focusItem.dataset.taskId, focusItem.dataset.cardId, focusItem.dataset.phaseId); return; } const row = event.target.closest('[data-task-id]'); if (!row || event.target.closest('a, button, input, label, summary')) return; toggleTask(row); }); document.querySelector('.filters').addEventListener('click', event => { const button = event.target.closest('[data-filter]'); if (!button || !FILTERS.has(button.dataset.filter)) return; activeFilter = button.dataset.filter; applyFilter(); }); document.getElementById('expand-all').addEventListener('click', () => { uiState.collapsedPhases = []; saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = true; }); }); document.getElementById('collapse-all').addEventListener('click', () => { uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id); saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = false; }); }); document.getElementById('reset-progress').addEventListener('click', () => { if (!confirm('Reset all local progress?')) return; progress = {}; saveProgress(); render(); }); document.getElementById('focus-open').addEventListener('click', openFocusOverlay); document.getElementById('focus-close').addEventListener('click', closeFocusOverlay); document.getElementById('focus-overlay').addEventListener('click', event => { if (event.target.id === 'focus-overlay') closeFocusOverlay(); }); document.addEventListener('keydown', event => { if (event.key === 'Escape') closeFocusOverlay(); }); }
 render(); bindEvents();
 </script>
 </body>
