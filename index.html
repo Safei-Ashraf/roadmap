@@ -15,6 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/favico/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/favico/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-icon-180x180.png">
+    <link rel="icon" href="/favico/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="192x192" href="/favico/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/favico/favicon-96x96.png">
@@ -31,7 +32,8 @@
 .paceSummary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:18px 0; } .paceCard { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; } .paceLabel { color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:4px; } .paceValue { color:var(--text); font-size:20px; font-weight:800; } .paceHint { color:var(--muted); font-size:12px; margin-top:2px; } .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-bottom:18px; } .metric { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; min-width:0; } .metricLabel { color:var(--faint); font-size:11px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; } .metricValue { font-size:24px; font-weight:800; letter-spacing:0; white-space:nowrap; } .metricHint { color:var(--muted); font-size:12px; margin-top:2px; } .metric.must .metricValue { color:var(--must); } .metric.elective .metricValue { color:var(--elective); }
 .progressShell { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:22px; } .progressBar { height:12px; width:100%; background:var(--surface-2); display:flex; position:relative; } .progressDone { background:linear-gradient(90deg,var(--done),#a9d89d,var(--must)); width:0%; transition:width 220ms ease; position:relative; overflow:hidden; } .progressDone::after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 8px,transparent 8px 16px); opacity:.45; } .progressMeta { display:flex; justify-content:space-between; gap:12px; padding:11px 14px; color:var(--muted); font-size:13px; } .progressCount { color:var(--text); font-weight:850; } .progressLeft { color:var(--muted); }
 .filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px; } .filterButton.active { border-color:var(--must); background:var(--must-soft); color:var(--text); } .notice { border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; color:var(--muted); background:var(--surface); margin-bottom:18px; }
-.timelineShell { overflow-x:auto; padding-bottom:12px; } .timelineBoard { display:grid; gap:18px; min-width:1220px; } .laneHeaderGrid,.phaseGrid { display:grid; grid-template-columns:repeat(5,minmax(210px,1fr)); gap:12px; } .laneHead,.timelineCard { border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); } .laneHead { padding:12px; background:var(--surface-2); border-block-start:4px solid var(--lane-accent); min-height:96px; } .laneTitle { font-weight:850; font-size:14px; } .laneSummary { color:var(--muted); font-size:12px; margin-top:3px; } .phaseBand { border:1px dashed rgba(102,114,125,.7); border-radius:var(--radius); background:linear-gradient(180deg,var(--phase-bg,rgba(255,255,255,.04)),rgba(255,255,255,.018)); overflow:clip; box-shadow:inset 0 0 0 1px var(--phase-glow,rgba(255,255,255,.03)); } .phaseBand.urgent { --phase-bg:rgba(227,166,61,.16); --phase-glow:rgba(227,166,61,.18); } .phaseBand.active { --phase-bg:rgba(127,176,214,.12); --phase-glow:rgba(127,176,214,.14); } .phaseBand.handoff { --phase-bg:rgba(211,111,111,.12); --phase-glow:rgba(211,111,111,.14); } .phaseBand.build { --phase-bg:rgba(127,184,143,.12); --phase-glow:rgba(127,184,143,.14); } .phaseBand.senior { --phase-bg:rgba(181,140,255,.13); --phase-glow:rgba(181,140,255,.15); } .phaseBand.backlog { --phase-bg:rgba(102,114,125,.095); --phase-glow:rgba(102,114,125,.12); opacity:.96; } .phaseBand.is-active { border-color:rgba(227,166,61,.86); box-shadow:inset 0 0 0 1px rgba(227,166,61,.2); } .phaseBand.hidden { display:none; } .phaseDivider { display:flex; align-items:center; gap:12px; padding:14px; border:0; border-block-end:1px dashed rgba(102,114,125,.66); color:var(--text); background:rgba(255,255,255,.032); width:100%; text-align:start; cursor:pointer; } .phaseDivider::before,.phaseDivider::after { content:""; height:1px; flex:1; border-block-start:1px dashed rgba(102,114,125,.72); } .phaseCopy { min-width:360px; max-width:860px; } .phaseTitle { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; font-weight:900; } .phaseRange { color:var(--must); font-size:12px; text-transform:uppercase; letter-spacing:.08em; } .phaseGoal { color:var(--muted); font-size:13px; margin-top:3px; max-width:760px; } .phaseConcepts { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; } .phaseChip { display:inline-flex; align-items:center; min-height:22px; padding:0 7px; border-radius:999px; color:var(--text); background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.1); font-size:11px; font-weight:750; } .phaseChip.project { color:#10141a; background:var(--done); border-color:var(--done); } .phaseGrid { padding:12px; align-items:start; } .phaseGrid[hidden] { display:none; } .laneSlot { display:grid; gap:12px; align-content:start; min-width:0; } .emptyLane { visibility:hidden; min-height:0; border:0; } .timelineCard { overflow:hidden; box-shadow:none; min-height:168px; border-block-start:4px solid var(--lane-accent); display:flex; flex-direction:column; background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--surface); } .timelineCard.hidden { display:none; } .timelineCard.continuation { border-style:dashed; background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.01)),var(--surface); } .timelineCard.backlog { opacity:.9; } .timelineSummary { list-style:none; display:grid; gap:10px; padding:14px; min-height:132px; } .timelineSummary::-webkit-details-marker { display:none; } .cardHead { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; } .cardTitleRow { display:flex; gap:8px; align-items:center; flex-wrap:wrap; } .cardTitle { font-weight:850; font-size:15px; } .cardSummary { color:var(--muted); font-size:13px; margin-top:4px; } .trackTotals,.timelineMeta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; } .timelineMeta { margin-top:auto; } .taskList,.weekTasks { max-height:none; overflow:visible; } .timelineCard .task { grid-template-columns:24px minmax(0,1fr); gap:8px; cursor:pointer; } .timelineCard .task:hover { background:rgba(255,255,255,.035); } .timelineCard .taskLabel { overflow-wrap:break-word; } .taskMetaLine { grid-column:2; display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:4px; } .taskMetaLine .resourceLinks { justify-content:flex-start; } .taskMetaLine .taskPriority { justify-self:start; min-width:76px; margin-top:0; } .taskMetaLine .hours { justify-self:start; } h2 { font-size:18px; margin:0; letter-spacing:0; } .window { color:var(--faint); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+.timelineShell { overflow-x:auto; padding-bottom:12px; } .timelineBoard { display:grid; gap:18px; min-width:1220px; } .laneHeaderGrid,.phaseGrid { display:grid; grid-template-columns:repeat(5,minmax(210px,1fr)); gap:12px; } .laneHead,.timelineCard { border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); } .laneHead { padding:12px; background:var(--surface-2); border-block-start:4px solid var(--lane-accent); min-height:96px; } .laneTitle { font-weight:850; font-size:14px; } .laneSummary { color:var(--muted); font-size:12px; margin-top:3px; } .phaseBand { border:1px dashed rgba(102,114,125,.7); border-radius:var(--radius); background:linear-gradient(180deg,var(--phase-bg,rgba(255,255,255,.04)),rgba(255,255,255,.018)); overflow:clip; box-shadow:inset 0 0 0 1px var(--phase-glow,rgba(255,255,255,.03)); } .phaseBand.urgent { --phase-bg:rgba(227,166,61,.16); --phase-glow:rgba(227,166,61,.18); } .phaseBand.active { --phase-bg:rgba(127,176,214,.12); --phase-glow:rgba(127,176,214,.14); } .phaseBand.handoff { --phase-bg:rgba(211,111,111,.12); --phase-glow:rgba(211,111,111,.14); } .phaseBand.build { --phase-bg:rgba(127,184,143,.12); --phase-glow:rgba(127,184,143,.14); } .phaseBand.senior { --phase-bg:rgba(181,140,255,.13); --phase-glow:rgba(181,140,255,.15); } .phaseBand.backlog { --phase-bg:rgba(102,114,125,.095); --phase-glow:rgba(102,114,125,.12); opacity:.96; } .phaseBand.is-active { border-color:rgba(227,166,61,.86); box-shadow:inset 0 0 0 1px rgba(227,166,61,.2); } .phaseBand.hidden { display:none; } .phaseDivider { display:flex; align-items:center; gap:12px; padding:14px; border:0; border-block-end:1px dashed rgba(102,114,125,.66); color:var(--text); background:rgba(255,255,255,.032); width:100%; text-align:start; cursor:pointer; } .phaseDivider::before,.phaseDivider::after { content:""; height:1px; flex:1; border-block-start:1px dashed rgba(102,114,125,.72); } .phaseCopy { min-width:0; max-width:860px; flex:1; } .phaseTitle { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; font-weight:900; } .phaseRange { color:var(--must); font-size:12px; text-transform:uppercase; letter-spacing:.08em; } .phaseGoal { color:var(--muted); font-size:13px; margin-top:3px; max-width:760px; } .phaseConcepts { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; } .phaseChip { display:inline-flex; align-items:center; min-height:22px; padding:0 7px; border-radius:999px; color:var(--text); background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.1); font-size:11px; font-weight:750; } .phaseChip.project { color:#10141a; background:var(--done); border-color:var(--done); } .phaseGrid { padding:12px; align-items:start; } .phaseGrid[hidden] { display:none; } .laneSlot { display:grid; gap:12px; align-content:start; min-width:0; } .emptyLane { visibility:hidden; min-height:0; border:0; } .timelineCard { overflow:hidden; box-shadow:none; min-height:168px; border-block-start:4px solid var(--lane-accent); display:flex; flex-direction:column; background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),var(--surface); } .timelineCard.hidden { display:none; } .timelineCard.continuation { border-style:dashed; background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.01)),var(--surface); } .timelineCard.backlog { opacity:.9; } .timelineSummary { list-style:none; display:grid; gap:10px; padding:14px; min-height:132px; } .timelineSummary::-webkit-details-marker { display:none; } .cardHead { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; } .cardTitleRow { display:flex; gap:8px; align-items:center; flex-wrap:wrap; } .cardTitle { font-weight:850; font-size:15px; } .cardSummary { color:var(--muted); font-size:13px; margin-top:4px; } .trackTotals,.timelineMeta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; } .timelineMeta { margin-top:auto; } .taskList,.weekTasks { max-height:none; overflow:visible; } .timelineCard .task { grid-template-columns:24px minmax(0,1fr); gap:8px; cursor:pointer; } .timelineCard .task:hover { background:rgba(255,255,255,.035); } .timelineCard .taskLabel { overflow-wrap:break-word; } .taskMetaLine { grid-column:2; display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:4px; } .taskMetaLine .resourceLinks { justify-content:flex-start; } .taskMetaLine .taskPriority { justify-self:start; min-width:76px; margin-top:0; } .taskMetaLine .hours { justify-self:start; } h2 { font-size:18px; margin:0; letter-spacing:0; } .window { color:var(--faint); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+.readingGuide { border-top:1px solid rgba(48,57,70,.82); background:rgba(127,176,214,.04); } .readingGuideHead { list-style:none; display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 14px; color:var(--elective); font-size:12px; font-weight:750; cursor:pointer; } .readingGuideHead::-webkit-details-marker { display:none; } .readingGuideBody { padding:0 14px 12px; color:var(--muted); font-size:12px; line-height:1.55; overflow-wrap:anywhere; } .readingGuideBody p { margin:0 0 8px; } .readingGuideBody strong { color:var(--text); } .guideChapters { margin:8px 0 0; padding-left:18px; } .guideChapters li { margin-bottom:4px; } .guideLinks { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; } .timelineCard.compactSummary .timelineSummary { min-height:0; }
 .pill { display:inline-flex; align-items:center; min-height:26px; padding:0 8px; border-radius:999px; font-size:12px; font-weight:750; border:1px solid var(--border); color:var(--muted); } .pill.must { color:#10141a; background:var(--must); border-color:var(--must); } .pill.elective { color:#10141a; background:var(--elective); border-color:var(--elective); } .pill.continues { color:var(--text); background:rgba(255,255,255,.055); border-color:rgba(255,255,255,.12); } .pill.guide { color:#10141a; background:var(--done); border-color:var(--done); } .chevron { color:var(--faint); transition:transform 160ms ease; font-weight:900; } .phaseDivider .chevron { color:var(--must); } .phaseDivider[aria-expanded="false"] .chevron { transform:rotate(-90deg); } .timelineSummary .chevron { color:var(--lane-accent); } .weekHead .chevron { color:var(--elective); } details[open] > summary .chevron { transform:rotate(180deg); }
 .taskList { display:grid; border-top:1px solid rgba(48,57,70,.82); background:rgba(8,11,15,.18); } .weekGroup { border-top:1px solid rgba(48,57,70,.82); border-left:3px solid var(--lane-accent); background:rgba(127,176,214,.055); } .weekGroup:nth-of-type(even) { background:rgba(227,166,61,.045); } .weekGroup.hidden { display:none; } .weekHead { list-style:none; display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; padding:12px 16px; background:rgba(255,255,255,.028); } .weekHead::-webkit-details-marker { display:none; } .weekTitle { display:flex; align-items:center; gap:8px; flex-wrap:wrap; } .weekTitle strong { font-size:14px; } .weekSummary { color:var(--muted); font-size:12px; margin-top:3px; } .weekTasks { border-top:1px solid rgba(48,57,70,.7); background:rgba(8,11,15,.22); } .task { display:grid; grid-template-columns:28px minmax(0,1fr) auto 88px 42px; gap:10px; align-items:start; padding:13px 16px; border-bottom:1px solid rgba(48,57,70,.7); } .weekTasks .task { padding-inline-start:28px; background:rgba(255,255,255,.01); } .task:last-child { border-bottom:0; } .task.hidden { display:none; } .task.done .taskLabel { color:var(--faint); text-decoration:line-through; } .task input { width:18px; height:18px; margin:2px 0 0; accent-color:var(--done); } .taskLabel { color:var(--text); font-size:14px; } .resourceLinks { display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; } .resourceLink { justify-self:end; color:var(--elective); font-size:12px; font-weight:750; text-decoration:none; border:1px solid rgba(127,176,214,.32); border-radius:999px; min-height:26px; padding:3px 8px; white-space:nowrap; } .resourceLink:hover { background:var(--elective-soft); } .taskPriority { justify-self:stretch; justify-content:center; min-width:88px; font-weight:850; } .hours { justify-self:end; color:var(--muted); font-size:12px; font-variant-numeric:tabular-nums; white-space:nowrap; }
 .empty { display:none; color:var(--muted); border:1px dashed var(--border); border-radius:var(--radius); padding:18px; text-align:center; margin-top:12px; } .footer { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:22px; color:var(--muted); font-size:13px; } .danger { color:var(--danger); }
@@ -45,16 +47,16 @@
 <section class="paceSummary" aria-label="Duration estimates"><div class="paceCard"><div class="paceLabel">2h/day</div><div class="paceValue" id="pace-2h">0 months</div><div class="paceHint">steady part-time pace</div></div><div class="paceCard"><div class="paceLabel">4h/day</div><div class="paceValue" id="pace-4h">0 months</div><div class="paceHint">aggressive weekday pace</div></div><div class="paceCard"><div class="paceLabel">6h/day</div><div class="paceValue" id="pace-6h">0 months</div><div class="paceHint">full push pace</div></div></section><section class="metrics" aria-label="Roadmap totals"><div class="metric must"><div class="metricLabel">MUST remaining</div><div class="metricValue" id="must-remaining">0h</div><div class="metricHint" id="must-total">of 0h</div></div><div class="metric elective"><div class="metricLabel">ELECTIVE backlog</div><div class="metricValue" id="elective-remaining">0h</div><div class="metricHint" id="elective-total">of 0h</div></div><div class="metric"><div class="metricLabel">Total remaining</div><div class="metricValue" id="total-remaining">0h</div><div class="metricHint" id="total-hours">of 0h</div></div><div class="metric"><div class="metricLabel">Completed</div><div class="metricValue" id="completed-pct">0%</div><div class="metricHint" id="completed-hours">0h done</div></div></section>
 <section class="progressShell" aria-label="Overall progress"><div class="progressBar"><div class="progressDone" id="overall-progress"></div></div><div class="progressMeta"><span id="baseline"></span><span id="visible-count"></span></div></section>
 <nav class="filters" aria-label="Task filters"><button class="filterButton active" type="button" data-filter="all">All</button><button class="filterButton" type="button" data-filter="must">MUST</button><button class="filterButton" type="button" data-filter="elective">ELECTIVE</button><button class="filterButton" type="button" data-filter="remaining">Remaining</button><button class="filterButton" type="button" data-filter="done">Done</button></nav>
-<div class="notice">Default rule: work left to right inside each row: core commitment first, then timed practice, then parallel reading/mobile/AI only at sustainable capacity.</div><section class="timelineShell" aria-label="Roadmap timeline"><div class="timelineBoard" id="timeline-board"></div></section><div class="empty" id="empty-state">No tasks match this filter.</div>
+<div class="notice">Default rule: work left to right inside each row — core commitment first, then timed practice, then parallel reading/mobile/AI at sustainable capacity. O'Reilly books are unlock layers: expand "How to read" on each card for chapters, timing, and done criteria.</div><section class="timelineShell" aria-label="Roadmap timeline"><div class="timelineBoard" id="timeline-board"></div></section><div class="empty" id="empty-state">No tasks match this filter.</div>
 <section class="footer"><div id="save-status">Progress saves locally in this browser.</div><div class="actions"><button class="iconButton danger" id="reset-progress" type="button">Reset progress</button></div></section>
 </main>
 <script>
 const ROADMAP = {
     "meta": {
         "title": "Frontend to Senior Full-Stack Roadmap",
-        "horizon": "414h · pace plan",
+        "horizon": "458h · pace plan",
         "baseline": "Already done: HackerRank Weeks 1-2 plus Week 3 practice problems. Week 3 mock test remains; those completed items are excluded from remaining-hour totals.",
-        "updated": "2026-07-10"
+        "updated": "2026-07-11"
     },
     "tracks": [
         {
@@ -615,97 +617,421 @@ const ROADMAP = {
             "id": "refreshers",
             "title": "Refreshers & Reading Backlog",
             "window": "Only if capacity allows",
-            "summary": "Useful backlog that should not block the main path. Eloquent JavaScript stays chapter-level so progress remains trackable.",
+            "summary": "Core JS refresh plus selective O'Reilly unlocks. Read only selected chapters tied to the current phase — not full books.",
             "tasks": [
                 {
                     "id": "fe-skim",
                     "label": "Skim Manara JS/React basics only where rusty",
                     "hours": 2,
                     "priority": "elective"
+                },
+                {
+                    "id": "mern-handover-plan",
+                    "label": "Read FULL_STACK_HANDOVER.md and sketch MERN schema, auth, and progress model",
+                    "hours": 1,
+                    "priority": "must",
+                    "url": "FULL_STACK_HANDOVER.md"
                 }
             ],
             "groups": [
                 {
                     "id": "eloquent-js",
                     "title": "Eloquent JavaScript",
-                    "summary": "Official book chapters 11-21. Parallel elective reading, no fixed week.",
+                    "summary": "Core JS refresh: chapters 11-21 with chapter exercises and projects.",
+                    "guide": {
+                        "startWhen": "Phase 1 onward, parallel with DSA",
+                        "prerequisites": "Basic JS comfort; chapters build on each other",
+                        "doneMeans": "Read chapter, do end-of-chapter exercises, complete project chapters before moving on",
+                        "chapters": [
+                            "Ch 11 — Async: callbacks, promises, async/await",
+                            "Ch 12 — Project: A Programming Language",
+                            "Ch 13-15 — Browser, DOM, Events",
+                            "Ch 16 — Project: Platform Game",
+                            "Ch 17 — Canvas",
+                            "Ch 18 — HTTP and Forms",
+                            "Ch 19 — Project: Pixel Art Editor",
+                            "Ch 20 — Node.js basics",
+                            "Ch 21 — Project: Skill-Sharing Website"
+                        ],
+                        "links": [
+                            {
+                                "label": "Eloquent JS (free)",
+                                "url": "https://eloquentjavascript.net/"
+                            }
+                        ]
+                    },
                     "tasks": [
                         {
                             "id": "eloq-11",
                             "label": "Chapter 11: Asynchronous Programming — callbacks, promises, async/await",
                             "hours": 2,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/11_async.html"
                         },
                         {
                             "id": "eloq-12",
                             "label": "Chapter 12: Project: A Programming Language",
                             "hours": 1.5,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/12_language.html"
                         },
                         {
                             "id": "eloq-13",
                             "label": "Chapter 13: JavaScript and the Browser — DOM basics, browser globals",
                             "hours": 1.5,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/13_browser.html"
                         },
                         {
                             "id": "eloq-14",
                             "label": "Chapter 14: The Document Object Model — querying, manipulating, traversing",
                             "hours": 2,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/14_dom.html"
                         },
                         {
                             "id": "eloq-15",
                             "label": "Chapter 15: Handling Events — event listeners, delegation, default behaviors",
                             "hours": 2,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/15_event.html"
                         },
                         {
                             "id": "eloq-16",
                             "label": "Chapter 16: Project: A Platform Game",
                             "hours": 1.5,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/16_game.html"
                         },
                         {
                             "id": "eloq-17",
                             "label": "Chapter 17: Drawing on Canvas — canvas API, drawing, animations",
                             "hours": 2,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/17_canvas.html"
                         },
                         {
                             "id": "eloq-18",
                             "label": "Chapter 18: HTTP and Forms — fetch, form handling, data submission",
                             "hours": 1.5,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/18_http.html"
                         },
                         {
                             "id": "eloq-19",
                             "label": "Chapter 19: Project: A Pixel Art Editor",
                             "hours": 1.5,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/19_paint.html"
                         },
                         {
                             "id": "eloq-20",
                             "label": "Chapter 20: Node.js — modules, npm, filesystem, HTTP server basics",
                             "hours": 1.5,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/20_node.html"
                         },
                         {
                             "id": "eloq-21",
                             "label": "Chapter 21: Project: Skill-Sharing Website",
                             "hours": 1,
-                            "priority": "elective",
+                            "priority": "must",
                             "url": "https://eloquentjavascript.net/21_skillsharing.html"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-prog-ts",
+                    "title": "Programming TypeScript",
+                    "summary": "Hard copy on shelf. Selected chapters for type-system foundation before full-stack TS.",
+                    "guide": {
+                        "startWhen": "Phase 1-2, parallel with Eloquent ch.11+",
+                        "prerequisites": "Comfortable JS; read after or alongside Eloquent async chapter",
+                        "doneMeans": "Read selected chapters + write 5-10 lines on one type pattern you will use in your next project",
+                        "chapters": [
+                            "Ch 3 — Values and Types",
+                            "Ch 4 — Type Design",
+                            "Ch 5 — Functions",
+                            "Ch 6 — Classes",
+                            "Ch 9 — Async/Await"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly (reference)",
+                                "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-prog-ts-selected",
+                            "label": "Programming TypeScript: types, type design, functions, classes, async",
+                            "hours": 5,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-effective-ts",
+                    "title": "Effective TypeScript",
+                    "summary": "Follow-up after Programming TS. Item-style recipes for idiomatic patterns.",
+                    "guide": {
+                        "startWhen": "After Programming TS selected chapters or mid Phase 2",
+                        "prerequisites": "Programming TypeScript selected chapters done",
+                        "doneMeans": "Read listed items + fix one any-type or weak inference in a small code sample",
+                        "chapters": [
+                            "Items on inference and type design",
+                            "Items on avoiding any",
+                            "Items on generics and public API types",
+                            "Items on type declarations and dependencies"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly",
+                                "url": "https://www.oreilly.com/library/view/effective-typescript-2nd/9781098155056/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-effective-ts-selected",
+                            "label": "Effective TypeScript: inference, public API types, generics, avoiding any",
+                            "hours": 3,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/effective-typescript-2nd/9781098155056/"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-react-patterns",
+                    "title": "React 18 Design Patterns",
+                    "summary": "Complementary FE POV for MERN UI. Hard copy or O'Reilly React depth.",
+                    "guide": {
+                        "startWhen": "Phase 2-3, when React mechanics feel shaky",
+                        "prerequisites": "Eloquent ch.11-15 done; basic React familiarity",
+                        "doneMeans": "Read selected sections + apply one pattern (composition, hooks, or data fetching) in a small component",
+                        "chapters": [
+                            "Hooks and state patterns",
+                            "Component composition and HOC/render props",
+                            "Data fetching and server-aware structure",
+                            "Performance patterns (memo, virtualization basics)"
+                        ],
+                        "links": [
+                            {
+                                "label": "Fluent React (O'Reilly alt)",
+                                "url": "https://www.oreilly.com/library/view/fluent-react/9781098138707/"
+                            },
+                            {
+                                "label": "Learning React (O'Reilly alt)",
+                                "url": "https://www.oreilly.com/library/view/learning-react-2nd/9781492051718/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-react-patterns-selected",
+                            "label": "React patterns: hooks, state, composition, data fetching, server-aware structure",
+                            "hours": 4,
+                            "priority": "elective",
+                            "links": [
+                                {
+                                    "label": "Fluent React",
+                                    "url": "https://www.oreilly.com/library/view/fluent-react/9781098138707/"
+                                },
+                                {
+                                    "label": "Learning React",
+                                    "url": "https://www.oreilly.com/library/view/learning-react-2nd/9781492051718/"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-web-security",
+                    "title": "Web Application Security",
+                    "summary": "Unlock before auth-heavy backend work. Deeper POV than docs alone.",
+                    "guide": {
+                        "startWhen": "Phase 4, before auth-validation task",
+                        "prerequisites": "Raw Node + basic HTTP; read alongside The Odin API Security",
+                        "doneMeans": "Read selected chapters + list 3 attack vectors you will mitigate in your API",
+                        "chapters": [
+                            "Authentication and session management",
+                            "XSS and injection prevention",
+                            "CSRF and CORS",
+                            "Dependency and supply-chain security basics"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly",
+                                "url": "https://www.oreilly.com/library/view/web-application-security/9781492053101/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-web-security-selected",
+                            "label": "Web Application Security: auth, XSS, CSRF, injection, dependency security",
+                            "hours": 5,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/web-application-security/9781492053101/"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-api-design",
+                    "title": "API Design Patterns",
+                    "summary": "Stable backend contracts before building Express REST API.",
+                    "guide": {
+                        "startWhen": "Phase 4, before express-api task",
+                        "prerequisites": "SQL basics started; raw Node HTTP done",
+                        "doneMeans": "Read selected chapters + sketch resource layout for one MERN endpoint set",
+                        "chapters": [
+                            "Resource naming and URL layout",
+                            "Standard methods and status codes",
+                            "Validation and error response patterns",
+                            "Auth patterns for APIs"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly",
+                                "url": "https://www.oreilly.com/library/view/api-design-patterns/9781617295850/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-api-design-selected",
+                            "label": "API Design Patterns: resource naming, standard methods, validation/auth patterns",
+                            "hours": 4,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/api-design-patterns/9781617295850/"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-sql-refresh",
+                    "title": "Learning SQL",
+                    "summary": "Optional refresher if SQL feels rusty before deep Postgres work.",
+                    "guide": {
+                        "startWhen": "Phase 4, only if TOP/SQL Zoo feels insufficient",
+                        "prerequisites": "None required; skip if SQL is comfortable",
+                        "doneMeans": "Read selected chapters + write 3 queries: join, group by, subquery",
+                        "chapters": [
+                            "SELECT, WHERE, JOINs",
+                            "GROUP BY and aggregates",
+                            "Subqueries",
+                            "Transactions basics"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly",
+                                "url": "https://www.oreilly.com/library/view/learning-sql-3rd/9781492057604/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-sql-refresh",
+                            "label": "Learning SQL: joins, grouping, subqueries, transactions refresher",
+                            "hours": 3,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/learning-sql-3rd/9781492057604/"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-mongodb-mern",
+                    "title": "MongoDB for MERN",
+                    "summary": "Selected chapters for the MERN fullstack rebuild project.",
+                    "guide": {
+                        "startWhen": "Phase 4, alongside MERN project planning",
+                        "prerequisites": "Express basics; document model concepts from backend-decisions notes",
+                        "doneMeans": "Read selected chapters + design one collection schema with indexes for the roadmap app",
+                        "chapters": [
+                            "Documents and querying",
+                            "Indexes and performance",
+                            "Aggregation basics",
+                            "Auth and security for MongoDB"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly",
+                                "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/"
+                            },
+                            {
+                                "label": "MERN handover guide",
+                                "url": "FULL_STACK_HANDOVER.md"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-mongodb-mern-selected",
+                            "label": "MongoDB: documents, querying, indexes, aggregation, auth/security for MERN app",
+                            "hours": 5,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/"
+                        }
+                    ]
+                },
+                {
+                    "id": "book-fsa",
+                    "title": "Fundamentals of Software Architecture",
+                    "summary": "Hard copy purchase. Senior architecture literacy — start when theory is approachable.",
+                    "guide": {
+                        "startWhen": "Phase 2 onward in parallel; no backend required for early chapters",
+                        "prerequisites": "Some production experience; read alongside design-patterns and arch-patterns tasks",
+                        "doneMeans": "Read selected chapters + write one architecture decision record (ADR) for a system you know",
+                        "chapters": [
+                            "Ch 1-4 — What is architecture, laws, thinking like an architect",
+                            "Ch 5-8 — Modularity, component design, distributed architecture basics",
+                            "Ch 9-12 — Soft skills, decisions, documentation, career path"
+                        ],
+                        "links": [
+                            {
+                                "label": "Book (purchase)",
+                                "url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043454/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "book-fsa-selected",
+                            "label": "Fundamentals of Software Architecture: modularity, components, decisions, documentation",
+                            "hours": 8,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043454/"
+                        }
+                    ]
+                },
+                {
+                    "id": "oreilly-ddia",
+                    "title": "Designing Data-Intensive Applications",
+                    "summary": "Later elective. Data systems depth after backend + FSA foundation.",
+                    "guide": {
+                        "startWhen": "Phase 5, after Node/API/data work and FSA selected chapters",
+                        "prerequisites": "Backend portfolio built; system design primer started",
+                        "doneMeans": "Read selected chapters + explain one consistency/reliability tradeoff in your own words",
+                        "chapters": [
+                            "Ch 1-3 — Reliable, scalable, maintainable applications",
+                            "Ch 5-7 — Replication, partitioning, transactions",
+                            "Ch 9-11 — Consistency and consensus basics"
+                        ],
+                        "links": [
+                            {
+                                "label": "O'Reilly",
+                                "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "oreilly-ddia-selected",
+                            "label": "DDIA: reliability, scalability, consistency, transactions (selected chapters)",
+                            "hours": 6,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/"
                         }
                     ]
                 }
@@ -796,8 +1122,8 @@ const ROADMAP = {
                 "label": "Phase 1 · Foundation",
                 "range": "Weeks 1-4",
                 "tone": "urgent",
-                "goal": "Start the main DSA spine while keeping HackerRank, Eloquent, RN, and AI in parallel but controlled.",
-                "concepts": ["DSA base", "JS async", "RN reading", "AI contracts"],
+                "goal": "Start the main DSA spine while keeping HackerRank, Eloquent, TS unlocks, RN, and AI in parallel but controlled.",
+                "concepts": ["DSA base", "JS core", "TS unlock", "RN reading", "AI contracts"],
                 "active": true
             },
             {
@@ -805,8 +1131,8 @@ const ROADMAP = {
                 "label": "Phase 2 · Momentum",
                 "range": "Weeks 5-12",
                 "tone": "active",
-                "goal": "Keep DSA and timed practice moving until the foundation is stable.",
-                "concepts": ["Patterns", "Timed reps", "Consistency", "Error log"],
+                "goal": "Keep DSA and timed practice moving; start architecture theory and FSA reading in parallel when capacity allows.",
+                "concepts": ["Patterns", "Timed reps", "FSA theory", "Consistency"],
                 "active": false
             },
             {
@@ -823,8 +1149,8 @@ const ROADMAP = {
                 "label": "Phase 4 · Backend Product Build",
                 "range": "Weeks 16-24",
                 "tone": "build",
-                "goal": "Build and deploy a real Postgres/Drizzle/Supabase/serverless portfolio project.",
-                "concepts": ["Node API", "Postgres", "Auth", "Deploy", "Project: roadmap app"],
+                "goal": "Build complementary Postgres literacy, then ship the MERN fullstack rebuild as the primary portfolio project.",
+                "concepts": ["Node API", "Postgres literacy", "MERN project", "API design", "Security"],
                 "active": false
             },
             {
@@ -832,8 +1158,8 @@ const ROADMAP = {
                 "label": "Phase 5 · Architecture Layer",
                 "range": "Weeks 24-30",
                 "tone": "senior",
-                "goal": "Practice architecture, system design, and cloud tradeoffs at senior-interview depth.",
-                "concepts": ["System design", "Patterns", "Cloud", "Tradeoffs"],
+                "goal": "Practice architecture, system design, and data systems at senior-interview depth.",
+                "concepts": ["System design", "Data systems", "Patterns", "Cloud", "Tradeoffs"],
                 "active": false
             },
             {
@@ -856,13 +1182,13 @@ const ROADMAP = {
             {
                 "id": "practice",
                 "title": "Timed practice",
-                "summary": "Small repeated reps beside the main work.",
+                "summary": "Timed practice and parallel senior theory beside the main work.",
                 "accent": "#d36f6f"
             },
             {
                 "id": "reading",
                 "title": "Reading loop",
-                "summary": "Parallel reading that should never block MUST work.",
+                "summary": "Core JS (Eloquent MUST) plus selective O'Reilly unlocks. Expand How to read for chapters and done criteria.",
                 "accent": "#7fb0d6"
             },
             {
@@ -974,14 +1300,36 @@ const ROADMAP = {
             },
             {
                 "id": "card-fullstack-handover",
-                "lane": "ai",
+                "lane": "practice",
                 "row": "backend",
                 "span": 1,
-                "title": "Full-stack roadmap app",
-                "summary": "Practice rebuild checkpoint: turn this static tracker into a MERN app with auth, MongoDB, progress, and notes.",
-                "badge": "AFTER MERN",
+                "title": "MERN fullstack rebuild",
+                "summary": "Primary portfolio destination: rebuild this tracker as a MERN app. Read MongoDB unlocks first, then follow the handover guide.",
+                "badge": "MERN project",
                 "guideUrl": "FULL_STACK_HANDOVER.md",
-                "guideOnly": true,
+                "trackId": "refreshers",
+                "groupIds": [
+                    "oreilly-mongodb-mern"
+                ],
+                "taskIds": [
+                    "mern-handover-plan"
+                ],
+                "guide": {
+                    "startWhen": "Phase 4, after Postgres literacy and API/security unlocks",
+                    "prerequisites": "Web security unlock done; API design unlock recommended; MongoDB selected reading below",
+                    "doneMeans": "Deployed MERN app with auth, MongoDB persistence, and progress tracking per FULL_STACK_HANDOVER.md",
+                    "chapters": [
+                        "Read FULL_STACK_HANDOVER.md for stack and schema",
+                        "Complete MongoDB selected reading before schema design",
+                        "Wire Express API + React frontend + MongoDB"
+                    ],
+                    "links": [
+                        {
+                            "label": "Handover spec",
+                            "url": "FULL_STACK_HANDOVER.md"
+                        }
+                    ]
+                },
                 "defaultOpen": false
             },
             {
@@ -1004,17 +1352,75 @@ const ROADMAP = {
                 "lane": "practice",
                 "row": "senior",
                 "span": 1,
-                "title": "Patterns, cloud, and retention",
-                "summary": "Design patterns, architecture patterns, serverless tradeoffs, cloud prep, and weekly retention.",
+                "title": "Serverless, cloud, and retention",
+                "summary": "Serverless tradeoffs, cloud prep, and weekly retention after backend work exists.",
                 "trackId": "architecture",
                 "taskIds": [
-                    "design-patterns",
-                    "arch-patterns",
                     "serverless-design",
                     "weekly-retention",
                     "aws-practitioner"
                 ],
                 "defaultOpen": true
+            },
+            {
+                "id": "card-arch-theory",
+                "lane": "practice",
+                "row": "momentum",
+                "span": 4,
+                "title": "Architecture theory (parallel)",
+                "summary": "Design patterns, architecture patterns, and FSA. Start when layered/MVC tradeoffs make sense — no backend required. Expand FSA for chapter unlocks.",
+                "trackId": "architecture",
+                "taskIds": [
+                    "design-patterns",
+                    "arch-patterns"
+                ],
+                "groupIds": [
+                    "book-fsa"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-oreilly-early",
+                "lane": "reading",
+                "row": "start",
+                "span": 2,
+                "title": "TS and React unlocks",
+                "summary": "Programming TS (hard copy), Effective TS, and React patterns. Selected chapters only.",
+                "trackId": "refreshers",
+                "groupIds": [
+                    "oreilly-prog-ts",
+                    "oreilly-effective-ts",
+                    "oreilly-react-patterns"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-oreilly-backend",
+                "lane": "reading",
+                "row": "backend",
+                "span": 1,
+                "title": "Backend/API/security unlocks",
+                "summary": "Read before auth and Express API work. Web security is MUST; API design and SQL are elective. MongoDB unlock lives on the MERN project card.",
+                "trackId": "refreshers",
+                "groupIds": [
+                    "oreilly-web-security",
+                    "oreilly-api-design",
+                    "oreilly-sql-refresh"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-oreilly-ddia",
+                "lane": "reading",
+                "row": "senior",
+                "span": 1,
+                "title": "Data systems (DDIA)",
+                "summary": "Selected DDIA chapters after backend + FSA foundation. Elective depth for senior interviews.",
+                "trackId": "refreshers",
+                "groupIds": [
+                    "oreilly-ddia"
+                ],
+                "defaultOpen": false
             },
             {
                 "id": "card-hackerrank",
@@ -1044,7 +1450,7 @@ const ROADMAP = {
                 "row": "start",
                 "span": 2,
                 "title": "Eloquent JavaScript",
-                "summary": "Chapters 11-21, chapter-level progress. Keep moving only when capacity allows.",
+                "summary": "Core JS refresh: chapters 11-21 with exercises and projects. MUST alongside DSA.",
                 "trackId": "refreshers",
                 "groupIds": [
                     "eloquent-js"
@@ -1160,15 +1566,16 @@ function cardAppearsInPhase(card, row) { const start = rowIndex(card.row); const
 function cardsForPhase(row) { return ROADMAP.timeline.cards.filter(card => cardAppearsInPhase(card, row)); }
 function phaseConceptChips(row) { return (row.concepts || []).map(concept => `<span class="phaseChip ${concept.toLowerCase().includes('project') ? 'project' : ''}">${esc(concept)}</span>`).join(''); }
 function phaseBand(row, lanes) { const cards = cardsForPhase(row); const collapsed = uiState.collapsedPhases?.includes(row.id); const laneCells = lanes.map(lane => { const laneCards = cards.filter(card => card.lane === lane.id); const content = laneCards.map(card => timelineCard(card, row, lane, card.row !== row.id)).join(''); return `<div class="laneSlot" style="--lane-accent:${esc(lane.accent || '#66727d')}">${content || '<div class="emptyLane" aria-hidden="true"></div>'}</div>`; }).join(''); const concepts = phaseConceptChips(row); return `<section class="phaseBand ${row.active ? 'is-active' : ''} ${esc(row.tone || '')}" data-phase-id="${esc(row.id)}"><button class="phaseDivider" type="button" aria-expanded="${collapsed ? 'false' : 'true'}"><span class="phaseCopy"><span class="phaseTitle">${esc(row.label)} <span class="phaseRange">${esc(row.range)}</span></span><span class="phaseGoal">${esc(row.goal || '')}</span>${concepts ? `<span class="phaseConcepts">${concepts}</span>` : ''}</span><span class="chevron">v</span></button><div class="phaseGrid" ${collapsed ? 'hidden' : ''}>${laneCells}</div></section>`; }
-function timelineCard(card, row, lane, isContinuation = false) { const tasks = cardTasks(card); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = card.defaultOpen ? 'open' : ''; const continuation = isContinuation ? '<span class="pill continues">Continues</span>' : ''; const guideBadge = card.badge ? `<span class="pill guide">${esc(card.badge)}</span>` : ''; return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}" ${open} data-card-id="${esc(card.id)}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}</div><div class="cardSummary">${esc(card.summary || '')}</div></div><span class="chevron">v</span></div><div class="timelineMeta">${must ? `<span class="pill must">MUST ${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">ELECTIVE ${formatHours(elective)}</span>` : ''}<span class="pill">${tasks.length} tasks</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}</div></summary>${renderCardBody(card, row.id)}</details>`; }
-function renderCardBody(card, contextId) { const groups = (card.groupIds || []).map(id => groupRow(groupLookup.get(id), `${card.id}-${contextId}`)).join(''); const groupTaskIds = new Set((card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => task.id))); const directTasks = cardTasks(card).filter(task => !groupTaskIds.has(task.id)); const taskList = directTasks.length ? `<div class="taskList">${directTasks.map(task => taskRow(task, `${card.id}-${contextId}`)).join('')}</div>` : ''; return taskList + groups; }
-function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); return `<details class="weekGroup" open data-group-id="${esc(group.id)}"><summary class="weekHead"><div><div class="weekTitle"><strong>${esc(group.title)}</strong><span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span></div><div class="weekSummary">${esc(group.summary || '')}</div></div><div class="trackTotals">${must ? `<span class="pill must">MUST ${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">ELECTIVE ${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></div></summary><div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
+function timelineCard(card, row, lane, isContinuation = false) { const tasks = cardTasks(card); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = card.defaultOpen ? 'open' : ''; const compact = card.defaultOpen ? '' : ' compactSummary'; const continuation = isContinuation ? '<span class="pill continues">Continues</span>' : ''; const guideBadge = card.badge ? `<span class="pill guide">${esc(card.badge)}</span>` : ''; return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}${compact}" ${open} data-card-id="${esc(card.id)}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}</div><div class="cardSummary">${esc(card.summary || '')}</div></div><span class="chevron">v</span></div><div class="timelineMeta">${must ? `<span class="pill must">MUST ${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">ELECTIVE ${formatHours(elective)}</span>` : ''}<span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}</div></summary>${renderCardBody(card, row.id)}</details>`; }
+function renderGuide(guide) { if (!guide) return ''; const chapters = (guide.chapters || []).map(chapter => `<li>${esc(chapter)}</li>`).join(''); const links = (guide.links || []).map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label)}</a>`; }).join(''); return `<details class="readingGuide"><summary class="readingGuideHead"><span>How to read</span><span class="chevron">v</span></summary><div class="readingGuideBody">${guide.startWhen ? `<p><strong>Start when:</strong> ${esc(guide.startWhen)}</p>` : ''}${guide.prerequisites ? `<p><strong>Prerequisites:</strong> ${esc(guide.prerequisites)}</p>` : ''}${guide.doneMeans ? `<p><strong>Done means:</strong> ${esc(guide.doneMeans)}</p>` : ''}${chapters ? `<ul class="guideChapters">${chapters}</ul>` : ''}${links ? `<div class="guideLinks">${links}</div>` : ''}</div></details>`; }
+function renderCardBody(card, contextId) { const guideBlock = renderGuide(card.guide); const groups = (card.groupIds || []).map(id => groupRow(groupLookup.get(id), `${card.id}-${contextId}`)).join(''); const groupTaskIds = new Set((card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => task.id))); const directTasks = cardTasks(card).filter(task => !groupTaskIds.has(task.id)); const taskList = directTasks.length ? `<div class="taskList">${directTasks.map(task => taskRow(task, `${card.id}-${contextId}`)).join('')}</div>` : ''; return guideBlock + taskList + groups; }
+function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = tasks.length > 1 ? 'open' : ''; return `<details class="weekGroup" ${open} data-group-id="${esc(group.id)}"><summary class="weekHead"><div><div class="weekTitle"><strong>${esc(group.title)}</strong><span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span></div><div class="weekSummary">${esc(group.summary || '')}</div></div><div class="trackTotals">${must ? `<span class="pill must">MUST ${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">ELECTIVE ${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></div></summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
 function resourceLinks(task) { const links = task.links || (task.url ? [{ label: 'Open', url: task.url }] : []); return links.length ? `<span class="resourceLinks">${links.map(link => `<a class="resourceLink" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label || 'Open')}</a>`).join('')}</span>` : ''; }
 function taskRow(task, contextId = 'main') { const checked = progress[task.id] ? 'checked' : ''; const doneClass = progress[task.id] ? ' done' : ''; const inputId = 'task-' + task.id + '-' + contextId; return `<div class="task${doneClass}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="pill ${task.priority} taskPriority">${task.priority.toUpperCase()}</span><span class="hours">${formatHours(task.hours)}</span></div></div>`; }
 function updateStats() { const tasks = allTasks(); const mustTasks = byPriority('must'); const electiveTasks = byPriority('elective'); const doneTasks = tasks.filter(isDone); const mustRemaining = sum(mustTasks.filter(task => !isDone(task))); const electiveRemaining = sum(electiveTasks.filter(task => !isDone(task))); const total = sum(tasks); const done = sum(doneTasks); const pct = total ? Math.round((done / total) * 100) : 0; document.getElementById('must-remaining').textContent = formatHours(mustRemaining); document.getElementById('must-total').textContent = 'of ' + formatHours(sum(mustTasks)); document.getElementById('elective-remaining').textContent = formatHours(electiveRemaining); document.getElementById('elective-total').textContent = 'of ' + formatHours(sum(electiveTasks)); document.getElementById('total-remaining').textContent = formatHours(total - done); document.getElementById('total-hours').textContent = 'of ' + formatHours(total); document.getElementById('completed-pct').textContent = pct + '%'; document.getElementById('completed-hours').textContent = formatHours(done) + ' done'; document.getElementById('overall-progress').style.width = pct + '%'; }
 function applyFilter() { const tasks = allTasks(); let visible = 0; for (const task of tasks) { const rows = document.querySelectorAll(`[data-task-id="${CSS.escape(task.id)}"]`); const show = taskMatchesFilter(task); rows.forEach(row => row.classList.toggle('hidden', !show)); if (show) visible += 1; } document.querySelectorAll('.weekGroup').forEach(group => { group.classList.toggle('hidden', !group.querySelector('.task:not(.hidden)')); }); document.querySelectorAll('.timelineCard').forEach(card => { const showGuide = card.dataset.guideOnly && activeFilter === 'all'; card.classList.toggle('hidden', !showGuide && !card.querySelector('.task:not(.hidden)')); }); document.querySelectorAll('.phaseBand').forEach(phase => { phase.classList.toggle('hidden', !phase.querySelector('.timelineCard:not(.hidden)')); }); const doneCount = tasks.filter(isDone).length; const leftCount = tasks.length - doneCount; const filterNote = activeFilter === 'all' ? '' : ` · ${visible} visible`; document.getElementById('visible-count').innerHTML = `<span class="progressCount">${doneCount}/${tasks.length} done</span><span class="progressLeft"> · ${leftCount} left${filterNote}</span>`; document.getElementById('empty-state').style.display = visible ? 'none' : 'block'; document.querySelectorAll('.filterButton').forEach(button => { button.classList.toggle('active', button.dataset.filter === activeFilter); }); }
 function toggleTask(row, checked = undefined) { const checkbox = row.querySelector('input[type="checkbox"]'); const id = row.dataset.taskId; const next = checked ?? !checkbox.checked; progress[id] = next; if (!next) delete progress[id]; document.querySelectorAll(`[data-task-id="${CSS.escape(id)}"]`).forEach(taskRow => { const taskCheckbox = taskRow.querySelector('input[type="checkbox"]'); if (taskCheckbox) taskCheckbox.checked = next; taskRow.classList.toggle('done', next); }); updateStats(); applyFilter(); saveProgress(); }
-function bindEvents() { document.body.addEventListener('change', event => { const checkbox = event.target.closest('input[type="checkbox"]'); if (!checkbox) return; const row = checkbox.closest('[data-task-id]'); toggleTask(row, checkbox.checked); }); document.body.addEventListener('click', event => { const phaseButton = event.target.closest('.phaseDivider'); if (phaseButton) { const phase = phaseButton.closest('[data-phase-id]'); const id = phase.dataset.phaseId; const grid = phase.querySelector('.phaseGrid'); const collapsed = !grid.hidden; grid.hidden = collapsed; phaseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); const set = new Set(uiState.collapsedPhases || []); collapsed ? set.add(id) : set.delete(id); uiState.collapsedPhases = [...set]; saveUiState(); return; } const row = event.target.closest('[data-task-id]'); if (!row || event.target.closest('a, button, input, label, summary')) return; toggleTask(row); }); document.querySelector('.filters').addEventListener('click', event => { const button = event.target.closest('[data-filter]'); if (!button || !FILTERS.has(button.dataset.filter)) return; activeFilter = button.dataset.filter; applyFilter(); }); document.getElementById('expand-all').addEventListener('click', () => { uiState.collapsedPhases = []; saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true')); document.querySelectorAll('details.timelineCard, details.weekGroup').forEach(section => { section.open = true; }); }); document.getElementById('collapse-all').addEventListener('click', () => { uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id); saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false')); document.querySelectorAll('details.timelineCard, details.weekGroup').forEach(section => { section.open = false; }); }); document.getElementById('reset-progress').addEventListener('click', () => { if (!confirm('Reset all local progress?')) return; progress = {}; saveProgress(); render(); }); }
+function bindEvents() { document.body.addEventListener('change', event => { const checkbox = event.target.closest('input[type="checkbox"]'); if (!checkbox) return; const row = checkbox.closest('[data-task-id]'); toggleTask(row, checkbox.checked); }); document.body.addEventListener('click', event => { const phaseButton = event.target.closest('.phaseDivider'); if (phaseButton) { const phase = phaseButton.closest('[data-phase-id]'); const id = phase.dataset.phaseId; const grid = phase.querySelector('.phaseGrid'); const collapsed = !grid.hidden; grid.hidden = collapsed; phaseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); const set = new Set(uiState.collapsedPhases || []); collapsed ? set.add(id) : set.delete(id); uiState.collapsedPhases = [...set]; saveUiState(); return; } const row = event.target.closest('[data-task-id]'); if (!row || event.target.closest('a, button, input, label, summary')) return; toggleTask(row); }); document.querySelector('.filters').addEventListener('click', event => { const button = event.target.closest('[data-filter]'); if (!button || !FILTERS.has(button.dataset.filter)) return; activeFilter = button.dataset.filter; applyFilter(); }); document.getElementById('expand-all').addEventListener('click', () => { uiState.collapsedPhases = []; saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = true; }); }); document.getElementById('collapse-all').addEventListener('click', () => { uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id); saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = false; }); }); document.getElementById('reset-progress').addEventListener('click', () => { if (!confirm('Reset all local progress?')) return; progress = {}; saveProgress(); render(); }); }
 render(); bindEvents();
 </script>
 </body>

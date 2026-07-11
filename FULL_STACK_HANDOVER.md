@@ -13,7 +13,7 @@ Do not start this before the Phase 4 backend work is comfortable enough that you
 - Basic deployment, environment variables, and database connection strings
 - Frontend API calls with loading, empty, and error states
 
-The roadmap UI marks this as `AFTER MERN` in Phase 4. That is the right time to start a small version, not the polished final product.
+The roadmap UI marks this as `MERN project` in Phase 4 (practice lane), with MongoDB selected reading on the same card. That is the right time to start a small version, not the polished final product.
 
 ## Product Goal
 
