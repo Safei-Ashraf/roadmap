@@ -71,21 +71,29 @@ s, <!doctype html>
 @keyframes focusPulse { 0% { background:rgba(227,166,61,.28); } 100% { background:transparent; } }
 .focusOverlay { position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(8,11,15,.72); backdrop-filter:blur(4px); }
 .focusOverlay.open { display:flex; }
-.focusPanel { width:min(440px,100%); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); overflow:hidden; }
+.focusPanel { width:min(480px,100%); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); overflow:hidden; }
 .focusPanelHead { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); }
 .focusPanelHead h2 { margin:0; font-size:16px; }
 .focusClose { border:1px solid var(--border); background:var(--surface-2); color:var(--muted); border-radius:var(--radius); min-height:32px; padding:0 10px; }
-.focusList { display:grid; gap:0; }
+.focusPath { display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--border); background:rgba(255,255,255,.02); }
+.focusPathStep { display:inline-flex; align-items:center; gap:5px; max-width:100%; min-height:22px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); font-size:11px; font-weight:750; color:var(--text); background:var(--surface-2); }
+.focusPathStep.must { border-color:rgba(227,166,61,.45); }
+.focusPathStep.elective { border-color:rgba(127,176,214,.45); color:var(--elective); }
+.focusPathArrow { color:var(--faint); font-size:11px; font-weight:900; }
+.focusList { display:grid; gap:0; max-height:min(70vh,520px); overflow:auto; }
 .focusItem { display:grid; gap:4px; width:100%; text-align:start; border:0; border-bottom:1px solid var(--border); background:transparent; color:var(--text); padding:14px 16px; cursor:pointer; }
 .focusItem:hover { background:rgba(255,255,255,.04); }
 .focusItem:last-child { border-bottom:0; }
+.focusItem.electiveSlot { background:rgba(127,176,214,.04); }
 .focusKind { display:inline-flex; align-items:center; min-height:18px; padding:0 7px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:.04em; }
 .focusKind.now { background:var(--must); color:#10141a; }
-.focusKind.next { background:var(--elective); color:#10141a; }
+.focusKind.nextMust { background:var(--must); color:#10141a; }
+.focusKind.nextElective { background:var(--elective); color:#10141a; }
 .focusKind.clear { background:rgba(127,184,143,.2); color:var(--done); }
 .focusMeta { color:var(--muted); font-size:12px; }
 .focusLabel { font-size:14px; font-weight:700; line-height:1.35; }
 .focusEmpty { padding:18px 16px; color:var(--muted); font-size:13px; }
+.focusSectionLabel { padding:8px 16px 0; color:var(--faint); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
@@ -107,7 +115,7 @@ s, <!doctype html>
       <span class="statusStat" id="visible-count"></span>
     </div>
     <div class="statusActions">
-      <button class="focusBtn" id="focus-open" type="button">Focus · Now / Next</button>
+      <button class="focusBtn" id="focus-open" type="button">Focus · Path</button>
     </div>
   </div>
   <details class="paceDetails"><summary>Pace estimates</summary>
@@ -121,7 +129,8 @@ s, <!doctype html>
 </main>
 <div class="focusOverlay" id="focus-overlay" role="dialog" aria-modal="true" aria-labelledby="focus-title" hidden>
   <div class="focusPanel">
-    <div class="focusPanelHead"><h2 id="focus-title">Where you are</h2><button class="focusClose" id="focus-close" type="button">Close</button></div>
+    <div class="focusPanelHead"><h2 id="focus-title">Your path</h2><button class="focusClose" id="focus-close" type="button">Close</button></div>
+    <div class="focusPath" id="focus-path" hidden></div>
     <div class="focusList" id="focus-list"></div>
   </div>
 </div>
@@ -1692,26 +1701,69 @@ function dedupeByTaskPreferHome(items) {
     return out;
 }
 function pickFocusTargets() {
-    const incomplete = orderedFocusCandidates().filter(item => !isDone(item.task));
-    // Whole-board MUST spine first (all phases + all lanes), then elective fallback
-    const mustGlobal = dedupeByTaskPreferHome(incomplete.filter(item => item.task.priority === 'must'));
-    const electiveGlobal = dedupeByTaskPreferHome(incomplete.filter(item => item.task.priority === 'elective'));
-    const now = mustGlobal[0] || electiveGlobal[0] || null;
-    let next = null;
-    if (now) {
-        const pool = now.task.priority === 'must' ? mustGlobal : electiveGlobal;
-        const idx = pool.findIndex(item => item.task.id === now.task.id);
-        next = idx >= 0 ? (pool[idx + 1] || null) : null;
-        if (!next && now.task.priority === 'must') next = electiveGlobal.find(item => item.task.id !== now.task.id) || null;
-        if (next && next.task.id === now.task.id) next = null;
-    }
-    return { now, next };
+    const plan = dedupeByTaskPreferHome(orderedFocusCandidates().filter(item => !isDone(item.task)));
+    const now = plan.find(item => item.task.priority === 'must') || plan[0] || null;
+    if (!now) return { now: null, nextMust: null, nextElectives: [] };
+
+    const nowIdx = plan.findIndex(item => item.task.id === now.task.id);
+    const afterNow = plan.slice(nowIdx + 1);
+    const nextMust = afterNow.find(item => item.task.priority === 'must') || null;
+    const gap = nextMust
+        ? afterNow.slice(0, afterNow.findIndex(item => item.task.id === nextMust.task.id))
+        : afterNow;
+    // Electives between NOW and next MUST (optional detours). Cap at 3 for a tight UI.
+    const nextElectives = gap.filter(item => item.task.priority === 'elective').slice(0, 3);
+    return { now, nextMust, nextElectives };
+}
+function focusKindLabel(kind) {
+    if (kind === 'now') return 'NOW';
+    if (kind === 'nextMust') return 'NEXT MUST';
+    if (kind === 'nextElective') return 'ELECTIVE';
+    return 'NEXT';
 }
 function focusItemHtml(kind, item) {
-    if (!item) return `<div class="focusEmpty">${kind === 'now' ? 'Nothing in progress — you are clear on MUST.' : 'No next item queued.'}</div>`;
-    return `<button class="focusItem" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"><span class="focusKind ${esc(kind)}">${kind === 'now' ? 'NOW' : 'NEXT'}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.lane.title)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`;
+    if (!item) return '';
+    const electiveClass = kind === 'nextElective' ? ' electiveSlot' : '';
+    return `<button class="focusItem${electiveClass}" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"><span class="focusKind ${esc(kind)}">${focusKindLabel(kind)}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.lane.title)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`;
 }
-function openFocusOverlay() { const { now, next } = pickFocusTargets(); const list = document.getElementById('focus-list'); if (!now && !next) { list.innerHTML = `<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span><div class="focusLabel" style="margin-top:8px">No incomplete tasks left.</div></div>`; } else { list.innerHTML = focusItemHtml('now', now) + focusItemHtml('next', next && (!now || next.task.id !== now.task.id || next.card.id !== now.card.id) ? next : null); } const overlay = document.getElementById('focus-overlay'); overlay.hidden = false; overlay.classList.add('open'); document.getElementById('focus-close').focus(); }
+function focusPathHtml(now, nextElectives, nextMust) {
+    if (!now) return '';
+    const step = (item, cls) => `<span class="focusPathStep ${cls}">${esc(shortLabel(item.task.label, 28))}</span>`;
+    const parts = [step(now, now.task.priority)];
+    for (const elective of nextElectives) {
+        parts.push('<span class="focusPathArrow">→</span>');
+        parts.push(step(elective, 'elective'));
+    }
+    if (nextMust && nextMust.task.id !== now.task.id) {
+        parts.push('<span class="focusPathArrow">→</span>');
+        parts.push(step(nextMust, 'must'));
+    }
+    return parts.join('');
+}
+function openFocusOverlay() {
+    const { now, nextMust, nextElectives } = pickFocusTargets();
+    const list = document.getElementById('focus-list');
+    const path = document.getElementById('focus-path');
+    if (!now) {
+        path.hidden = true;
+        path.innerHTML = '';
+        list.innerHTML = `<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span><div class="focusLabel" style="margin-top:8px">No incomplete tasks left.</div></div>`;
+    } else {
+        path.hidden = false;
+        path.innerHTML = focusPathHtml(now, nextElectives, nextMust);
+        const electiveBlock = nextElectives.length
+            ? `<div class="focusSectionLabel">Optional along the way</div>${nextElectives.map(item => focusItemHtml('nextElective', item)).join('')}`
+            : '';
+        const mustBlock = nextMust && nextMust.task.id !== now.task.id
+            ? `<div class="focusSectionLabel">Next commitment</div>${focusItemHtml('nextMust', nextMust)}`
+            : `<div class="focusEmpty">No further MUST after this — finish NOW, then electives.</div>`;
+        list.innerHTML = `<div class="focusSectionLabel">In progress</div>${focusItemHtml('now', now)}${electiveBlock}${mustBlock}`;
+    }
+    const overlay = document.getElementById('focus-overlay');
+    overlay.hidden = false;
+    overlay.classList.add('open');
+    document.getElementById('focus-close').focus();
+}
 function closeFocusOverlay() { const overlay = document.getElementById('focus-overlay'); overlay.classList.remove('open'); overlay.hidden = true; }
 function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
 function updateStats() { const tasks = allTasks(); const mustTasks = byPriority('must'); const doneTasks = tasks.filter(isDone); const mustRemaining = sum(mustTasks.filter(task => !isDone(task))); const total = sum(tasks); const done = sum(doneTasks); const pct = total ? Math.round((done / total) * 100) : 0; document.getElementById('must-remaining').textContent = formatHours(mustRemaining); document.getElementById('must-total').textContent = 'of ' + formatHours(sum(mustTasks)); document.getElementById('total-remaining').textContent = formatHours(total - done); document.getElementById('completed-pct').textContent = pct + '%'; document.getElementById('overall-progress').style.width = pct + '%'; }
