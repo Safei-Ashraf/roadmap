@@ -1658,10 +1658,59 @@ function renderCardBody(card, contextId) { const guideBlock = renderGuide(card.g
 function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = tasks.length > 1 ? 'open' : ''; return `<details class="weekGroup" ${open} data-group-id="${esc(group.id)}"><summary class="weekHead"><div><div class="weekTitle"><strong>${esc(group.title)}</strong><span class="pill">${tasks.length} task${tasks.length === 1 ? '' : 's'}</span></div><div class="weekSummary">${esc(group.summary || '')}</div></div><div class="trackTotals">${must ? `<span class="pill must">MUST ${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">ELECTIVE ${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></div></summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
 function resourceLinks(task) { const links = task.links || (task.url ? [{ label: 'Open', url: task.url }] : []); return links.length ? `<span class="resourceLinks">${links.map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label || 'Open')}</a>`; }).join('')}</span>` : ''; }
 function taskRow(task, contextId = 'main') { const checked = progress[task.id] ? 'checked' : ''; const doneClass = progress[task.id] ? ' done' : ''; const inputId = 'task-' + task.id + '-' + contextId; return `<div class="task${doneClass}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="hours">${formatHours(task.hours)}</span></div></div>`; }
-function orderedFocusCandidates() { const lanes = ROADMAP.timeline.lanes; const rows = ROADMAP.timeline.rows; const out = []; for (const row of rows) { const cards = cardsForPhase(row); for (const lane of lanes) { for (const card of cards.filter(c => c.lane === lane.id)) { if (card.guideOnly && !card.taskIds?.length && !card.groupIds?.length) continue; for (const task of cardTasks(card)) { out.push({ task, card, row, lane, isHome: card.row === row.id }); } } } } return out; }
-function dedupeByTask(items) { const seen = new Set(); const out = []; for (const item of items) { if (seen.has(item.task.id)) continue; seen.add(item.task.id); out.push(item); } return out; }
-function pickFocusTargets() { const all = orderedFocusCandidates(); const incomplete = all.filter(item => !isDone(item.task)); const activeRow = ROADMAP.timeline.rows.find(row => row.active) || ROADMAP.timeline.rows[0]; const mustInActive = dedupeByTask(incomplete.filter(item => item.task.priority === 'must' && item.row.id === activeRow?.id)); const mustGlobal = dedupeByTask(incomplete.filter(item => item.task.priority === 'must')); const electiveGlobal = dedupeByTask(incomplete.filter(item => item.task.priority === 'elective')); const now = mustInActive[0] || mustGlobal[0] || electiveGlobal[0] || null; let next = null; if (now) { const pool = now.task.priority === 'must' ? mustGlobal : electiveGlobal; const idx = pool.findIndex(item => item.task.id === now.task.id); next = idx >= 0 ? (pool[idx + 1] || null) : null; if (!next && now.task.priority === 'must') next = electiveGlobal[0] || null; if (next && next.task.id === now.task.id) next = null; } return { now, next }; }
-function focusItemHtml(kind, item) { if (!item) return `<div class="focusEmpty">${kind === 'now' ? 'Nothing in progress — you are clear on MUST.' : 'No next item queued.'}</div>`; return `<button class="focusItem" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"><span class="focusKind ${esc(kind)}">${kind === 'now' ? 'NOW' : 'NEXT'}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`; }
+function orderedFocusCandidates() {
+    const lanes = ROADMAP.timeline.lanes;
+    const rows = ROADMAP.timeline.rows;
+    const out = [];
+    // Full plan flow: phase order → lanes left-to-right → cards → tasks (not one column)
+    for (const row of rows) {
+        const cards = cardsForPhase(row);
+        for (const lane of lanes) {
+            for (const card of cards.filter(c => c.lane === lane.id)) {
+                if (card.guideOnly && !(card.taskIds || []).length && !(card.groupIds || []).length) continue;
+                for (const task of cardTasks(card)) {
+                    out.push({ task, card, row, lane, isHome: card.row === row.id });
+                }
+            }
+        }
+    }
+    return out;
+}
+function dedupeByTaskPreferHome(items) {
+    const best = new Map();
+    for (const item of items) {
+        const prev = best.get(item.task.id);
+        if (!prev || (!prev.isHome && item.isHome)) best.set(item.task.id, item);
+    }
+    const seen = new Set();
+    const out = [];
+    for (const item of items) {
+        if (seen.has(item.task.id)) continue;
+        seen.add(item.task.id);
+        out.push(best.get(item.task.id));
+    }
+    return out;
+}
+function pickFocusTargets() {
+    const incomplete = orderedFocusCandidates().filter(item => !isDone(item.task));
+    // Whole-board MUST spine first (all phases + all lanes), then elective fallback
+    const mustGlobal = dedupeByTaskPreferHome(incomplete.filter(item => item.task.priority === 'must'));
+    const electiveGlobal = dedupeByTaskPreferHome(incomplete.filter(item => item.task.priority === 'elective'));
+    const now = mustGlobal[0] || electiveGlobal[0] || null;
+    let next = null;
+    if (now) {
+        const pool = now.task.priority === 'must' ? mustGlobal : electiveGlobal;
+        const idx = pool.findIndex(item => item.task.id === now.task.id);
+        next = idx >= 0 ? (pool[idx + 1] || null) : null;
+        if (!next && now.task.priority === 'must') next = electiveGlobal.find(item => item.task.id !== now.task.id) || null;
+        if (next && next.task.id === now.task.id) next = null;
+    }
+    return { now, next };
+}
+function focusItemHtml(kind, item) {
+    if (!item) return `<div class="focusEmpty">${kind === 'now' ? 'Nothing in progress — you are clear on MUST.' : 'No next item queued.'}</div>`;
+    return `<button class="focusItem" type="button" data-focus-kind="${esc(kind)}" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"><span class="focusKind ${esc(kind)}">${kind === 'now' ? 'NOW' : 'NEXT'}</span><span class="focusLabel">${esc(shortLabel(item.task.label, 90))}</span><span class="focusMeta">${esc(item.row.label)} · ${esc(item.lane.title)} · ${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`;
+}
 function openFocusOverlay() { const { now, next } = pickFocusTargets(); const list = document.getElementById('focus-list'); if (!now && !next) { list.innerHTML = `<div class="focusEmpty"><span class="focusKind clear">ALL CLEAR</span><div class="focusLabel" style="margin-top:8px">No incomplete tasks left.</div></div>`; } else { list.innerHTML = focusItemHtml('now', now) + focusItemHtml('next', next && (!now || next.task.id !== now.task.id || next.card.id !== now.card.id) ? next : null); } const overlay = document.getElementById('focus-overlay'); overlay.hidden = false; overlay.classList.add('open'); document.getElementById('focus-close').focus(); }
 function closeFocusOverlay() { const overlay = document.getElementById('focus-overlay'); overlay.classList.remove('open'); overlay.hidden = true; }
 function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
