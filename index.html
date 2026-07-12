@@ -41,20 +41,33 @@
 @media (max-width:520px) { .page { padding:24px 14px 88px; } .kicker { font-size:10px; letter-spacing:.04em; line-height:1.4; } h1 { font-size:1.65rem; line-height:1.12; } .lede,.progressMeta { max-width:100%; overflow-wrap:break-word; } .paceSummary,.metrics { grid-template-columns:1fr; } .task { grid-template-columns:26px minmax(0,1fr) auto; } .resourceLinks { grid-column:2; justify-content:flex-start; margin-top:4px; } .resourceLink { justify-self:start; } .taskPriority { grid-column:3; grid-row:1; min-width:78px; align-self:start; } .hours { grid-column:3; grid-row:2; justify-self:center; } .progressMeta,.footer { display:block; } .footer .actions { margin-top:10px; } }
 
 .statusStrip { display:grid; gap:10px; margin:16px 0 14px; padding:12px 14px; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); position:sticky; top:8px; z-index:20; box-shadow:var(--shadow); }
+.progressBlock { display:grid; gap:5px; }
+.progressLabels { display:flex; justify-content:space-between; gap:10px; font-size:11px; font-weight:750; }
+.progressDoneLabel { color:var(--done); }
+.progressLeftLabel { color:var(--muted); }
 .statusStrip .progressBar { height:10px; width:100%; background:var(--surface-2); border-radius:999px; overflow:hidden; display:flex; position:relative; }
-.statusRow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; }
-.statusStats { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-.statusStat { display:inline-flex; align-items:baseline; gap:5px; min-height:28px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); background:var(--surface-2); font-size:12px; }
-.statusStat strong { font-size:15px; font-weight:850; }
+.statusRow { display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start; justify-content:space-between; }
+.statusStats { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:flex-start; flex:1; min-width:0; }
+.statusStat { display:inline-flex; align-items:baseline; gap:5px; min-height:24px; font-size:12px; color:var(--muted); }
+.statusStat strong { font-size:14px; font-weight:850; color:var(--text); }
 .statusStat.must strong { color:var(--must); }
-.statusStat.done strong { color:var(--done); }
-.statusActions { display:flex; gap:6px; flex-wrap:wrap; }
+.finishBlock { display:grid; gap:2px; min-width:0; }
+.finishPrimary { font-size:13px; font-weight:800; color:var(--must); line-height:1.35; }
+.finishSecondary { font-size:11px; color:var(--muted); line-height:1.35; }
+.statusActions { display:flex; gap:6px; flex-wrap:wrap; flex-shrink:0; }
 .focusBtn { border:1px solid var(--must); background:var(--must-soft); color:var(--text); border-radius:var(--radius); min-height:34px; padding:0 12px; font-weight:750; }
 .focusBtn:hover { background:rgba(227,166,61,.28); }
-.paceDetails { margin:0; }
-.paceDetails > summary { list-style:none; cursor:pointer; color:var(--muted); font-size:12px; font-weight:750; padding:4px 0; }
-.paceDetails > summary::-webkit-details-marker { display:none; }
-.paceDetails .paceSummary { margin:8px 0 0; }
+.paceRow { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; padding-top:8px; border-top:1px solid rgba(48,57,70,.55); }
+.paceStart { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); font-weight:750; }
+.paceInput { border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:var(--radius); min-height:28px; padding:0 8px; font-size:12px; font-weight:650; }
+.paceInput:focus { outline:2px solid rgba(227,166,61,.35); outline-offset:1px; }
+.paceStat { font-size:11px; color:var(--muted); line-height:1.45; flex:1; min-width:160px; }
+.paceStat strong { color:var(--text); font-weight:800; }
+.paceChips { display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+.paceChip { display:inline-flex; align-items:center; gap:4px; min-height:24px; padding:0 8px; border-radius:999px; border:1px solid var(--border); background:var(--surface-2); color:var(--muted); font-size:10px; font-weight:750; cursor:pointer; white-space:nowrap; }
+.paceChip:hover { border-color:rgba(127,176,214,.45); color:var(--text); }
+.paceChip.active { border-color:var(--must); background:var(--must-soft); color:var(--text); }
+.paceChipFinish { color:var(--faint); font-weight:650; }
 .filters { margin-bottom:12px; }
 .filterButton { min-height:32px; padding:0 10px; font-size:13px; }
 .hintLine { color:var(--faint); font-size:12px; margin:0 0 14px; }
@@ -104,6 +117,10 @@
 .timelineCard.isWip { box-shadow:0 0 0 1px rgba(227,166,61,.45); }
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
+  .statusRow { flex-direction:column; align-items:stretch; }
+  .statusActions { justify-content:flex-start; }
+  .paceRow { flex-direction:column; align-items:stretch; }
+  .paceChips { width:100%; }
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
   .taskMetaLine { grid-column:2 / -1; }
 }
@@ -114,21 +131,33 @@
 <main class="page">
 <section class="topbar" aria-labelledby="page-title"><div><div class="kicker">Personal roadmap · <span id="horizon"></span></div><h1 id="page-title">Senior full-stack roadmap</h1><p class="lede">MUST is the path. ELECTIVE is backlog. Use Focus when you lose the thread.</p></div><div class="actions" aria-label="Page actions"><button class="iconButton" id="expand-all" type="button">Expand</button><button class="iconButton" id="collapse-all" type="button">Collapse</button></div></section>
 <section class="statusStrip" aria-label="Status">
-  <div class="progressBar"><div class="progressDone" id="overall-progress"></div></div>
+  <div class="progressBlock">
+    <div class="progressLabels">
+      <span class="progressDoneLabel" id="progress-done-label">0h done</span>
+      <span class="progressLeftLabel" id="progress-left-label">0h left</span>
+    </div>
+    <div class="progressBar"><div class="progressDone" id="overall-progress"></div></div>
+  </div>
   <div class="statusRow">
     <div class="statusStats">
       <span class="statusStat must">MUST <strong id="must-remaining">0h</strong> <span id="must-total">of 0h</span></span>
-      <span class="statusStat">Left <strong id="total-remaining">0h</strong></span>
-      <span class="statusStat done">Done <strong id="completed-pct">0%</strong></span>
       <span class="statusStat" id="visible-count"></span>
+      <div class="finishBlock">
+        <div class="finishPrimary" id="finish-must">Finish MUST —</div>
+        <div class="finishSecondary" id="finish-total">Full plan —</div>
+      </div>
     </div>
     <div class="statusActions">
       <button class="focusBtn" id="focus-open" type="button">Focus</button>
     </div>
   </div>
-  <details class="paceDetails"><summary>Pace estimates</summary>
-    <section class="paceSummary" aria-label="Duration estimates"><div class="paceCard"><div class="paceLabel">2h/day</div><div class="paceValue" id="pace-2h">0 months</div><div class="paceHint">steady</div></div><div class="paceCard"><div class="paceLabel">4h/day</div><div class="paceValue" id="pace-4h">0 months</div><div class="paceHint">aggressive</div></div><div class="paceCard"><div class="paceLabel">6h/day</div><div class="paceValue" id="pace-6h">0 months</div><div class="paceHint">full push</div></div></section>
-  </details>
+  <div class="paceRow">
+    <label class="paceStart" for="pace-start-date">Started
+      <input class="paceInput" id="pace-start-date" type="date" min="2026-07-01" title="When you started this roadmap (for pace tracking)">
+    </label>
+    <div class="paceStat" id="pace-stat"></div>
+    <div class="paceChips" id="pace-chips" aria-label="What-if pace"></div>
+  </div>
   <p class="hintLine" id="baseline"></p>
 </section>
 <nav class="filters" aria-label="Task filters"><button class="filterButton active" type="button" data-filter="all">All</button><button class="filterButton" type="button" data-filter="must">MUST</button><button class="filterButton" type="button" data-filter="elective">ELECTIVE</button><button class="filterButton" type="button" data-filter="remaining">Remaining</button><button class="filterButton" type="button" data-filter="done">Done</button></nav>
@@ -1871,7 +1900,126 @@ const formatHours = value => Number.isInteger(value) ? value + 'h' : value.toFix
 const allTasks = () => [...taskLookup.values()];
 const byPriority = priority => allTasks().filter(task => task.priority === priority);
 const sum = tasks => tasks.reduce((total, task) => total + task.hours, 0);
-const formatMonths = hoursPerDay => { const months = ROADMAP_TOTAL_HOURS / (hoursPerDay * 30); return months < 1 ? '<1 month' : '~' + (Math.round(months * 10) / 10).toString().replace(/\.0$/, '') + ' months'; };
+const PACE_MIN_DATE = '2026-07-01';
+const PACE_OPTIONS = [2, 4, 6];
+function todayIso() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function parseIsoDate(value) {
+    const [y, m, d] = String(value || '').split('-').map(Number);
+    if (!y || !m || !d) return null;
+    return new Date(y, m - 1, d);
+}
+function calendarDaysBetween(startIso, endIso) {
+    const start = parseIsoDate(startIso);
+    const end = parseIsoDate(endIso);
+    if (!start || !end) return 1;
+    const ms = end.setHours(0, 0, 0, 0) - start.setHours(0, 0, 0, 0);
+    return Math.max(1, Math.round(ms / 86400000) + 1);
+}
+function addCalendarDays(iso, days) {
+    const d = parseIsoDate(iso);
+    if (!d) return iso;
+    d.setDate(d.getDate() + Math.ceil(days));
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function formatDateShort(iso) {
+    const d = parseIsoDate(iso);
+    if (!d) return '—';
+    const now = new Date();
+    const sameYear = d.getFullYear() === now.getFullYear();
+    return d.toLocaleDateString(undefined, sameYear ? { month: 'short', day: 'numeric' } : { month: 'short', year: 'numeric' });
+}
+function clampStartDate(value) {
+    const today = todayIso();
+    let next = value || PACE_MIN_DATE;
+    if (next < PACE_MIN_DATE) next = PACE_MIN_DATE;
+    if (next > today) next = today;
+    return next;
+}
+function normalizeUiState(state) {
+    const today = todayIso();
+    const targetPace = PACE_OPTIONS.includes(state.targetPace) ? state.targetPace : 4;
+    return {
+        collapsedPhases: Array.isArray(state.collapsedPhases) ? state.collapsedPhases : [],
+        wipCardId: state.wipCardId || null,
+        startDate: clampStartDate(state.startDate || PACE_MIN_DATE),
+        targetPace
+    };
+}
+function computePaceStats() {
+    const tasks = allTasks();
+    const mustTasks = byPriority('must');
+    const doneTasks = tasks.filter(isDone);
+    const mustDoneTasks = mustTasks.filter(isDone);
+    const doneHours = sum(doneTasks);
+    const mustDoneHours = sum(mustDoneTasks);
+    const totalHours = sum(tasks);
+    const mustTotalHours = sum(mustTasks);
+    const totalRemaining = totalHours - doneHours;
+    const mustRemaining = mustTotalHours - mustDoneHours;
+    const startDate = clampStartDate(uiState.startDate);
+    const today = todayIso();
+    const daysElapsed = calendarDaysBetween(startDate, today);
+    const avgHoursPerDay = doneHours > 0 ? doneHours / daysElapsed : 0;
+    const projectionPace = avgHoursPerDay > 0 ? avgHoursPerDay : uiState.targetPace;
+    const finishLabel = (remaining, pace) => {
+        if (remaining <= 0) return 'Finished';
+        if (!pace || pace <= 0) return 'Pick a pace or check off work';
+        return '~' + formatDateShort(addCalendarDays(today, remaining / pace));
+    };
+    const mustFinish = finishLabel(mustRemaining, projectionPace);
+    const totalFinish = finishLabel(totalRemaining, projectionPace);
+    const whatIf = pace => ({
+        pace,
+        mustFinish: finishLabel(mustRemaining, pace),
+        totalFinish: finishLabel(totalRemaining, pace)
+    });
+    const paceMode = avgHoursPerDay > 0 ? 'actual' : 'target';
+    const startShort = formatDateShort(startDate);
+    const avgLabel = avgHoursPerDay > 0
+        ? `Avg <strong>${(Math.round(avgHoursPerDay * 10) / 10).toString().replace(/\.0$/, '')}h/day</strong> since ${startShort}`
+        : `Using <strong>${uiState.targetPace}h/day</strong> until you log work`;
+    const paceStatHtml = `${avgLabel} · ${daysElapsed} day${daysElapsed === 1 ? '' : 's'} · <strong>${formatHours(doneHours)}</strong> logged`;
+    const mustFinishText = mustRemaining <= 0
+        ? 'Finish MUST — done'
+        : `Finish MUST ${mustFinish}${paceMode === 'actual' ? ' at current pace' : ''}`;
+    const totalFinishText = totalRemaining <= 0
+        ? 'Full plan — done'
+        : `Full plan ${totalFinish}`;
+    return {
+        doneHours,
+        totalRemaining,
+        mustRemaining,
+        mustTotalHours,
+        daysElapsed,
+        avgHoursPerDay,
+        projectionPace,
+        paceMode,
+        mustFinishText,
+        totalFinishText,
+        paceStatHtml,
+        whatIf: PACE_OPTIONS.map(whatIf),
+        startDate,
+        today
+    };
+}
+function syncPaceControls(pace) {
+    const input = document.getElementById('pace-start-date');
+    if (input) {
+        input.max = pace.today;
+        input.min = PACE_MIN_DATE;
+        if (input.value !== pace.startDate) input.value = pace.startDate;
+    }
+    const chips = document.getElementById('pace-chips');
+    if (chips) {
+        chips.innerHTML = pace.whatIf.map(item => {
+            const active = uiState.targetPace === item.pace ? ' active' : '';
+            return `<button type="button" class="paceChip${active}" data-pace="${item.pace}" title="If you held ${item.pace}h/day from today">${item.pace}h/day <span class="paceChipFinish">→ MUST ${esc(item.mustFinish)}</span></button>`;
+        }).join('');
+    }
+}
 function formatDurationUnit(days, forceWeeks = false) {
     if (!forceWeeks && days < 7) {
         if (days < 1) return '<1d';
@@ -1905,11 +2053,17 @@ function phaseEstimateLabel(row) {
 const isDone = task => Boolean(progress[task.id]);
 const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function loadProgress() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
-function loadUiState() { try { return { collapsedPhases: [], wipCardId: null, ...JSON.parse(localStorage.getItem(UI_STORAGE_KEY) || '{}') }; } catch { return { collapsedPhases: [], wipCardId: null }; } }
+function loadUiState() {
+    try {
+        return normalizeUiState(JSON.parse(localStorage.getItem(UI_STORAGE_KEY) || '{}'));
+    } catch {
+        return normalizeUiState({});
+    }
+}
 function saveUiState() { localStorage.setItem(UI_STORAGE_KEY, JSON.stringify(uiState)); }
 function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); const status = document.getElementById('save-status'); status.textContent = 'Saved locally.'; window.setTimeout(() => { status.textContent = 'Progress saves locally in this browser.'; }, 1200); }
 function esc(value) { return String(value).replace(/[&<>"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[char]); }
-function render() { document.getElementById('horizon').textContent = ROADMAP.meta.horizon; document.getElementById('baseline').textContent = ROADMAP.meta.baseline; document.getElementById('pace-2h').textContent = formatMonths(2); document.getElementById('pace-4h').textContent = formatMonths(4); document.getElementById('pace-6h').textContent = formatMonths(6); renderTimeline(); updateStats(); applyFilter(); }
+function render() { document.getElementById('horizon').textContent = ROADMAP.meta.horizon; document.getElementById('baseline').textContent = ROADMAP.meta.baseline; renderTimeline(); updateStats(); applyFilter(); }
 function cardTasks(card) { const direct = (card.taskIds || []).map(id => taskLookup.get(id)).filter(Boolean); const grouped = (card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean)); if (direct.length || grouped.length) return [...grouped, ...direct]; if (!card.trackId) return []; const track = ROADMAP.tracks.find(item => item.id === card.trackId); return track ? [...(track.groups || []).flatMap(group => group.tasks || []), ...(track.tasks || [])].map(task => taskLookup.get(task.id)).filter(Boolean) : []; }
 function renderTimeline() { const container = document.getElementById('timeline-board'); const lanes = ROADMAP.timeline.lanes; const laneHeads = `<div class="laneHeaderGrid">${lanes.map(lane => `<div class="laneHead" style="--lane-accent:${esc(lane.accent || '#66727d')}"><div class="laneTitle">${esc(lane.title)}</div><div class="laneSummary">${esc(lane.summary)}</div></div>`).join('')}</div>`; const phaseBands = ROADMAP.timeline.rows.map(row => phaseBand(row, lanes)).join(''); container.innerHTML = laneHeads + phaseBands; }
 function rowIndex(rowId) { return ROADMAP.timeline.rows.findIndex(row => row.id === rowId); }
@@ -2102,10 +2256,127 @@ function openFocusOverlay() {
 }
 function closeFocusOverlay() { const overlay = document.getElementById('focus-overlay'); overlay.classList.remove('open'); overlay.hidden = true; }
 function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
-function updateStats() { const tasks = allTasks(); const mustTasks = byPriority('must'); const doneTasks = tasks.filter(isDone); const mustRemaining = sum(mustTasks.filter(task => !isDone(task))); const total = sum(tasks); const done = sum(doneTasks); const pct = total ? Math.round((done / total) * 100) : 0; document.getElementById('must-remaining').textContent = formatHours(mustRemaining); document.getElementById('must-total').textContent = 'of ' + formatHours(sum(mustTasks)); document.getElementById('total-remaining').textContent = formatHours(total - done); document.getElementById('completed-pct').textContent = pct + '%'; document.getElementById('overall-progress').style.width = pct + '%'; }
+function updateStats() {
+    const tasks = allTasks();
+    const mustTasks = byPriority('must');
+    const doneTasks = tasks.filter(isDone);
+    const mustRemaining = sum(mustTasks.filter(task => !isDone(task)));
+    const total = sum(tasks);
+    const done = sum(doneTasks);
+    const totalRemaining = total - done;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    const pace = computePaceStats();
+    if (uiState.startDate !== pace.startDate) {
+        uiState.startDate = pace.startDate;
+        saveUiState();
+    }
+    document.getElementById('must-remaining').textContent = formatHours(mustRemaining);
+    document.getElementById('must-total').textContent = 'of ' + formatHours(sum(mustTasks));
+    document.getElementById('progress-done-label').textContent = formatHours(done) + ' done';
+    document.getElementById('progress-left-label').textContent = formatHours(totalRemaining) + ' left · ' + pct + '%';
+    document.getElementById('finish-must').textContent = pace.mustFinishText;
+    document.getElementById('finish-total').textContent = pace.totalFinishText;
+    document.getElementById('pace-stat').innerHTML = pace.paceStatHtml;
+    document.getElementById('overall-progress').style.width = pct + '%';
+    syncPaceControls(pace);
+}
 function applyFilter() { const tasks = allTasks(); let visible = 0; for (const task of tasks) { const rows = document.querySelectorAll(`[data-task-id="${CSS.escape(task.id)}"]`); const show = taskMatchesFilter(task); rows.forEach(row => row.classList.toggle('hidden', !show)); if (show) visible += 1; } document.querySelectorAll('.weekGroup').forEach(group => { group.classList.toggle('hidden', !group.querySelector('.task:not(.hidden)')); }); document.querySelectorAll('.timelineCard').forEach(card => { const showGuide = card.dataset.guideOnly && activeFilter === 'all'; const hasVisibleTask = card.querySelector('.task:not(.hidden)'); const isContinuation = card.classList.contains('continuation'); const showContinuationEmpty = isContinuation && activeFilter === 'all'; card.classList.toggle('hidden', !showGuide && !hasVisibleTask && !showContinuationEmpty); }); document.querySelectorAll('.phaseBand').forEach(phase => { phase.classList.toggle('hidden', !phase.querySelector('.timelineCard:not(.hidden)')); }); const doneCount = tasks.filter(isDone).length; const leftCount = tasks.length - doneCount; const filterNote = activeFilter === 'all' ? '' : ` · ${visible} visible`; document.getElementById('visible-count').innerHTML = `<strong>${doneCount}/${tasks.length}</strong> <span style="color:var(--muted);font-weight:500">${leftCount} left${filterNote}</span>`; document.getElementById('empty-state').style.display = visible ? 'none' : 'block'; document.querySelectorAll('.filterButton').forEach(button => { button.classList.toggle('active', button.dataset.filter === activeFilter); }); }
 function toggleTask(row, checked = undefined) { const checkbox = row.querySelector('input[type="checkbox"]'); const id = row.dataset.taskId; const next = checked ?? !checkbox.checked; progress[id] = next; if (!next) delete progress[id]; const openSnap = snapshotOpenCards(); saveProgress(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); }
-function bindEvents() { document.body.addEventListener('change', event => { const checkbox = event.target.closest('input[type="checkbox"]'); if (!checkbox) return; const row = checkbox.closest('[data-task-id]'); toggleTask(row, checkbox.checked); }); document.body.addEventListener('click', event => { const phaseButton = event.target.closest('.phaseDivider'); if (phaseButton) { const phase = phaseButton.closest('[data-phase-id]'); const id = phase.dataset.phaseId; const grid = phase.querySelector('.phaseGrid'); const collapsed = !grid.hidden; grid.hidden = collapsed; phaseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true'); const set = new Set(uiState.collapsedPhases || []); collapsed ? set.add(id) : set.delete(id); uiState.collapsedPhases = [...set]; saveUiState(); return; } const wipButton = event.target.closest('[data-wip-card]'); if (wipButton) { event.preventDefault(); event.stopPropagation(); const id = wipButton.dataset.wipCard; uiState.wipCardId = uiState.wipCardId === id ? null : id; saveUiState(); const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); applyFilter(); return; } const focusItem = event.target.closest('.focusItem'); if (focusItem) { if (focusItem.dataset.setWip === 'true') { uiState.wipCardId = focusItem.dataset.cardId; saveUiState(); } jumpToFocus(focusItem.dataset.taskId, focusItem.dataset.cardId, focusItem.dataset.phaseId); return; } const row = event.target.closest('[data-task-id]'); if (!row || event.target.closest('a, button, input, label, summary')) return; toggleTask(row); }); document.querySelector('.filters').addEventListener('click', event => { const button = event.target.closest('[data-filter]'); if (!button || !FILTERS.has(button.dataset.filter)) return; activeFilter = button.dataset.filter; applyFilter(); }); document.getElementById('expand-all').addEventListener('click', () => { uiState.collapsedPhases = []; saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = true; }); }); document.getElementById('collapse-all').addEventListener('click', () => { uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id); saveUiState(); document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; }); document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false')); document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = false; }); }); document.getElementById('reset-progress').addEventListener('click', () => { if (!confirm('Reset all local progress?')) return; progress = {}; saveProgress(); render(); }); document.getElementById('focus-open').addEventListener('click', openFocusOverlay); document.getElementById('focus-close').addEventListener('click', closeFocusOverlay); document.getElementById('focus-overlay').addEventListener('click', event => { if (event.target.id === 'focus-overlay') closeFocusOverlay(); }); document.addEventListener('keydown', event => { if (event.key === 'Escape') closeFocusOverlay(); }); }
+function bindEvents() {
+    document.body.addEventListener('change', event => {
+        if (event.target.id === 'pace-start-date') {
+            uiState.startDate = clampStartDate(event.target.value);
+            saveUiState();
+            updateStats();
+            return;
+        }
+        const checkbox = event.target.closest('input[type="checkbox"]');
+        if (!checkbox) return;
+        const row = checkbox.closest('[data-task-id]');
+        toggleTask(row, checkbox.checked);
+    });
+    document.body.addEventListener('click', event => {
+        const paceChip = event.target.closest('.paceChip');
+        if (paceChip) {
+            const pace = Number(paceChip.dataset.pace);
+            if (PACE_OPTIONS.includes(pace)) {
+                uiState.targetPace = pace;
+                saveUiState();
+                updateStats();
+            }
+            return;
+        }
+        const phaseButton = event.target.closest('.phaseDivider');
+        if (phaseButton) {
+            const phase = phaseButton.closest('[data-phase-id]');
+            const id = phase.dataset.phaseId;
+            const grid = phase.querySelector('.phaseGrid');
+            const collapsed = !grid.hidden;
+            grid.hidden = collapsed;
+            phaseButton.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+            const set = new Set(uiState.collapsedPhases || []);
+            collapsed ? set.add(id) : set.delete(id);
+            uiState.collapsedPhases = [...set];
+            saveUiState();
+            return;
+        }
+        const wipButton = event.target.closest('[data-wip-card]');
+        if (wipButton) {
+            event.preventDefault();
+            event.stopPropagation();
+            const id = wipButton.dataset.wipCard;
+            uiState.wipCardId = uiState.wipCardId === id ? null : id;
+            saveUiState();
+            const openSnap = snapshotOpenCards();
+            renderTimeline();
+            restoreOpenCards(openSnap);
+            applyFilter();
+            return;
+        }
+        const focusItem = event.target.closest('.focusItem');
+        if (focusItem) {
+            if (focusItem.dataset.setWip === 'true') {
+                uiState.wipCardId = focusItem.dataset.cardId;
+                saveUiState();
+            }
+            jumpToFocus(focusItem.dataset.taskId, focusItem.dataset.cardId, focusItem.dataset.phaseId);
+            return;
+        }
+        const row = event.target.closest('[data-task-id]');
+        if (!row || event.target.closest('a, button, input, label, summary')) return;
+        toggleTask(row);
+    });
+    document.querySelector('.filters').addEventListener('click', event => {
+        const button = event.target.closest('[data-filter]');
+        if (!button || !FILTERS.has(button.dataset.filter)) return;
+        activeFilter = button.dataset.filter;
+        applyFilter();
+    });
+    document.getElementById('expand-all').addEventListener('click', () => {
+        uiState.collapsedPhases = [];
+        saveUiState();
+        document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; });
+        document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true'));
+        document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = true; });
+    });
+    document.getElementById('collapse-all').addEventListener('click', () => {
+        uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id);
+        saveUiState();
+        document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; });
+        document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false'));
+        document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = false; });
+    });
+    document.getElementById('reset-progress').addEventListener('click', () => {
+        if (!confirm('Reset all local progress?')) return;
+        progress = {};
+        saveProgress();
+        render();
+    });
+    document.getElementById('focus-open').addEventListener('click', openFocusOverlay);
+    document.getElementById('focus-close').addEventListener('click', closeFocusOverlay);
+    document.getElementById('focus-overlay').addEventListener('click', event => { if (event.target.id === 'focus-overlay') closeFocusOverlay(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeFocusOverlay(); });
+}
 render(); bindEvents();
 </script>
 </body>

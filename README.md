@@ -46,4 +46,4 @@ This repo has no build step. Any static host works:
 - Vercel: import the repo as a static project with no build command.
 - Railway: use the `start` script (`npx serve .`) or static site settings.
 
-Progress and phase collapse state are stored in browser `localStorage`, so they are local to the browser/device.
+Progress and phase collapse state are stored in browser `localStorage`, so they are local to the browser/device. Start date and pace target (`startDate`, `targetPace`) live in the same UI state key for projected finish dates.
