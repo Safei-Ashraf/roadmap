@@ -5,6 +5,7 @@ A standalone single-page roadmap for a focused frontend-to-senior-full-stack pus
 ## Files
 
 - `index.html`: publishable static page.
+- `sounds/`: Pomodoro alarm clips (Viktor / Gnar).
 - `source/roadmap-tracker.original.html`: untouched local source copied from `/Users/safali/Downloads/roadmap-tracker.html`.
 - `FULL_STACK_HANDOVER.md`: future MERN/full-stack rebuild plan.
 
@@ -46,4 +47,4 @@ This repo has no build step. Any static host works:
 - Vercel: import the repo as a static project with no build command.
 - Railway: use the `start` script (`npx serve .`) or static site settings.
 
-Progress and phase collapse state are stored in browser `localStorage`, so they are local to the browser/device. Start date and pace target (`startDate`, `targetPace`) live in the same UI state key for projected finish dates.
+Progress and phase collapse state are stored in browser `localStorage`, so they are local to the browser/device. Start date and pace target (`startDate`, `targetPace`) live in the same UI state key for projected finish dates. A Pomodoro timer (work 15/30/45, breaks 5/15/30) lives in the status strip; last lengths and panel open state are saved, and session-end alarms play from `sounds/`.

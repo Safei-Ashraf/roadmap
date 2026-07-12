@@ -115,6 +115,33 @@
 .wipBtn:hover { border-color:var(--must); color:var(--text); }
 .wipBtn.active { background:var(--must); border-color:var(--must); color:#10141a; }
 .timelineCard.isWip { box-shadow:0 0 0 1px rgba(227,166,61,.45); }
+
+.timerBtn { border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:var(--radius); min-height:34px; padding:0 12px; font-weight:750; }
+.timerBtn:hover { border-color:rgba(127,176,214,.55); }
+.timerBtn.active { border-color:var(--elective); background:var(--elective-soft); }
+.timerPanel { position:fixed; bottom:20px; right:20px; z-index:90; width:min(300px,calc(100vw - 28px)); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); padding:14px; display:none; gap:12px; }
+.timerPanel.open { display:grid; }
+.timerPanel.donePulse { animation:timerDonePulse 700ms ease; }
+@keyframes timerDonePulse { 0% { box-shadow:0 0 0 0 rgba(227,166,61,.55); border-color:var(--must); } 100% { box-shadow:var(--shadow); } }
+.timerPanelHead { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.timerPanelHead h2 { margin:0; font-size:14px; font-weight:850; letter-spacing:.02em; }
+.timerClose { border:1px solid var(--border); background:var(--surface-2); color:var(--muted); border-radius:var(--radius); min-height:28px; padding:0 8px; font-size:12px; }
+.timerModeRow,.timerChipRow { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.timerModeBtn,.timerLenChip { display:inline-flex; align-items:center; justify-content:center; min-height:26px; padding:0 10px; border-radius:999px; border:1px solid var(--border); background:var(--surface-2); color:var(--muted); font-size:11px; font-weight:750; cursor:pointer; }
+.timerModeBtn:hover,.timerLenChip:hover { color:var(--text); border-color:rgba(255,255,255,.2); }
+.timerModeBtn.active.work,.timerLenChip.active.work { border-color:var(--must); background:var(--must-soft); color:var(--text); }
+.timerModeBtn.active.break,.timerLenChip.active.break { border-color:var(--elective); background:var(--elective-soft); color:var(--text); }
+.timerSectionLabel { color:var(--faint); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; width:100%; }
+.timerDisplayWrap { display:grid; gap:4px; justify-items:center; padding:8px 0 2px; }
+.timerBadge { display:inline-flex; align-items:center; min-height:18px; padding:0 8px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:.08em; }
+.timerBadge.work { color:var(--must); background:var(--must-soft); }
+.timerBadge.break { color:var(--elective); background:var(--elective-soft); }
+.timerDisplay { font-size:42px; font-weight:850; font-variant-numeric:tabular-nums; letter-spacing:.04em; line-height:1; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--text); }
+.timerControls { display:flex; flex-wrap:wrap; gap:6px; }
+.timerControls button { flex:1; min-height:34px; border-radius:var(--radius); border:1px solid var(--border); background:var(--surface-2); color:var(--text); font-weight:750; font-size:12px; }
+.timerControls button.primary { border-color:var(--must); background:var(--must-soft); }
+.timerControls button:disabled { opacity:.45; cursor:default; }
+
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
   .statusRow { flex-direction:column; align-items:stretch; }
@@ -123,6 +150,7 @@
   .paceChips { width:100%; }
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
   .taskMetaLine { grid-column:2 / -1; }
+  .timerPanel { left:14px; right:14px; bottom:14px; width:auto; }
 }
 
 </style>
@@ -148,6 +176,7 @@
       </div>
     </div>
     <div class="statusActions">
+      <button class="timerBtn" id="timer-open" type="button">Timer</button>
       <button class="focusBtn" id="focus-open" type="button">Focus</button>
     </div>
   </div>
@@ -174,6 +203,38 @@
       <button class="focusClose" id="focus-close" type="button">Close</button>
     </div>
     <div class="focusList" id="focus-list"></div>
+  </div>
+</div>
+<div class="timerPanel" id="timer-panel" role="dialog" aria-label="Pomodoro timer" hidden>
+  <div class="timerPanelHead">
+    <h2>Pomodoro</h2>
+    <button class="timerClose" id="timer-close" type="button">Close</button>
+  </div>
+  <div class="timerModeRow" role="group" aria-label="Session type">
+    <button type="button" class="timerModeBtn work active" data-timer-mode="work">Work</button>
+    <button type="button" class="timerModeBtn break" data-timer-mode="break">Break</button>
+  </div>
+  <div class="timerChipRow" id="timer-work-chips" role="group" aria-label="Work length">
+    <span class="timerSectionLabel">Work</span>
+    <button type="button" class="timerLenChip work" data-timer-work="15">15</button>
+    <button type="button" class="timerLenChip work" data-timer-work="30">30</button>
+    <button type="button" class="timerLenChip work" data-timer-work="45">45</button>
+  </div>
+  <div class="timerChipRow" id="timer-break-chips" role="group" aria-label="Break length">
+    <span class="timerSectionLabel">Break</span>
+    <button type="button" class="timerLenChip break" data-timer-break="5" title="Short break">5</button>
+    <button type="button" class="timerLenChip break" data-timer-break="15" title="Long break">15</button>
+    <button type="button" class="timerLenChip break" data-timer-break="30" title="Huge break">30</button>
+  </div>
+  <div class="timerDisplayWrap">
+    <span class="timerBadge work" id="timer-badge">WORK</span>
+    <div class="timerDisplay" id="timer-display" aria-live="polite">30:00</div>
+  </div>
+  <div class="timerControls">
+    <button type="button" class="primary" id="timer-start">Start</button>
+    <button type="button" id="timer-pause" hidden>Pause</button>
+    <button type="button" id="timer-resume" hidden>Resume</button>
+    <button type="button" id="timer-reset">Reset</button>
   </div>
 </div>
 <script>
@@ -1937,13 +1998,17 @@ function clampStartDate(value) {
     return next;
 }
 function normalizeUiState(state) {
-    const today = todayIso();
     const targetPace = PACE_OPTIONS.includes(state.targetPace) ? state.targetPace : 4;
+    const workMins = [15, 30, 45].includes(state.timerWorkMins) ? state.timerWorkMins : 30;
+    const breakMins = [5, 15, 30].includes(state.timerBreakMins) ? state.timerBreakMins : 5;
     return {
         collapsedPhases: Array.isArray(state.collapsedPhases) ? state.collapsedPhases : [],
         wipCardId: state.wipCardId || null,
         startDate: clampStartDate(state.startDate || PACE_MIN_DATE),
-        targetPace
+        targetPace,
+        timerWorkMins: workMins,
+        timerBreakMins: breakMins,
+        timerPanelOpen: Boolean(state.timerPanelOpen)
     };
 }
 function computePaceStats() {
@@ -2255,6 +2320,170 @@ function openFocusOverlay() {
     document.getElementById('focus-close').focus();
 }
 function closeFocusOverlay() { const overlay = document.getElementById('focus-overlay'); overlay.classList.remove('open'); overlay.hidden = true; }
+
+const TIMER_WORK_SOUNDS = ['sounds/Viktor_Original_Laugh_0.ogg', 'sounds/Viktor_Original_Laugh_3.ogg'];
+const TIMER_BREAK_SOUNDS = ['sounds/Gnar_Original_Dance_buff_0.ogg', 'sounds/Gnar_Astronaut_Dance_buff_1.ogg'];
+const timerState = {
+    mode: 'work',
+    remainingMs: 30 * 60 * 1000,
+    running: false,
+    paused: false,
+    endsAt: null,
+    tickId: null
+};
+function selectedTimerMins() {
+    return timerState.mode === 'work' ? uiState.timerWorkMins : uiState.timerBreakMins;
+}
+function formatTimerMs(ms) {
+    const totalSec = Math.max(0, Math.ceil(ms / 1000));
+    const mins = Math.floor(totalSec / 60);
+    const secs = totalSec % 60;
+    return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+}
+function playAlarm(mode) {
+    const pool = mode === 'work' ? TIMER_WORK_SOUNDS : TIMER_BREAK_SOUNDS;
+    const src = pool[Math.floor(Math.random() * pool.length)];
+    const audio = new Audio(src);
+    audio.play().catch(() => {});
+}
+function stopTimerTick() {
+    if (timerState.tickId) {
+        clearInterval(timerState.tickId);
+        timerState.tickId = null;
+    }
+}
+function syncTimerUi() {
+    const panel = document.getElementById('timer-panel');
+    const display = document.getElementById('timer-display');
+    const badge = document.getElementById('timer-badge');
+    const startBtn = document.getElementById('timer-start');
+    const pauseBtn = document.getElementById('timer-pause');
+    const resumeBtn = document.getElementById('timer-resume');
+    const openBtn = document.getElementById('timer-open');
+    if (!panel || !display) return;
+
+    display.textContent = formatTimerMs(timerState.remainingMs);
+    badge.textContent = timerState.mode === 'work' ? 'WORK' : 'BREAK';
+    badge.className = 'timerBadge ' + timerState.mode;
+
+    document.querySelectorAll('[data-timer-mode]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.timerMode === timerState.mode);
+    });
+    document.querySelectorAll('[data-timer-work]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.dataset.timerWork) === uiState.timerWorkMins);
+    });
+    document.querySelectorAll('[data-timer-break]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.dataset.timerBreak) === uiState.timerBreakMins);
+    });
+
+    const showStart = !timerState.running && !timerState.paused;
+    const showPause = timerState.running && !timerState.paused;
+    const showResume = timerState.paused;
+    startBtn.hidden = !showStart;
+    pauseBtn.hidden = !showPause;
+    resumeBtn.hidden = !showResume;
+
+    const open = Boolean(uiState.timerPanelOpen);
+    panel.hidden = !open;
+    panel.classList.toggle('open', open);
+    openBtn.classList.toggle('active', open);
+}
+function openTimerPanel() {
+    uiState.timerPanelOpen = true;
+    saveUiState();
+    syncTimerUi();
+}
+function closeTimerPanel() {
+    uiState.timerPanelOpen = false;
+    saveUiState();
+    syncTimerUi();
+}
+function resetTimerToSelected(stop = true) {
+    if (stop) {
+        stopTimerTick();
+        timerState.running = false;
+        timerState.paused = false;
+        timerState.endsAt = null;
+    }
+    timerState.remainingMs = selectedTimerMins() * 60 * 1000;
+    syncTimerUi();
+}
+function onTimerComplete() {
+    stopTimerTick();
+    timerState.running = false;
+    timerState.paused = false;
+    timerState.endsAt = null;
+    timerState.remainingMs = 0;
+    playAlarm(timerState.mode);
+    const panel = document.getElementById('timer-panel');
+    panel.classList.remove('donePulse');
+    void panel.offsetWidth;
+    panel.classList.add('donePulse');
+    syncTimerUi();
+}
+function tickTimer() {
+    if (!timerState.running || timerState.paused || !timerState.endsAt) return;
+    const left = timerState.endsAt - Date.now();
+    if (left <= 0) {
+        timerState.remainingMs = 0;
+        onTimerComplete();
+        return;
+    }
+    timerState.remainingMs = left;
+    document.getElementById('timer-display').textContent = formatTimerMs(left);
+}
+function startTimer() {
+    timerState.remainingMs = selectedTimerMins() * 60 * 1000;
+    timerState.running = true;
+    timerState.paused = false;
+    timerState.endsAt = Date.now() + timerState.remainingMs;
+    stopTimerTick();
+    timerState.tickId = setInterval(tickTimer, 250);
+    openTimerPanel();
+    syncTimerUi();
+}
+function pauseTimer() {
+    if (!timerState.running || timerState.paused) return;
+    timerState.paused = true;
+    timerState.remainingMs = Math.max(0, timerState.endsAt - Date.now());
+    timerState.endsAt = null;
+    stopTimerTick();
+    syncTimerUi();
+}
+function resumeTimer() {
+    if (!timerState.paused || timerState.remainingMs <= 0) return;
+    timerState.paused = false;
+    timerState.running = true;
+    timerState.endsAt = Date.now() + timerState.remainingMs;
+    stopTimerTick();
+    timerState.tickId = setInterval(tickTimer, 250);
+    syncTimerUi();
+}
+function setTimerMode(mode) {
+    if (mode !== 'work' && mode !== 'break') return;
+    timerState.mode = mode;
+    resetTimerToSelected(true);
+}
+function setTimerLength(kind, mins) {
+    if (kind === 'work' && [15, 30, 45].includes(mins)) {
+        uiState.timerWorkMins = mins;
+        saveUiState();
+        if (timerState.mode === 'work') resetTimerToSelected(true);
+        else syncTimerUi();
+        return;
+    }
+    if (kind === 'break' && [5, 15, 30].includes(mins)) {
+        uiState.timerBreakMins = mins;
+        saveUiState();
+        if (timerState.mode === 'break') resetTimerToSelected(true);
+        else syncTimerUi();
+    }
+}
+function initTimer() {
+    timerState.mode = 'work';
+    timerState.remainingMs = uiState.timerWorkMins * 60 * 1000;
+    syncTimerUi();
+}
 function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
 function updateStats() {
     const tasks = allTasks();
@@ -2296,6 +2525,21 @@ function bindEvents() {
         toggleTask(row, checkbox.checked);
     });
     document.body.addEventListener('click', event => {
+        const modeBtn = event.target.closest('[data-timer-mode]');
+        if (modeBtn) {
+            setTimerMode(modeBtn.dataset.timerMode);
+            return;
+        }
+        const workChip = event.target.closest('[data-timer-work]');
+        if (workChip) {
+            setTimerLength('work', Number(workChip.dataset.timerWork));
+            return;
+        }
+        const breakChip = event.target.closest('[data-timer-break]');
+        if (breakChip) {
+            setTimerLength('break', Number(breakChip.dataset.timerBreak));
+            return;
+        }
         const paceChip = event.target.closest('.paceChip');
         if (paceChip) {
             const pace = Number(paceChip.dataset.pace);
@@ -2375,9 +2619,26 @@ function bindEvents() {
     document.getElementById('focus-open').addEventListener('click', openFocusOverlay);
     document.getElementById('focus-close').addEventListener('click', closeFocusOverlay);
     document.getElementById('focus-overlay').addEventListener('click', event => { if (event.target.id === 'focus-overlay') closeFocusOverlay(); });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeFocusOverlay(); });
+    document.getElementById('timer-open').addEventListener('click', () => {
+        if (uiState.timerPanelOpen) closeTimerPanel();
+        else openTimerPanel();
+    });
+    document.getElementById('timer-close').addEventListener('click', closeTimerPanel);
+    document.getElementById('timer-start').addEventListener('click', startTimer);
+    document.getElementById('timer-pause').addEventListener('click', pauseTimer);
+    document.getElementById('timer-resume').addEventListener('click', resumeTimer);
+    document.getElementById('timer-reset').addEventListener('click', () => resetTimerToSelected(true));
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const focusOpen = document.getElementById('focus-overlay').classList.contains('open');
+        if (focusOpen) {
+            closeFocusOverlay();
+            return;
+        }
+        if (uiState.timerPanelOpen) closeTimerPanel();
+    });
 }
-render(); bindEvents();
+render(); bindEvents(); initTimer();
 </script>
 </body>
 </html>
