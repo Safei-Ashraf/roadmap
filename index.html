@@ -730,71 +730,8 @@ const ROADMAP = {
             "id": "dsa",
             "title": "Data Structures & Algorithms",
             "window": "Weeks 1-12",
-            "summary": "The spine of the plan. Do Colt Steele end to end, then use collapsible HackerRank weeks for timed practice without endless scrolling.",
+            "summary": "The spine of the plan. Colt Steele Udemy section-by-section (matches the course sidebar), then collapsible HackerRank weeks for timed practice.",
             "tasks": [
-                {
-                    "id": "dsa-big-o",
-                    "label": "Udemy Masterclass: Big O, array/object performance, problem-solving setup",
-                    "hours": 6,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-patterns",
-                    "label": "Frequency counter, multiple pointers, sliding window, divide and conquer",
-                    "hours": 10,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-recursion",
-                    "label": "Recursion deep-dive, problem sets, bonus challenges",
-                    "hours": 10,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-search-sort",
-                    "label": "Searching and sorting algorithms, bubble through radix",
-                    "hours": 12,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-linear",
-                    "label": "Linked lists, stacks, queues, implemented from scratch",
-                    "hours": 10,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-trees-heaps",
-                    "label": "Trees, BST, traversal, heaps, priority queues",
-                    "hours": 14,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-hash",
-                    "label": "Hash tables from scratch",
-                    "hours": 8,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-graphs",
-                    "label": "Graphs, traversal, Dijkstra shortest path",
-                    "hours": 14,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
-                {
-                    "id": "dsa-dp",
-                    "label": "Dynamic programming section",
-                    "hours": 15,
-                    "priority": "must",
-                    "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
-                },
                 {
                     "id": "dsa-memory-check",
                     "label": "Re-implement 3-4 structures from memory with no reference",
@@ -803,6 +740,241 @@ const ROADMAP = {
                 }
             ],
             "groups": [
+                {
+                    "id": "udemy-dsa-masterclass",
+                    "title": "Udemy JS Algorithms Masterclass",
+                    "summary": "One checkbox per Udemy section — same order as the course curriculum.",
+                    "guide": {
+                        "startWhen": "Week 1 — main early spine",
+                        "prerequisites": "Basic JavaScript syntax",
+                        "doneMeans": "Watch section lectures, code along, and attempt each problem before the solution walkthrough",
+                        "links": [
+                            {
+                                "label": "Udemy course",
+                                "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "dsa-sec-big-o",
+                            "label": "Big O Notation",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-arrays-objects",
+                            "label": "Analyzing Performance of Arrays and Objects",
+                            "hours": 1,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-problem-approach",
+                            "label": "Problem Solving Approach (5-step framework)",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-frequency-counter",
+                            "label": "Problem Solving Patterns: frequency counter",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-multiple-pointers",
+                            "label": "Problem Solving Patterns: multiple pointers",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-sliding-window",
+                            "label": "Problem Solving Patterns: sliding window",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-divide-conquer-intro",
+                            "label": "Problem Solving Patterns: divide and conquer intro",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-optional-challenges",
+                            "label": "100% OPTIONAL Challenges",
+                            "hours": 0.5,
+                            "priority": "elective",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-recursion",
+                            "label": "Recursion",
+                            "hours": 4,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-recursion-problem-set",
+                            "label": "Recursion Problem Set",
+                            "hours": 3,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-recursion-bonus",
+                            "label": "Bonus CHALLENGING Recursion Problems",
+                            "hours": 3,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-searching",
+                            "label": "Searching Algorithms",
+                            "hours": 2,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-bubble",
+                            "label": "Bubble Sort",
+                            "hours": 1.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-selection",
+                            "label": "Selection Sort",
+                            "hours": 1.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-insertion",
+                            "label": "Insertion Sort",
+                            "hours": 1.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-compare-quadratic-sorts",
+                            "label": "Comparing Bubble, Selection, and Insertion Sort",
+                            "hours": 0.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-merge",
+                            "label": "Merge Sort",
+                            "hours": 2,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-quick",
+                            "label": "Quick Sort",
+                            "hours": 2,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-radix",
+                            "label": "Radix Sort",
+                            "hours": 1,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-ds-intro",
+                            "label": "Data Structures Introduction",
+                            "hours": 0.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-singly-linked",
+                            "label": "Singly Linked Lists",
+                            "hours": 3.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-doubly-linked",
+                            "label": "Doubly Linked Lists",
+                            "hours": 2.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-stacks-queues",
+                            "label": "Stacks + Queues",
+                            "hours": 3.5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-bst",
+                            "label": "Binary Search Trees",
+                            "hours": 5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-tree-traversal",
+                            "label": "Tree Traversal",
+                            "hours": 4,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-heaps",
+                            "label": "Binary Heaps",
+                            "hours": 5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-hash-tables",
+                            "label": "Hash Tables",
+                            "hours": 8,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-graphs",
+                            "label": "Graphs",
+                            "hours": 5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-graph-traversal",
+                            "label": "Graph Traversal",
+                            "hours": 4,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-dijkstra",
+                            "label": "Dijkstra's Algorithm",
+                            "hours": 5,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        },
+                        {
+                            "id": "dsa-sec-dynamic-programming",
+                            "label": "Dynamic Programming",
+                            "hours": 15,
+                            "priority": "must",
+                            "url": "https://www.udemy.com/course/js-algorithms-and-data-structures-masterclass/"
+                        }
+                    ]
+                },
                 {
                     "id": "hr-week-3",
                     "title": "HackerRank Week 3",
@@ -1493,12 +1665,6 @@ const ROADMAP = {
             "summary": "Core JS refresh plus selective O'Reilly unlocks. Read only selected chapters tied to the current phase — not full books.",
             "tasks": [
                 {
-                    "id": "fe-skim",
-                    "label": "Skim Manara JS/React basics only where rusty",
-                    "hours": 2,
-                    "priority": "elective"
-                },
-                {
                     "id": "mern-handover-plan",
                     "label": "Read FULL_STACK_HANDOVER.md and sketch MERN schema, auth, and progress model",
                     "hours": 1,
@@ -1507,6 +1673,36 @@ const ROADMAP = {
                 }
             ],
             "groups": [
+                {
+                    "id": "manara-fe-refresh",
+                    "title": "Manara JS/React skim",
+                    "summary": "Phase 1 gap-fill only — skip modules you already know cold from work.",
+                    "guide": {
+                        "startWhen": "Week 1, parallel with DSA Big O and Eloquent async",
+                        "prerequisites": "None — skim only where rusty",
+                        "doneMeans": "Note 3 gaps filled; skip the rest without guilt",
+                        "links": [
+                            {
+                                "label": "Manara Tech",
+                                "url": "https://www.manara.tech/"
+                            }
+                        ]
+                    },
+                    "tasks": [
+                        {
+                            "id": "manara-js-basics",
+                            "label": "Manara JavaScript fundamentals skim (closures, async, modules — gaps only)",
+                            "hours": 1,
+                            "priority": "elective"
+                        },
+                        {
+                            "id": "manara-react-basics",
+                            "label": "Manara React fundamentals skim (hooks, state, effects — gaps only)",
+                            "hours": 1,
+                            "priority": "elective"
+                        }
+                    ]
+                },
                 {
                     "id": "eloquent-js",
                     "title": "Eloquent JavaScript",
@@ -1637,9 +1833,37 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-prog-ts-selected",
-                            "label": "Programming TypeScript: types, type design, functions, classes, async",
-                            "hours": 5,
+                            "id": "oreilly-prog-ts-ch3",
+                            "label": "Ch 3: Values and Types",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
+                        },
+                        {
+                            "id": "oreilly-prog-ts-ch4",
+                            "label": "Ch 4: Type Design",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
+                        },
+                        {
+                            "id": "oreilly-prog-ts-ch5",
+                            "label": "Ch 5: Functions",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
+                        },
+                        {
+                            "id": "oreilly-prog-ts-ch6",
+                            "label": "Ch 6: Classes",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
+                        },
+                        {
+                            "id": "oreilly-prog-ts-ch9",
+                            "label": "Ch 9: Async/Await",
+                            "hours": 1,
                             "priority": "elective",
                             "url": "https://www.oreilly.com/library/view/programming-typescript/9781492037644/"
                         }
@@ -1668,9 +1892,30 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-effective-ts-selected",
-                            "label": "Effective TypeScript: inference, public API types, generics, avoiding any",
-                            "hours": 3,
+                            "id": "oreilly-effective-ts-inference",
+                            "label": "Items: inference and type design",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/effective-typescript-2nd/9781098155056/"
+                        },
+                        {
+                            "id": "oreilly-effective-ts-any",
+                            "label": "Items: avoiding any",
+                            "hours": 0.5,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/effective-typescript-2nd/9781098155056/"
+                        },
+                        {
+                            "id": "oreilly-effective-ts-generics",
+                            "label": "Items: generics and public API types",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/effective-typescript-2nd/9781098155056/"
+                        },
+                        {
+                            "id": "oreilly-effective-ts-declarations",
+                            "label": "Items: type declarations and dependencies",
+                            "hours": 0.5,
                             "priority": "elective",
                             "url": "https://www.oreilly.com/library/view/effective-typescript-2nd/9781098155056/"
                         }
@@ -1703,9 +1948,57 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-react-patterns-selected",
-                            "label": "React patterns: hooks, state, composition, data fetching, server-aware structure",
-                            "hours": 4,
+                            "id": "oreilly-react-hooks",
+                            "label": "Hooks and state patterns",
+                            "hours": 1,
+                            "priority": "elective",
+                            "links": [
+                                {
+                                    "label": "Fluent React",
+                                    "url": "https://www.oreilly.com/library/view/fluent-react/9781098138707/"
+                                },
+                                {
+                                    "label": "Learning React",
+                                    "url": "https://www.oreilly.com/library/view/learning-react-2nd/9781492051718/"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "oreilly-react-composition",
+                            "label": "Component composition, HOC/render props",
+                            "hours": 1,
+                            "priority": "elective",
+                            "links": [
+                                {
+                                    "label": "Fluent React",
+                                    "url": "https://www.oreilly.com/library/view/fluent-react/9781098138707/"
+                                },
+                                {
+                                    "label": "Learning React",
+                                    "url": "https://www.oreilly.com/library/view/learning-react-2nd/9781492051718/"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "oreilly-react-data",
+                            "label": "Data fetching and server-aware structure",
+                            "hours": 1,
+                            "priority": "elective",
+                            "links": [
+                                {
+                                    "label": "Fluent React",
+                                    "url": "https://www.oreilly.com/library/view/fluent-react/9781098138707/"
+                                },
+                                {
+                                    "label": "Learning React",
+                                    "url": "https://www.oreilly.com/library/view/learning-react-2nd/9781492051718/"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "oreilly-react-perf",
+                            "label": "Performance patterns (memo, virtualization basics)",
+                            "hours": 1,
                             "priority": "elective",
                             "links": [
                                 {
@@ -1743,9 +2036,30 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-web-security-selected",
-                            "label": "Web Application Security: auth, XSS, CSRF, injection, dependency security",
-                            "hours": 5,
+                            "id": "oreilly-web-security-auth",
+                            "label": "Authentication and session management",
+                            "hours": 1.5,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/web-application-security/9781492053101/"
+                        },
+                        {
+                            "id": "oreilly-web-security-xss",
+                            "label": "XSS and injection prevention",
+                            "hours": 1.5,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/web-application-security/9781492053101/"
+                        },
+                        {
+                            "id": "oreilly-web-security-csrf",
+                            "label": "CSRF and CORS",
+                            "hours": 1,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/web-application-security/9781492053101/"
+                        },
+                        {
+                            "id": "oreilly-web-security-deps",
+                            "label": "Dependency and supply-chain security basics",
+                            "hours": 1,
                             "priority": "must",
                             "url": "https://www.oreilly.com/library/view/web-application-security/9781492053101/"
                         }
@@ -1774,9 +2088,30 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-api-design-selected",
-                            "label": "API Design Patterns: resource naming, standard methods, validation/auth patterns",
-                            "hours": 4,
+                            "id": "oreilly-api-design-resources",
+                            "label": "Resource naming and URL layout",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/api-design-patterns/9781617295850/"
+                        },
+                        {
+                            "id": "oreilly-api-design-methods",
+                            "label": "Standard methods and status codes",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/api-design-patterns/9781617295850/"
+                        },
+                        {
+                            "id": "oreilly-api-design-validation",
+                            "label": "Validation and error response patterns",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/api-design-patterns/9781617295850/"
+                        },
+                        {
+                            "id": "oreilly-api-design-auth",
+                            "label": "Auth patterns for APIs",
+                            "hours": 1,
                             "priority": "elective",
                             "url": "https://www.oreilly.com/library/view/api-design-patterns/9781617295850/"
                         }
@@ -1805,9 +2140,30 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-sql-refresh",
-                            "label": "Learning SQL: joins, grouping, subqueries, transactions refresher",
-                            "hours": 3,
+                            "id": "oreilly-sql-select-joins",
+                            "label": "SELECT, WHERE, JOINs",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/learning-sql-3rd/9781492057604/"
+                        },
+                        {
+                            "id": "oreilly-sql-grouping",
+                            "label": "GROUP BY and aggregates",
+                            "hours": 0.5,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/learning-sql-3rd/9781492057604/"
+                        },
+                        {
+                            "id": "oreilly-sql-subqueries",
+                            "label": "Subqueries",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/learning-sql-3rd/9781492057604/"
+                        },
+                        {
+                            "id": "oreilly-sql-transactions",
+                            "label": "Transactions basics",
+                            "hours": 0.5,
                             "priority": "elective",
                             "url": "https://www.oreilly.com/library/view/learning-sql-3rd/9781492057604/"
                         }
@@ -1840,9 +2196,30 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-mongodb-mern-selected",
-                            "label": "MongoDB: documents, querying, indexes, aggregation, auth/security for MERN app",
-                            "hours": 5,
+                            "id": "oreilly-mongodb-docs",
+                            "label": "Documents and querying",
+                            "hours": 1.5,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/"
+                        },
+                        {
+                            "id": "oreilly-mongodb-indexes",
+                            "label": "Indexes and performance",
+                            "hours": 1,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/"
+                        },
+                        {
+                            "id": "oreilly-mongodb-aggregation",
+                            "label": "Aggregation basics",
+                            "hours": 1.5,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/"
+                        },
+                        {
+                            "id": "oreilly-mongodb-auth",
+                            "label": "Auth and security for MongoDB",
+                            "hours": 1,
                             "priority": "elective",
                             "url": "https://www.oreilly.com/library/view/mongodb-the-definitive/9781491954454/"
                         }
@@ -1870,9 +2247,23 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "book-fsa-selected",
-                            "label": "Fundamentals of Software Architecture: modularity, components, decisions, documentation",
-                            "hours": 8,
+                            "id": "book-fsa-ch1-4",
+                            "label": "Ch 1-4: What is architecture, laws, thinking like an architect",
+                            "hours": 3,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043454/"
+                        },
+                        {
+                            "id": "book-fsa-ch5-8",
+                            "label": "Ch 5-8: Modularity, component design, distributed architecture basics",
+                            "hours": 3,
+                            "priority": "must",
+                            "url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043454/"
+                        },
+                        {
+                            "id": "book-fsa-ch9-12",
+                            "label": "Ch 9-12: Soft skills, decisions, documentation, career path",
+                            "hours": 2,
                             "priority": "must",
                             "url": "https://www.oreilly.com/library/view/fundamentals-of-software/9781492043454/"
                         }
@@ -1900,9 +2291,23 @@ const ROADMAP = {
                     },
                     "tasks": [
                         {
-                            "id": "oreilly-ddia-selected",
-                            "label": "DDIA: reliability, scalability, consistency, transactions (selected chapters)",
-                            "hours": 6,
+                            "id": "oreilly-ddia-ch1-3",
+                            "label": "Ch 1-3: Reliable, scalable, maintainable applications",
+                            "hours": 2,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/"
+                        },
+                        {
+                            "id": "oreilly-ddia-ch5-7",
+                            "label": "Ch 5-7: Replication, partitioning, transactions",
+                            "hours": 2,
+                            "priority": "elective",
+                            "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/"
+                        },
+                        {
+                            "id": "oreilly-ddia-ch9-11",
+                            "label": "Ch 9-11: Consistency and consensus basics",
+                            "hours": 2,
                             "priority": "elective",
                             "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/"
                         }
@@ -1995,8 +2400,8 @@ const ROADMAP = {
                 "label": "Phase 1 · Foundation",
                 "range": "Weeks 1-4",
                 "tone": "urgent",
-                "goal": "Start the main DSA spine while keeping HackerRank, Eloquent, TS unlocks, RN (Expo), and AI in parallel but controlled.",
-                "concepts": ["DSA base", "JS core", "TS unlock", "RN Expo", "AI contracts"],
+                "goal": "Front-load all FE refresh (Manara, full Eloquent arc, Programming TS). Light DSA patterns + HackerRank. RN kickoff + AI contracts only.",
+                "concepts": ["FE refresh", "JS async/DOM", "TS unlock", "DSA patterns", "Light RN"],
                 "active": true
             },
             {
@@ -2004,8 +2409,8 @@ const ROADMAP = {
                 "label": "Phase 2 · Momentum",
                 "range": "Weeks 5-12",
                 "tone": "active",
-                "goal": "Keep DSA and timed practice moving; start architecture theory and FSA reading in parallel when capacity allows.",
-                "concepts": ["Patterns", "Timed reps", "FSA theory", "Consistency"],
+                "goal": "Finish DSA algorithms + core structures; deepen TS/React reading; steady RN docs; n8n workflow; architecture theory when capacity allows.",
+                "concepts": ["DSA algos", "Structures", "TS/React", "RN steady", "FSA theory"],
                 "active": false
             },
             {
@@ -2047,6 +2452,12 @@ const ROADMAP = {
         ],
         "lanes": [
             {
+                "id": "reading",
+                "title": "Reading loop",
+                "summary": "FE refresh first: Manara gaps, Eloquent, TS/React unlocks — then backend books later.",
+                "accent": "#7fb0d6"
+            },
+            {
                 "id": "core",
                 "title": "Core sequence",
                 "summary": "The work that changes by phase.",
@@ -2059,15 +2470,9 @@ const ROADMAP = {
                 "accent": "#d36f6f"
             },
             {
-                "id": "reading",
-                "title": "Reading loop",
-                "summary": "Core JS (Eloquent MUST) plus selective O'Reilly unlocks. Expand How to read for chapters and done criteria.",
-                "accent": "#7fb0d6"
-            },
-            {
                 "id": "mobile",
                 "title": "React Native",
-                "summary": "Free Expo/RN docs path + optional real-app practice.",
+                "summary": "Steady Expo/RN docs path — lighter in Phase 1, picks up from Phase 2.",
                 "accent": "#7fb88f"
             },
             {
@@ -2079,23 +2484,244 @@ const ROADMAP = {
         ],
         "cards": [
             {
-                "id": "card-dsa-core",
+                "id": "card-fe-boot",
+                "lane": "reading",
+                "row": "start",
+                "span": 1,
+                "title": "FE refresh · Week 1",
+                "summary": "Manara gap-fill first, then Eloquent async through events (ch.11-15). Do this before heavy DSA patterns.",
+                "trackId": "refreshers",
+                "groupIds": [
+                    "manara-fe-refresh"
+                ],
+                "taskIds": [
+                    "eloq-11",
+                    "eloq-12",
+                    "eloq-13",
+                    "eloq-14",
+                    "eloq-15"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-fe-browser",
+                "lane": "reading",
+                "row": "start",
+                "span": 1,
+                "title": "Eloquent · Browser & Node",
+                "summary": "Eloquent projects and Node chapter (ch.16-21) — finish core JS refresh in Phase 1 if capacity allows.",
+                "trackId": "refreshers",
+                "taskIds": [
+                    "eloq-16",
+                    "eloq-17",
+                    "eloq-18",
+                    "eloq-19",
+                    "eloq-20",
+                    "eloq-21"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-ts-boot",
+                "lane": "reading",
+                "row": "start",
+                "span": 1,
+                "title": "TypeScript unlock",
+                "summary": "Programming TypeScript selected chapters — hard copy, Phase 1 only.",
+                "trackId": "refreshers",
+                "groupIds": [
+                    "oreilly-prog-ts"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-dsa-setup",
                 "lane": "core",
                 "row": "start",
-                "span": 2,
-                "title": "DSA foundation",
-                "summary": "Colt Steele course end-to-end. This is the main early spine.",
+                "span": 1,
+                "title": "DSA · Setup & patterns",
+                "summary": "Udemy through sliding window — Big O, problem-solving framework, core patterns.",
                 "trackId": "dsa",
                 "taskIds": [
-                    "dsa-big-o",
-                    "dsa-patterns",
-                    "dsa-recursion",
-                    "dsa-search-sort",
-                    "dsa-linear",
-                    "dsa-trees-heaps",
-                    "dsa-hash",
-                    "dsa-graphs",
-                    "dsa-dp",
+                    "dsa-sec-big-o",
+                    "dsa-sec-arrays-objects",
+                    "dsa-sec-problem-approach",
+                    "dsa-sec-frequency-counter",
+                    "dsa-sec-multiple-pointers",
+                    "dsa-sec-sliding-window"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-hackerrank-p1",
+                "lane": "practice",
+                "row": "start",
+                "span": 1,
+                "title": "HackerRank · Weeks 3-4",
+                "summary": "Light timed practice while patterns land. Week 3 mock test + Week 4 set.",
+                "trackId": "dsa",
+                "groupIds": [
+                    "hr-week-3",
+                    "hr-week-4"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-rn-kickoff",
+                "lane": "mobile",
+                "row": "start",
+                "span": 1,
+                "title": "RN kickoff",
+                "summary": "Expo tutorial only in Phase 1 — defer navigation/lists until Phase 2.",
+                "trackId": "mobile",
+                "taskIds": [
+                    "rn-expo-tutorial"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-ai-intro",
+                "lane": "ai",
+                "row": "start",
+                "span": 1,
+                "title": "AI · API contracts",
+                "summary": "OpenAI structured outputs and tool calling only — workflow work waits for Phase 2.",
+                "trackId": "ai",
+                "taskIds": [
+                    "ai-openai-contracts"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-ts-react",
+                "lane": "reading",
+                "row": "momentum",
+                "span": 1,
+                "title": "TS depth & React patterns",
+                "summary": "Effective TypeScript + React pattern unlocks — after Programming TS chapters.",
+                "trackId": "refreshers",
+                "groupIds": [
+                    "oreilly-effective-ts",
+                    "oreilly-react-patterns"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-dsa-algorithms",
+                "lane": "core",
+                "row": "momentum",
+                "span": 1,
+                "title": "DSA · Recursion & sorts",
+                "summary": "Recursion through Radix Sort — finish algorithm half of the Udemy course.",
+                "trackId": "dsa",
+                "taskIds": [
+                    "dsa-sec-divide-conquer-intro",
+                    "dsa-sec-optional-challenges",
+                    "dsa-sec-recursion",
+                    "dsa-sec-recursion-problem-set",
+                    "dsa-sec-recursion-bonus",
+                    "dsa-sec-searching",
+                    "dsa-sec-bubble",
+                    "dsa-sec-selection",
+                    "dsa-sec-insertion",
+                    "dsa-sec-compare-quadratic-sorts",
+                    "dsa-sec-merge",
+                    "dsa-sec-quick",
+                    "dsa-sec-radix"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-dsa-structures",
+                "lane": "core",
+                "row": "interview",
+                "span": 1,
+                "title": "DSA · Core structures",
+                "summary": "Linked lists through heaps — implement before hash/graph interview topics.",
+                "trackId": "dsa",
+                "taskIds": [
+                    "dsa-sec-ds-intro",
+                    "dsa-sec-singly-linked",
+                    "dsa-sec-doubly-linked",
+                    "dsa-sec-stacks-queues",
+                    "dsa-sec-bst",
+                    "dsa-sec-tree-traversal",
+                    "dsa-sec-heaps"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-hackerrank-p2",
+                "lane": "practice",
+                "row": "momentum",
+                "span": 1,
+                "title": "HackerRank · Weeks 5-6",
+                "summary": "Two timed blocks while recursion and sorts land.",
+                "trackId": "dsa",
+                "groupIds": [
+                    "hr-week-5",
+                    "hr-week-6"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-hackerrank-p2b",
+                "lane": "practice",
+                "row": "momentum",
+                "span": 1,
+                "title": "HackerRank · Weeks 7-8",
+                "summary": "Two more timed blocks before interview phase ramps up.",
+                "trackId": "dsa",
+                "groupIds": [
+                    "hr-week-7",
+                    "hr-week-8"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-rn-core",
+                "lane": "mobile",
+                "row": "momentum",
+                "span": 1,
+                "title": "RN docs · Core modules",
+                "summary": "RN core components, Expo Router, lists/perf — steady pace, not Phase 1 load.",
+                "trackId": "mobile",
+                "taskIds": [
+                    "rn-core-components",
+                    "rn-expo-router",
+                    "rn-lists-virtualization",
+                    "rn-debug-profile"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-ai-workflow",
+                "lane": "ai",
+                "row": "momentum",
+                "span": 1,
+                "title": "AI · Workflow build",
+                "summary": "Token efficiency + one real n8n agent workflow.",
+                "trackId": "ai",
+                "taskIds": [
+                    "ai-token-efficiency",
+                    "ai-n8n-workflow"
+                ],
+                "defaultOpen": false
+            },
+            {
+                "id": "card-dsa-advanced",
+                "lane": "core",
+                "row": "interview",
+                "span": 1,
+                "title": "DSA · Advanced & memory",
+                "summary": "Hash tables, graphs, Dijkstra, DP, then re-implement from memory.",
+                "trackId": "dsa",
+                "taskIds": [
+                    "dsa-sec-hash-tables",
+                    "dsa-sec-graphs",
+                    "dsa-sec-graph-traversal",
+                    "dsa-sec-dijkstra",
+                    "dsa-sec-dynamic-programming",
                     "dsa-memory-check"
                 ],
                 "defaultOpen": true
@@ -2117,6 +2743,38 @@ const ROADMAP = {
                     "interview-bootcamp-review"
                 ],
                 "defaultOpen": true
+            },
+            {
+                "id": "card-hackerrank-p3",
+                "lane": "practice",
+                "row": "interview",
+                "span": 1,
+                "title": "HackerRank · Weeks 9-12",
+                "summary": "Final timed blocks during interview prep.",
+                "trackId": "dsa",
+                "groupIds": [
+                    "hr-week-9",
+                    "hr-week-10",
+                    "hr-week-11",
+                    "hr-week-12"
+                ],
+                "defaultOpen": true
+            },
+            {
+                "id": "card-rn-apply",
+                "lane": "mobile",
+                "row": "interview",
+                "span": 1,
+                "title": "RN · Data & apply",
+                "summary": "Networking/storage docs, then one real improvement on a codebase.",
+                "trackId": "mobile",
+                "groupIds": [
+                    "rn-data-native"
+                ],
+                "taskIds": [
+                    "rn-apply-one"
+                ],
+                "defaultOpen": false
             },
             {
                 "id": "card-interview-practice",
@@ -2236,34 +2894,29 @@ const ROADMAP = {
                 "defaultOpen": true
             },
             {
-                "id": "card-arch-theory",
+                "id": "card-arch-patterns",
                 "lane": "practice",
                 "row": "momentum",
-                "span": 4,
-                "title": "Architecture theory (parallel)",
-                "summary": "Design patterns, architecture patterns, and FSA. Start when layered/MVC tradeoffs make sense — no backend required. Expand FSA for chapter unlocks.",
+                "span": 1,
+                "title": "Architecture patterns",
+                "summary": "Design patterns + MVC/layered/monolith tradeoffs — parallel reading, no backend required.",
                 "trackId": "architecture",
                 "taskIds": [
                     "design-patterns",
                     "arch-patterns"
                 ],
-                "groupIds": [
-                    "book-fsa"
-                ],
                 "defaultOpen": false
             },
             {
-                "id": "card-oreilly-early",
+                "id": "card-fsa-book",
                 "lane": "reading",
-                "row": "start",
-                "span": 2,
-                "title": "TS and React unlocks",
-                "summary": "Programming TS (hard copy), Effective TS, and React patterns. Selected chapters only.",
+                "row": "senior",
+                "span": 1,
+                "title": "Fundamentals of Software Architecture",
+                "summary": "FSA selected chapters — after patterns click and you have production context.",
                 "trackId": "refreshers",
                 "groupIds": [
-                    "oreilly-prog-ts",
-                    "oreilly-effective-ts",
-                    "oreilly-react-patterns"
+                    "book-fsa"
                 ],
                 "defaultOpen": false
             },
@@ -2296,66 +2949,12 @@ const ROADMAP = {
                 "defaultOpen": false
             },
             {
-                "id": "card-hackerrank",
-                "lane": "practice",
-                "row": "start",
-                "span": 2,
-                "title": "HackerRank weekly loop",
-                "summary": "Time-boxed practice in parallel with DSA. Weeks 1-2 removed; Week 3 keeps only mock test.",
-                "trackId": "dsa",
-                "groupIds": [
-                    "hr-week-3",
-                    "hr-week-4",
-                    "hr-week-5",
-                    "hr-week-6",
-                    "hr-week-7",
-                    "hr-week-8",
-                    "hr-week-9",
-                    "hr-week-10",
-                    "hr-week-11",
-                    "hr-week-12"
-                ],
-                "defaultOpen": true
-            },
-            {
-                "id": "card-eloquent",
-                "lane": "reading",
-                "row": "start",
-                "span": 2,
-                "title": "Eloquent JavaScript",
-                "summary": "Core JS refresh: chapters 11-21 with exercises and projects. MUST alongside DSA.",
-                "trackId": "refreshers",
-                "groupIds": [
-                    "eloquent-js"
-                ],
-                "defaultOpen": true
-            },
-            {
-                "id": "card-mobile-core",
-                "lane": "mobile",
-                "row": "start",
-                "span": 3,
-                "title": "React Native · Expo path",
-                "summary": "Learn free Expo/RN docs modules first (foundations → navigation → lists → data), then apply one improvement. Paid courses only if stuck.",
-                "trackId": "mobile",
-                "groupIds": [
-                    "rn-foundations",
-                    "rn-navigation",
-                    "rn-lists-perf",
-                    "rn-data-native"
-                ],
-                "taskIds": [
-                    "rn-apply-one"
-                ],
-                "defaultOpen": true
-            },
-            {
                 "id": "card-mobile-practice",
                 "lane": "mobile",
-                "row": "momentum",
-                "span": 2,
+                "row": "capacity",
+                "span": 1,
                 "title": "RN on real projects",
-                "summary": "Optional: read/compare/ship on ra7al-app or another Expo codebase after foundations. Skip if capacity is tight.",
+                "summary": "Optional backlog: read/compare/ship on ra7al-app after docs path. Skip if capacity is tight.",
                 "trackId": "mobile",
                 "taskIds": [
                     "rn-read-codebase",
@@ -2380,21 +2979,6 @@ const ROADMAP = {
                 "defaultOpen": false
             },
             {
-                "id": "card-ai-must",
-                "lane": "ai",
-                "row": "start",
-                "span": 2,
-                "title": "AI automation essentials",
-                "summary": "API contracts, token efficiency, and one real n8n workflow.",
-                "trackId": "ai",
-                "taskIds": [
-                    "ai-openai-contracts",
-                    "ai-token-efficiency",
-                    "ai-n8n-workflow"
-                ],
-                "defaultOpen": true
-            },
-            {
                 "id": "card-ai-elective",
                 "lane": "ai",
                 "row": "capacity",
@@ -2406,19 +2990,6 @@ const ROADMAP = {
                     "ai-openclaw",
                     "ai-mcp",
                     "ai-rag-mini"
-                ],
-                "defaultOpen": false
-            },
-            {
-                "id": "card-refreshers",
-                "lane": "reading",
-                "row": "capacity",
-                "span": 1,
-                "title": "Small refreshers",
-                "summary": "Skim only where rusty. Do not let this displace MUST work.",
-                "trackId": "refreshers",
-                "taskIds": [
-                    "fe-skim"
                 ],
                 "defaultOpen": false
             }
