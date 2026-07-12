@@ -68,6 +68,10 @@
 .paceChip:hover { border-color:rgba(127,176,214,.45); color:var(--text); }
 .paceChip.active { border-color:var(--must); background:var(--must-soft); color:var(--text); }
 .paceChipFinish { color:var(--faint); font-weight:650; }
+.activityHints { display:flex; flex-wrap:wrap; gap:6px 12px; margin:0; padding-top:2px; }
+.activityHints[hidden] { display:none; }
+.activityHint { color:var(--muted); font-size:11px; line-height:1.4; }
+.activityHint strong { color:var(--text); font-weight:750; }
 .filters { margin-bottom:12px; }
 .filterButton { min-height:32px; padding:0 10px; font-size:13px; }
 .hintLine { color:var(--faint); font-size:12px; margin:0 0 14px; }
@@ -141,6 +145,20 @@
 .timerControls button { flex:1; min-height:34px; border-radius:var(--radius); border:1px solid var(--border); background:var(--surface-2); color:var(--text); font-weight:750; font-size:12px; }
 .timerControls button.primary { border-color:var(--must); background:var(--must-soft); }
 .timerControls button:disabled { opacity:.45; cursor:default; }
+.timerChipFloat { position:fixed; bottom:20px; right:20px; z-index:89; display:none; align-items:center; gap:8px; min-height:44px; padding:0 14px 0 12px; border-radius:999px; border:1px solid var(--border); background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),var(--surface); box-shadow:var(--shadow); cursor:pointer; color:var(--text); font:inherit; }
+.timerChipFloat.visible { display:inline-flex; }
+.timerChipFloat.work { border-color:rgba(227,166,61,.55); }
+.timerChipFloat.break { border-color:rgba(127,176,214,.55); }
+.timerChipFloat:hover { border-color:var(--text); }
+.timerChipFloatDot { width:8px; height:8px; border-radius:50%; flex-shrink:0; background:var(--must); box-shadow:0 0 0 3px rgba(227,166,61,.2); }
+.timerChipFloat.break .timerChipFloatDot { background:var(--elective); box-shadow:0 0 0 3px rgba(127,176,214,.2); }
+.timerChipFloat.paused .timerChipFloatDot { animation:timerChipBlink 1.1s ease infinite; }
+@keyframes timerChipBlink { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+.timerChipFloatText { display:inline-flex; align-items:baseline; gap:6px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; letter-spacing:.06em; }
+.timerChipFloatMode { font-size:11px; font-weight:800; letter-spacing:.1em; }
+.timerChipFloat.work .timerChipFloatMode { color:var(--must); }
+.timerChipFloat.break .timerChipFloatMode { color:var(--elective); }
+.timerChipFloatTime { font-size:18px; font-weight:850; color:var(--text); }
 
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
@@ -151,6 +169,7 @@
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
   .taskMetaLine { grid-column:2 / -1; }
   .timerPanel { left:14px; right:14px; bottom:14px; width:auto; }
+  .timerChipFloat { left:14px; right:14px; bottom:14px; justify-content:center; }
 }
 
 </style>
@@ -187,6 +206,7 @@
     <div class="paceStat" id="pace-stat"></div>
     <div class="paceChips" id="pace-chips" aria-label="What-if pace"></div>
   </div>
+  <div class="activityHints" id="activity-hints" hidden></div>
   <p class="hintLine" id="baseline"></p>
 </section>
 <nav class="filters" aria-label="Task filters"><button class="filterButton active" type="button" data-filter="all">All</button><button class="filterButton" type="button" data-filter="must">MUST</button><button class="filterButton" type="button" data-filter="elective">ELECTIVE</button><button class="filterButton" type="button" data-filter="remaining">Remaining</button><button class="filterButton" type="button" data-filter="done">Done</button></nav>
@@ -237,6 +257,10 @@
     <button type="button" id="timer-reset">Reset</button>
   </div>
 </div>
+<button type="button" class="timerChipFloat" id="timer-chip" hidden aria-label="Open Pomodoro timer">
+  <span class="timerChipFloatDot" aria-hidden="true"></span>
+  <span class="timerChipFloatText"><span class="timerChipFloatMode" id="timer-chip-mode">WORK</span><span class="timerChipFloatTime" id="timer-chip-time">30:00</span></span>
+</button>
 <script>
 const ROADMAP = {
     "meta": {
@@ -2001,6 +2025,7 @@ function normalizeUiState(state) {
     const targetPace = PACE_OPTIONS.includes(state.targetPace) ? state.targetPace : 4;
     const workMins = [15, 30, 45].includes(state.timerWorkMins) ? state.timerWorkMins : 30;
     const breakMins = [5, 15, 30].includes(state.timerBreakMins) ? state.timerBreakMins : 5;
+    const phaseMilestones = state.phaseMilestones && typeof state.phaseMilestones === 'object' ? state.phaseMilestones : {};
     return {
         collapsedPhases: Array.isArray(state.collapsedPhases) ? state.collapsedPhases : [],
         wipCardId: state.wipCardId || null,
@@ -2008,7 +2033,8 @@ function normalizeUiState(state) {
         targetPace,
         timerWorkMins: workMins,
         timerBreakMins: breakMins,
-        timerPanelOpen: Boolean(state.timerPanelOpen)
+        timerPanelOpen: Boolean(state.timerPanelOpen),
+        phaseMilestones
     };
 }
 function computePaceStats() {
@@ -2113,7 +2139,25 @@ function phaseRemainingHours(row) {
 function phaseEstimateLabel(row) {
     return formatPaceRange(phaseRemainingHours(row));
 }
-function loadProgress() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
+function loadProgress() {
+    try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        return normalizeProgress(raw);
+    } catch {
+        return {};
+    }
+}
+function normalizeProgress(raw) {
+    const out = {};
+    for (const [id, value] of Object.entries(raw || {})) {
+        if (value === true) {
+            out[id] = { done: true, completedAt: null };
+        } else if (value && typeof value === 'object' && value.done) {
+            out[id] = { done: true, completedAt: value.completedAt || null };
+        }
+    }
+    return out;
+}
 function loadUiState() {
     try {
         return normalizeUiState(JSON.parse(localStorage.getItem(UI_STORAGE_KEY) || '{}'));
@@ -2124,7 +2168,7 @@ function loadUiState() {
 function saveUiState() { localStorage.setItem(UI_STORAGE_KEY, JSON.stringify(uiState)); }
 let progress = loadProgress();
 let uiState = loadUiState();
-const isDone = task => Boolean(progress[task.id]);
+const isDone = task => Boolean(progress[task.id]?.done);
 const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); const status = document.getElementById('save-status'); status.textContent = 'Saved locally.'; window.setTimeout(() => { status.textContent = 'Progress saves locally in this browser.'; }, 1200); }
 function esc(value) { return String(value).replace(/[&<>"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[char]); }
@@ -2166,7 +2210,7 @@ function renderGuide(guide) { if (!guide) return ''; const chapters = (guide.cha
 function renderCardBody(card, contextId) { const guideBlock = renderGuide(card.guide); const groups = (card.groupIds || []).map(id => groupRow(groupLookup.get(id), `${card.id}-${contextId}`)).join(''); const groupTaskIds = new Set((card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => task.id))); const directTasks = cardTasks(card).filter(task => !groupTaskIds.has(task.id)); const taskList = directTasks.length ? `<div class="taskList">${directTasks.map(task => taskRow(task, `${card.id}-${contextId}`)).join('')}</div>` : ''; return guideBlock + groups + taskList; }
 function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = tasks.length > 1 ? 'open' : ''; return `<details class="weekGroup" ${open} data-group-id="${esc(group.id)}"><summary class="weekHead"><div class="weekHeadTop"><strong>${esc(group.title)}</strong><span class="weekHeadMeta"><span class="pill">${tasks.length}</span>${must ? `<span class="pill must">${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></span></div>${group.summary ? `<p class="weekSummary">${esc(group.summary)}</p>` : ''}</summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
 function resourceLinks(task) { const links = task.links || (task.url ? [{ label: 'Open', url: task.url }] : []); return links.length ? `<span class="resourceLinks">${links.map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label || 'Open')}</a>`; }).join('')}</span>` : ''; }
-function taskRow(task, contextId = 'main') { const checked = progress[task.id] ? 'checked' : ''; const doneClass = progress[task.id] ? ' done' : ''; const inputId = 'task-' + task.id + '-' + contextId; return `<div class="task${doneClass}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="hours">${formatHours(task.hours)}</span></div></div>`; }
+function taskRow(task, contextId = 'main') { const checked = isDone(task) ? 'checked' : ''; const doneClass = isDone(task) ? ' done' : ''; const inputId = 'task-' + task.id + '-' + contextId; return `<div class="task${doneClass}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="hours">${formatHours(task.hours)}</span></div></div>`; }
 function orderedFocusCandidates() {
     const lanes = ROADMAP.timeline.lanes;
     const rows = ROADMAP.timeline.rows;
@@ -2328,6 +2372,7 @@ const timerState = {
     remainingMs: 30 * 60 * 1000,
     running: false,
     paused: false,
+    finished: false,
     endsAt: null,
     tickId: null
 };
@@ -2360,10 +2405,15 @@ function syncTimerUi() {
     const pauseBtn = document.getElementById('timer-pause');
     const resumeBtn = document.getElementById('timer-resume');
     const openBtn = document.getElementById('timer-open');
+    const chip = document.getElementById('timer-chip');
+    const chipMode = document.getElementById('timer-chip-mode');
+    const chipTime = document.getElementById('timer-chip-time');
     if (!panel || !display) return;
 
-    display.textContent = formatTimerMs(timerState.remainingMs);
-    badge.textContent = timerState.mode === 'work' ? 'WORK' : 'BREAK';
+    const clock = formatTimerMs(timerState.remainingMs);
+    const modeLabel = timerState.mode === 'work' ? 'WORK' : 'BREAK';
+    display.textContent = clock;
+    badge.textContent = modeLabel;
     badge.className = 'timerBadge ' + timerState.mode;
 
     document.querySelectorAll('[data-timer-mode]').forEach(btn => {
@@ -2387,6 +2437,19 @@ function syncTimerUi() {
     panel.hidden = !open;
     panel.classList.toggle('open', open);
     openBtn.classList.toggle('active', open);
+
+    const sessionLive = timerState.running || timerState.paused || timerState.finished;
+    const showChip = sessionLive && !open;
+    if (chip) {
+        chip.hidden = !showChip;
+        chip.classList.toggle('visible', showChip);
+        chip.classList.toggle('work', timerState.mode === 'work');
+        chip.classList.toggle('break', timerState.mode === 'break');
+        chip.classList.toggle('paused', timerState.paused);
+        if (chipMode) chipMode.textContent = modeLabel;
+        if (chipTime) chipTime.textContent = clock;
+        chip.setAttribute('aria-label', `${modeLabel} ${clock} — open timer`);
+    }
 }
 function openTimerPanel() {
     uiState.timerPanelOpen = true;
@@ -2403,6 +2466,7 @@ function resetTimerToSelected(stop = true) {
         stopTimerTick();
         timerState.running = false;
         timerState.paused = false;
+        timerState.finished = false;
         timerState.endsAt = null;
     }
     timerState.remainingMs = selectedTimerMins() * 60 * 1000;
@@ -2412,6 +2476,7 @@ function onTimerComplete() {
     stopTimerTick();
     timerState.running = false;
     timerState.paused = false;
+    timerState.finished = true;
     timerState.endsAt = null;
     timerState.remainingMs = 0;
     playAlarm(timerState.mode);
@@ -2430,9 +2495,13 @@ function tickTimer() {
         return;
     }
     timerState.remainingMs = left;
-    document.getElementById('timer-display').textContent = formatTimerMs(left);
+    const clock = formatTimerMs(left);
+    document.getElementById('timer-display').textContent = clock;
+    const chipTime = document.getElementById('timer-chip-time');
+    if (chipTime) chipTime.textContent = clock;
 }
 function startTimer() {
+    timerState.finished = false;
     timerState.remainingMs = selectedTimerMins() * 60 * 1000;
     timerState.running = true;
     timerState.paused = false;
@@ -2508,9 +2577,211 @@ function updateStats() {
     document.getElementById('pace-stat').innerHTML = pace.paceStatHtml;
     document.getElementById('overall-progress').style.width = pct + '%';
     syncPaceControls(pace);
+    renderActivityHints();
 }
-function applyFilter() { const tasks = allTasks(); let visible = 0; for (const task of tasks) { const rows = document.querySelectorAll(`[data-task-id="${CSS.escape(task.id)}"]`); const show = taskMatchesFilter(task); rows.forEach(row => row.classList.toggle('hidden', !show)); if (show) visible += 1; } document.querySelectorAll('.weekGroup').forEach(group => { group.classList.toggle('hidden', !group.querySelector('.task:not(.hidden)')); }); document.querySelectorAll('.timelineCard').forEach(card => { const showGuide = card.dataset.guideOnly && activeFilter === 'all'; const hasVisibleTask = card.querySelector('.task:not(.hidden)'); const isContinuation = card.classList.contains('continuation'); const showContinuationEmpty = isContinuation && activeFilter === 'all'; card.classList.toggle('hidden', !showGuide && !hasVisibleTask && !showContinuationEmpty); }); document.querySelectorAll('.phaseBand').forEach(phase => { phase.classList.toggle('hidden', !phase.querySelector('.timelineCard:not(.hidden)')); }); const doneCount = tasks.filter(isDone).length; const leftCount = tasks.length - doneCount; const filterNote = activeFilter === 'all' ? '' : ` · ${visible} visible`; document.getElementById('visible-count').innerHTML = `<strong>${doneCount}/${tasks.length}</strong> <span style="color:var(--muted);font-weight:500">${leftCount} left${filterNote}</span>`; document.getElementById('empty-state').style.display = visible ? 'none' : 'block'; document.querySelectorAll('.filterButton').forEach(button => { button.classList.toggle('active', button.dataset.filter === activeFilter); }); }
-function toggleTask(row, checked = undefined) { const checkbox = row.querySelector('input[type="checkbox"]'); const id = row.dataset.taskId; const next = checked ?? !checkbox.checked; progress[id] = next; if (!next) delete progress[id]; const openSnap = snapshotOpenCards(); saveProgress(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); }
+function completedAtIso(taskId) {
+    return progress[taskId]?.completedAt || null;
+}
+function localDateKeyFromIso(iso) {
+    if (!iso) return null;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) {
+        if (/^\d{4}-\d{2}-\d{2}/.test(iso)) return iso.slice(0, 10);
+        return null;
+    }
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function shiftIsoDate(iso, days) {
+    const d = parseIsoDate(iso);
+    if (!d) return iso;
+    d.setDate(d.getDate() + days);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function startOfWeekMonday(iso) {
+    const d = parseIsoDate(iso);
+    if (!d) return iso;
+    const day = d.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    d.setDate(d.getDate() + diff);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function hoursLoggedOnDate(dateKey) {
+    let total = 0;
+    for (const task of allTasks()) {
+        if (!isDone(task)) continue;
+        const key = localDateKeyFromIso(completedAtIso(task.id));
+        if (key === dateKey) total += task.hours;
+    }
+    return total;
+}
+function hoursLoggedInRange(startKey, endKey) {
+    let total = 0;
+    for (const task of allTasks()) {
+        if (!isDone(task)) continue;
+        const key = localDateKeyFromIso(completedAtIso(task.id));
+        if (key && key >= startKey && key <= endKey) total += task.hours;
+    }
+    return total;
+}
+function mustTasksHomeInPhase(phaseId) {
+    const cards = ROADMAP.timeline.cards.filter(card => card.row === phaseId);
+    const seen = new Set();
+    const out = [];
+    for (const card of cards) {
+        for (const task of cardTasks(card)) {
+            if (task.priority !== 'must' || seen.has(task.id)) continue;
+            seen.add(task.id);
+            out.push(task);
+        }
+    }
+    return out;
+}
+function phaseMustRemainingHours(phaseId) {
+    return sum(mustTasksHomeInPhase(phaseId).filter(task => !isDone(task)));
+}
+function phaseShortName(row) {
+    return String(row.label || row.id).replace(/^Phase\s*/i, '').trim();
+}
+function weeksBetweenIso(startIso, endIso) {
+    const days = calendarDaysBetween(localDateKeyFromIso(startIso) || startIso.slice(0, 10), localDateKeyFromIso(endIso) || endIso.slice(0, 10));
+    return Math.round((days / 7) * 10) / 10;
+}
+function formatWeeksValue(weeks) {
+    const value = Number.isInteger(weeks) ? String(weeks) : weeks.toFixed(1).replace(/\.0$/, '');
+    return value + ' wk';
+}
+function homePhaseIdsForTask(taskId) {
+    const ids = [];
+    for (const card of ROADMAP.timeline.cards) {
+        if (!cardTasks(card).some(task => task.id === taskId)) continue;
+        if (!ids.includes(card.row)) ids.push(card.row);
+    }
+    return ids;
+}
+function refreshPhaseMilestones(touchedTaskId = null) {
+    const milestones = { ...(uiState.phaseMilestones || {}) };
+    let changed = false;
+    const phaseIds = touchedTaskId ? homePhaseIdsForTask(touchedTaskId) : ROADMAP.timeline.rows.map(row => row.id);
+    const nowIso = new Date().toISOString();
+    const pace = uiState.targetPace || 4;
+
+    for (const phaseId of phaseIds) {
+        const mustTasks = mustTasksHomeInPhase(phaseId);
+        if (!mustTasks.length) continue;
+        const current = { ...(milestones[phaseId] || {}) };
+        const anyDone = mustTasks.some(isDone);
+        const allDone = mustTasks.every(isDone);
+
+        if (anyDone && !current.firstAt) {
+            current.firstAt = nowIso;
+            current.etaDaysAtFirst = sum(mustTasks) / pace;
+            changed = true;
+        }
+
+        if (allDone && !current.completedAt) {
+            current.completedAt = nowIso;
+            if (!current.firstAt) {
+                current.firstAt = nowIso;
+                current.etaDaysAtFirst = sum(mustTasks) / pace;
+            }
+            changed = true;
+        }
+
+        if (!allDone && current.completedAt) {
+            delete current.completedAt;
+            changed = true;
+        }
+
+        if (Object.keys(current).length) milestones[phaseId] = current;
+        else if (milestones[phaseId]) {
+            delete milestones[phaseId];
+            changed = true;
+        }
+    }
+
+    if (changed) {
+        uiState.phaseMilestones = milestones;
+        saveUiState();
+    }
+}
+function renderActivityHints() {
+    const el = document.getElementById('activity-hints');
+    if (!el) return;
+    const today = todayIso();
+    const yesterday = shiftIsoDate(today, -1);
+    const weekStart = startOfWeekMonday(today);
+    const yHours = hoursLoggedOnDate(yesterday);
+    const wHours = hoursLoggedInRange(weekStart, today);
+    const parts = [];
+
+    if (yHours > 0) {
+        parts.push(`<span class="activityHint">Yesterday <strong>${formatHours(yHours)}</strong></span>`);
+    }
+    if (wHours > 0) {
+        parts.push(`<span class="activityHint">This week <strong>${formatHours(wHours)}</strong></span>`);
+    }
+
+    for (const row of ROADMAP.timeline.rows) {
+        const m = uiState.phaseMilestones?.[row.id];
+        if (!m?.completedAt || !m?.firstAt) continue;
+        const actual = weeksBetweenIso(m.firstAt, m.completedAt);
+        const etaWeeks = Math.round(((m.etaDaysAtFirst || 0) / 7) * 10) / 10;
+        const name = phaseShortName(row);
+        if (etaWeeks > 0) {
+            parts.push(`<span class="activityHint">Finished <strong>${esc(name)}</strong> in <strong>${formatWeeksValue(actual)}</strong> · ETA was <strong>${formatWeeksValue(etaWeeks)}</strong></span>`);
+        } else {
+            parts.push(`<span class="activityHint">Finished <strong>${esc(name)}</strong> in <strong>${formatWeeksValue(actual)}</strong></span>`);
+        }
+    }
+
+    el.hidden = !parts.length;
+    el.innerHTML = parts.join('');
+}
+function toggleTask(row, checked = undefined) {
+    const checkbox = row.querySelector('input[type="checkbox"]');
+    const id = row.dataset.taskId;
+    const next = checked ?? !checkbox.checked;
+    if (next) progress[id] = { done: true, completedAt: new Date().toISOString() };
+    else delete progress[id];
+    refreshPhaseMilestones(id);
+    const openSnap = snapshotOpenCards();
+    saveProgress();
+    renderTimeline();
+    restoreOpenCards(openSnap);
+    updateStats();
+    applyFilter();
+}
+function applyFilter() {
+    const tasks = allTasks();
+    let visible = 0;
+    for (const task of tasks) {
+        const rows = document.querySelectorAll(`[data-task-id="${CSS.escape(task.id)}"]`);
+        const show = taskMatchesFilter(task);
+        rows.forEach(row => row.classList.toggle('hidden', !show));
+        if (show) visible += 1;
+    }
+    document.querySelectorAll('.weekGroup').forEach(group => {
+        group.classList.toggle('hidden', !group.querySelector('.task:not(.hidden)'));
+    });
+    document.querySelectorAll('.timelineCard').forEach(card => {
+        const showGuide = card.dataset.guideOnly && activeFilter === 'all';
+        const hasVisibleTask = card.querySelector('.task:not(.hidden)');
+        const isContinuation = card.classList.contains('continuation');
+        const showContinuationEmpty = isContinuation && activeFilter === 'all';
+        card.classList.toggle('hidden', !showGuide && !hasVisibleTask && !showContinuationEmpty);
+    });
+    document.querySelectorAll('.phaseBand').forEach(phase => {
+        phase.classList.toggle('hidden', !phase.querySelector('.timelineCard:not(.hidden)'));
+    });
+    const doneCount = tasks.filter(isDone).length;
+    const leftCount = tasks.length - doneCount;
+    const filterNote = activeFilter === 'all' ? '' : ` · ${visible} visible`;
+    document.getElementById('visible-count').innerHTML = `<strong>${doneCount}/${tasks.length}</strong> <span style="color:var(--muted);font-weight:500">${leftCount} left${filterNote}</span>`;
+    document.getElementById('empty-state').style.display = visible ? 'none' : 'block';
+    document.querySelectorAll('.filterButton').forEach(button => {
+        button.classList.toggle('active', button.dataset.filter === activeFilter);
+    });
+}
 function bindEvents() {
     document.body.addEventListener('change', event => {
         if (event.target.id === 'pace-start-date') {
@@ -2613,6 +2884,8 @@ function bindEvents() {
     document.getElementById('reset-progress').addEventListener('click', () => {
         if (!confirm('Reset all local progress?')) return;
         progress = {};
+        uiState.phaseMilestones = {};
+        saveUiState();
         saveProgress();
         render();
     });
@@ -2623,6 +2896,7 @@ function bindEvents() {
         if (uiState.timerPanelOpen) closeTimerPanel();
         else openTimerPanel();
     });
+    document.getElementById('timer-chip').addEventListener('click', openTimerPanel);
     document.getElementById('timer-close').addEventListener('click', closeTimerPanel);
     document.getElementById('timer-start').addEventListener('click', startTimer);
     document.getElementById('timer-pause').addEventListener('click', pauseTimer);
