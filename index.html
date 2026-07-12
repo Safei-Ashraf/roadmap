@@ -23,9 +23,9 @@
     <link rel="manifest" href="/favico/manifest.json">
     <meta name="msapplication-TileColor" content="#FFB96D">
     <meta name="msapplication-TileImage" content="/favico/ms-icon-144x144.png">
-    <meta name="theme-color" content="#FFB96D">
+    <meta name="theme-color" content="#07352f">
 <style>
-:root { color-scheme: dark; --bg:#10141a; --surface:#171c23; --surface-2:#1d232b; --surface-3:#222a33; --border:#303946; --text:#e7ebee; --muted:#93a0aa; --faint:#66727d; --must:#e3a63d; --must-soft:rgba(227,166,61,.16); --elective:#7fb0d6; --elective-soft:rgba(127,176,214,.14); --done:#7fb88f; --danger:#d47d72; --radius:8px; --shadow:0 18px 50px rgba(0,0,0,.22); }
+:root { color-scheme: dark; --bg:#090c0d; --surface:#0f1415; --surface-2:#141a1b; --surface-3:#192122; --border:#2a3436; --text:#f3f7f6; --muted:#a5b0af; --faint:#717f7d; --must:#f5b942; --must-soft:rgba(245,185,66,.13); --elective:#2ccfbb; --elective-soft:rgba(44,207,187,.11); --done:#65d99a; --danger:#ed7b72; --radius:9px; --shadow:0 18px 50px rgba(0,0,0,.3); }
 * { box-sizing: border-box; } html { scroll-behavior: smooth; } body { margin:0; overflow-x:hidden; min-height:100vh; background:var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.5; } button,input { font:inherit; } button { cursor:pointer; }
 .page { max-width:1360px; margin-inline:auto; padding:32px 20px 96px; } .topbar { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; margin-bottom:28px; } .kicker { color:var(--must); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; max-width:100%; overflow-wrap:anywhere; word-break:break-word; } h1 { font-size:clamp(30px,5vw,54px); line-height:1.02; margin:0 0 12px; letter-spacing:0; max-width:760px; overflow-wrap:anywhere; hyphens:auto; } .lede { color:var(--muted); max-width:760px; margin:0; font-size:16px; }
 .actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; } .iconButton,.filterButton { border:1px solid var(--border); color:var(--text); background:var(--surface); border-radius:var(--radius); min-height:40px; padding:0 12px; } .iconButton:hover,.filterButton:hover { border-color:var(--faint); background:var(--surface-2); } .iconButton:focus-visible,.filterButton:focus-visible,summary:focus-visible,input:focus-visible { outline:2px solid var(--must); outline-offset:3px; }
@@ -115,11 +115,6 @@
 .focusEmpty { padding:8px 0; color:var(--muted); font-size:13px; line-height:1.45; }
 .focusDoneMark { display:inline-flex; align-items:center; min-height:22px; padding:0 8px; border-radius:999px; background:rgba(127,184,143,.18); color:var(--done); font-size:11px; font-weight:800; }
 
-.wipBtn { border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--muted); border-radius:999px; min-height:16px; padding:0 6px; font-size:9px; font-weight:800; letter-spacing:.03em; }
-.wipBtn:hover { border-color:var(--must); color:var(--text); }
-.wipBtn.active { background:var(--must); border-color:var(--must); color:#10141a; }
-.timelineCard.isWip { box-shadow:0 0 0 1px rgba(227,166,61,.45); }
-
 .timerBtn { border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:var(--radius); min-height:34px; padding:0 12px; font-weight:750; }
 .timerBtn:hover { border-color:rgba(127,176,214,.55); }
 .timerBtn.active { border-color:var(--elective); background:var(--elective-soft); }
@@ -191,11 +186,438 @@
   .timerChipFloat { left:14px; right:14px; top:10px; justify-content:center; }
 }
 
+/* Vibrant deep-teal polish and safer compact controls */
+body { background:var(--bg); }
+button, a, .pill, .phaseChip, .spanChip {
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+button { line-height:1.2; }
+.iconButton,.filterButton,.focusBtn,.timerBtn,.timerClose,.timerMuteBtn {
+  height:auto;
+  padding-block:7px;
+}
+.filterButton {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-width:52px;
+  white-space:nowrap;
+}
+.filterButton.active {
+  border-color:var(--elective);
+  background:var(--elective-soft);
+  box-shadow:inset 0 0 0 1px rgba(44,207,187,.12);
+}
+.filterButton.wipFilter { color:var(--elective); }
+.filterButton.wipFilter.active {
+  color:#001e19;
+  background:var(--elective);
+  border-color:var(--elective);
+}
+.statusStrip,.paceCard,.metric,.progressShell,.laneHead,.timelineCard,.notice,.focusPanel,.timerPanel {
+  border-color:var(--border);
+}
+.phaseBand {
+  border-color:rgba(160,177,175,.2);
+}
+.phaseBand.urgent { --phase-bg:rgba(245,185,66,.045); --phase-glow:rgba(245,185,66,.06); }
+.phaseBand.active { --phase-bg:rgba(44,207,187,.035); --phase-glow:rgba(44,207,187,.05); }
+.phaseBand.handoff { --phase-bg:rgba(211,111,111,.035); --phase-glow:rgba(211,111,111,.05); }
+.phaseBand.build { --phase-bg:rgba(101,217,154,.03); --phase-glow:rgba(101,217,154,.045); }
+.phaseBand.senior { --phase-bg:rgba(181,140,255,.035); --phase-glow:rgba(181,140,255,.05); }
+.phaseBand.is-active { border-color:rgba(245,185,66,.5); }
+.phaseBand.backlog {
+  --phase-bg:rgba(255,255,255,.018);
+  --phase-glow:rgba(255,255,255,.025);
+}
+.timelineCard .readingGuide,.timelineCard .taskList,.timelineCard .weekGroup,.timelineCard .weekTasks,.timelineCard .task,.timelineCard .timelineMeta,.statusStrip .paceRow,.timerPanel .timerAudioRow {
+  border-color:rgba(160,177,175,.13);
+}
+.timelineCard .taskList,.timelineCard .weekTasks { background:rgba(4,7,8,.42); }
+.statusStrip {
+  background:rgba(15,20,21,.96);
+  backdrop-filter:blur(12px);
+}
+.laneHead {
+  background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--surface-2);
+}
+.timelineCard {
+  background:linear-gradient(180deg,rgba(255,255,255,.022),transparent 110px),var(--surface);
+}
+.timelineCard:hover {
+  border-color:rgba(44,207,187,.36);
+  box-shadow:0 10px 28px rgba(0,0,0,.32);
+}
+.timelineCard.isWip {
+  border-color:var(--elective);
+  box-shadow:0 0 0 1px rgba(44,207,187,.22),0 12px 32px rgba(0,0,0,.3);
+}
+.timelineCard.isComplete {
+  position:relative;
+  border-color:rgba(101,217,154,.32);
+  background:var(--surface);
+  box-shadow:none;
+}
+.timelineCard.isComplete::after {
+  content:"✓";
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(101,217,154,.34);
+  font-size:56px;
+  font-weight:900;
+  line-height:1;
+  pointer-events:none;
+}
+.timelineCard.isComplete .timelineSummary {
+  min-height:0;
+  padding-right:66px;
+  opacity:.7;
+}
+.timelineCard.isComplete .cardTitle {
+  text-decoration:line-through;
+  text-decoration-thickness:2px;
+  text-decoration-color:rgba(101,217,154,.55);
+}
+.timelineCard.isComplete .chevron { display:none; }
+.timelineCard.isComplete > summary { cursor:default; }
+.laneHead.isComplete {
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(101,217,154,.42);
+  background:var(--surface);
+}
+.laneHead.isComplete > * { opacity:.48; }
+.laneHead.isComplete::after {
+  content:"✓";
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(101,217,154,.5);
+  font-size:64px;
+  font-weight:900;
+  line-height:1;
+  pointer-events:none;
+}
+.laneHead.isComplete::before {
+  content:"COMPLETE";
+  position:absolute;
+  left:12px;
+  bottom:8px;
+  z-index:1;
+  color:var(--done);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+.laneSlot.isComplete { opacity:.72; }
+.laneSlot.isComplete .timelineCard { transform:none; }
+.weekGroup.isComplete {
+  position:relative;
+  border-left-color:var(--done);
+  background:var(--surface);
+  opacity:.74;
+}
+.weekGroup.isComplete .weekHead { cursor:default; }
+.weekGroup.isComplete .weekHeadTop strong {
+  color:var(--muted);
+  text-decoration:line-through;
+  text-decoration-thickness:2px;
+  text-decoration-color:rgba(101,217,154,.5);
+}
+.cardDoneTag {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:26px;
+  padding:4px 10px;
+  border:1px solid rgba(101,217,154,.42);
+  border-radius:999px;
+  background:rgba(101,217,154,.12);
+  color:var(--done);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+.pill {
+  min-height:20px;
+  padding:3px 7px;
+  line-height:1.15;
+  white-space:normal;
+  text-align:center;
+}
+.pill.wip {
+  color:#001e19;
+  background:var(--elective);
+  border-color:var(--elective);
+}
+.phaseChip,.spanChip,.resourceLink {
+  min-height:20px;
+  padding:3px 7px;
+  line-height:1.25;
+  white-space:normal;
+  text-align:center;
+}
+.resourceLink {
+  color:var(--elective);
+  border-color:rgba(44,207,187,.3);
+}
+.resourceLink:hover {
+  color:var(--text);
+  border-color:var(--elective);
+}
+.timelineMeta {
+  gap:6px;
+  min-width:0;
+}
+.timelineMeta > * { min-width:0; }
+.taskMetaLine {
+  gap:6px;
+  min-width:0;
+}
+.taskWipBtn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  min-height:24px;
+  min-width:28px;
+  padding:3px 7px;
+  border:1px solid rgba(44,207,187,.26);
+  border-radius:999px;
+  background:rgba(44,207,187,.035);
+  color:var(--faint);
+  font-size:10px;
+  font-weight:850;
+  white-space:nowrap;
+}
+.taskWipBtn:hover {
+  color:var(--elective);
+  border-color:var(--elective);
+  background:var(--elective-soft);
+}
+.taskWipBtn.active {
+  color:#001e19;
+  background:var(--elective);
+  border-color:var(--elective);
+}
+.task.isWipTask {
+  background:linear-gradient(90deg,rgba(44,207,187,.09),rgba(44,207,187,.018));
+  box-shadow:inset 3px 0 0 var(--elective);
+}
+.task.done .taskWipBtn { display:none; }
+.laneHead.wipLaneHidden,.laneSlot.wipLaneHidden { display:none; }
+.spanChip.hidden { display:none; }
+.timelineBoard.wipView { min-width:0; }
+.timelineBoard.wipView .laneHeaderGrid,
+.timelineBoard.wipView .phaseGrid {
+  grid-template-columns:minmax(280px,720px);
+  justify-content:center;
+}
+.timelineBoard.wipView .phaseBand {
+  border-style:solid;
+  border-color:rgba(44,207,187,.2);
+}
+.timerPanel { width:min(360px,calc(100vw - 28px)); }
+.timerLenChip,.timerCustomInput {
+  min-width:0;
+  padding-inline:6px;
+}
+.timerLenChip.custom {
+  padding-inline:4px;
+  font-size:10px;
+}
+.topbar {
+  align-items:center;
+  margin-bottom:16px;
+}
+.topbar h1 {
+  font-size:clamp(30px,4vw,44px);
+  line-height:1.08;
+  margin-bottom:8px;
+}
+.topbar .lede {
+  font-size:14px;
+  line-height:1.5;
+}
+.statusStrip {
+  gap:8px;
+  margin-top:12px;
+}
+.statusStats {
+  align-items:center;
+  gap:8px 16px;
+}
+.statusStat {
+  align-items:center;
+  min-height:28px;
+  font-size:11px;
+}
+.statusStat strong {
+  font-size:13px;
+}
+.todayStat strong { color:var(--done); }
+.activeStat {
+  min-width:0;
+  max-width:360px;
+}
+.activeStat strong {
+  color:var(--elective);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.finishBlock {
+  padding-left:14px;
+  border-left:1px solid rgba(160,177,175,.16);
+}
+.statusActions { align-items:center; }
+.quietBtn {
+  min-height:34px;
+  padding:7px 11px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--surface-2);
+  color:var(--muted);
+  font-size:12px;
+  font-weight:750;
+}
+.quietBtn:hover {
+  color:var(--text);
+  border-color:var(--elective);
+}
+.quietBtn.active {
+  color:#001e19;
+  border-color:var(--elective);
+  background:var(--elective);
+}
+.statusDetails {
+  border-top:1px solid rgba(160,177,175,.12);
+  padding-top:6px;
+}
+.statusDetails > summary {
+  width:max-content;
+  color:var(--faint);
+  font-size:11px;
+  font-weight:750;
+  cursor:pointer;
+}
+.statusDetails[open] > summary { color:var(--elective); }
+.statusDetails .paceRow {
+  margin-top:8px;
+  padding-top:8px;
+}
+.statusDetails .hintLine {
+  margin:8px 0 2px;
+}
+.focusPathList {
+  display:grid;
+  gap:6px;
+}
+.focusPathStep {
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  padding:9px 10px;
+  border:1px solid transparent;
+  border-radius:8px;
+  background:rgba(255,255,255,.025);
+  color:var(--text);
+  text-align:left;
+}
+.focusPathStep:hover {
+  border-color:rgba(44,207,187,.35);
+  background:rgba(44,207,187,.065);
+}
+.focusPathNumber {
+  display:grid;
+  place-items:center;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  color:#001e19;
+  background:var(--elective);
+  font-size:11px;
+  font-weight:900;
+}
+.focusPathTitle {
+  min-width:0;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.35;
+}
+.focusPathMeta {
+  color:var(--muted);
+  font-size:10px;
+  white-space:nowrap;
+}
+.focusOptional {
+  border-top:1px solid rgba(160,177,175,.12);
+  padding-top:10px;
+}
+.focusOptional > summary {
+  color:var(--faint);
+  font-size:11px;
+  font-weight:750;
+  cursor:pointer;
+}
+.focusOptional .focusLaneGrid { margin-top:8px; }
+body.quietMode .page { padding-top:12px; }
+body.quietMode .topbar,
+body.quietMode .filters,
+body.quietMode .statusStat.must,
+body.quietMode #visible-count,
+body.quietMode .finishSecondary,
+body.quietMode .activityHints,
+body.quietMode .statusDetails {
+  display:none;
+}
+body.quietMode .statusStrip {
+  top:0;
+  margin-top:0;
+  padding:10px 12px;
+}
+body.quietMode .statusRow { align-items:center; }
+body.quietMode .statusStats { gap:8px 18px; }
+body.quietMode .finishBlock {
+  border-left:0;
+  padding-left:0;
+}
+
+@media (max-width:380px) {
+  .timerChipRow { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .timerSectionLabel { grid-column:1 / -1; }
+  .filters { gap:6px; }
+  .filterButton { min-width:0; padding-inline:9px; }
+  .focusPathStep { grid-template-columns:26px minmax(0,1fr); }
+  .focusPathMeta { grid-column:2; }
+}
+@media (max-width:520px) {
+  #visible-count,.finishSecondary { display:none; }
+  .statusStats {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+    gap:6px 12px;
+  }
+  .activeStat,.finishBlock { grid-column:1 / -1; max-width:none; }
+  .finishBlock { padding:6px 0 0; border-left:0; }
+  .statusActions { width:100%; }
+  .statusActions > button { flex:1; }
+}
+
 </style>
 </head>
 <body>
 <main class="page">
-<section class="topbar" aria-labelledby="page-title"><div><div class="kicker">Personal roadmap · <span id="horizon"></span></div><h1 id="page-title">Senior full-stack roadmap</h1><p class="lede">MUST is the path. ELECTIVE is backlog. Use Focus when you lose the thread.</p></div><div class="actions" aria-label="Page actions"><button class="iconButton" id="expand-all" type="button">Expand</button><button class="iconButton" id="collapse-all" type="button">Collapse</button></div></section>
+<section class="topbar" aria-labelledby="page-title"><div><div class="kicker">Personal roadmap · <span id="horizon"></span></div><h1 id="page-title">Senior full-stack roadmap</h1><p class="lede">Track the work, open the right resource, and follow the next clear step.</p></div><div class="actions" aria-label="Board controls"><button class="iconButton" id="expand-all" type="button">Expand all</button><button class="iconButton" id="collapse-all" type="button">Collapse all</button></div></section>
 <section class="statusStrip" aria-label="Status">
   <div class="progressBlock">
     <div class="progressLabels">
@@ -208,6 +630,8 @@
     <div class="statusStats">
       <span class="statusStat must">MUST <strong id="must-remaining">0h</strong> <span id="must-total">of 0h</span></span>
       <span class="statusStat" id="visible-count"></span>
+      <span class="statusStat todayStat">Today <strong id="today-hours">0h</strong></span>
+      <span class="statusStat activeStat">Active <strong id="active-column">Not set</strong></span>
       <div class="finishBlock">
         <div class="finishPrimary" id="finish-must">Finish MUST —</div>
         <div class="finishSecondary" id="finish-total">Full plan —</div>
@@ -215,20 +639,24 @@
     </div>
     <div class="statusActions">
       <button class="timerBtn" id="timer-open" type="button">Timer</button>
-      <button class="focusBtn" id="focus-open" type="button">Focus</button>
+      <button class="focusBtn" id="focus-open" type="button">Path</button>
+      <button class="quietBtn" id="quiet-toggle" type="button" aria-pressed="false">Quiet view</button>
     </div>
   </div>
-  <div class="paceRow">
-    <label class="paceStart" for="pace-start-date">Started
-      <input class="paceInput" id="pace-start-date" type="date" min="2026-07-01" title="When you started this roadmap (for pace tracking)">
-    </label>
-    <div class="paceStat" id="pace-stat"></div>
-    <div class="paceChips" id="pace-chips" aria-label="What-if pace"></div>
-  </div>
   <div class="activityHints" id="activity-hints" hidden></div>
-  <p class="hintLine" id="baseline"></p>
+  <details class="statusDetails">
+    <summary>Plan settings</summary>
+    <div class="paceRow">
+      <label class="paceStart" for="pace-start-date">Started
+        <input class="paceInput" id="pace-start-date" type="date" min="2026-07-01" title="When you started this roadmap (for pace tracking)">
+      </label>
+      <div class="paceStat" id="pace-stat"></div>
+      <div class="paceChips" id="pace-chips" aria-label="What-if pace"></div>
+    </div>
+    <p class="hintLine" id="baseline"></p>
+  </details>
 </section>
-<nav class="filters" aria-label="Task filters"><button class="filterButton active" type="button" data-filter="all">All</button><button class="filterButton" type="button" data-filter="must">MUST</button><button class="filterButton" type="button" data-filter="elective">ELECTIVE</button><button class="filterButton" type="button" data-filter="remaining">Remaining</button><button class="filterButton" type="button" data-filter="done">Done</button></nav>
+<nav class="filters" aria-label="Task filters"><button class="filterButton active" type="button" data-filter="all">All</button><button class="filterButton wipFilter" type="button" data-filter="wip"><span aria-hidden="true">●</span> WIP</button><button class="filterButton" type="button" data-filter="must">MUST</button><button class="filterButton" type="button" data-filter="elective">ELECTIVE</button><button class="filterButton" type="button" data-filter="remaining">Remaining</button><button class="filterButton" type="button" data-filter="done">Done</button></nav>
 <section class="timelineShell" aria-label="Roadmap timeline"><div class="timelineBoard" id="timeline-board"></div></section><div class="empty" id="empty-state">No tasks match this filter.</div>
 <section class="footer"><div id="save-status">Progress saves locally in this browser.</div><div class="actions"><button class="iconButton danger" id="reset-progress" type="button">Reset progress</button></div></section>
 </main>
@@ -236,7 +664,7 @@
   <div class="focusPanel">
     <div class="focusPanelHead">
       <div>
-        <h2 id="focus-title">Focus</h2>
+        <h2 id="focus-title">Path</h2>
         <p class="focusSub" id="focus-sub"></p>
       </div>
       <button class="focusClose" id="focus-close" type="button">Close</button>
@@ -1999,7 +2427,7 @@ const ROADMAP = {
 };
 const STORAGE_KEY = 'tech-learning-roadmap-progress-v1';
 const UI_STORAGE_KEY = 'tech-learning-roadmap-ui-v1';
-const FILTERS = new Set(['all', 'must', 'elective', 'remaining', 'done']);
+const FILTERS = new Set(['all', 'wip', 'must', 'elective', 'remaining', 'done']);
 const taskLookup = new Map(ROADMAP.tracks.flatMap(track => [
     ...(track.tasks || []).map(task => [task.id, { ...task, trackId: track.id }]),
     ...(track.groups || []).flatMap(group => (group.tasks || []).map(task => [task.id, { ...task, trackId: track.id, groupId: group.id }]))
@@ -2066,6 +2494,7 @@ function normalizeUiState(state) {
     const phaseMilestones = state.phaseMilestones && typeof state.phaseMilestones === 'object' ? state.phaseMilestones : {};
     return {
         collapsedPhases: Array.isArray(state.collapsedPhases) ? state.collapsedPhases : [],
+        wipTaskId: state.wipTaskId || null,
         wipCardId: state.wipCardId || null,
         startDate: clampStartDate(state.startDate || PACE_MIN_DATE),
         targetPace,
@@ -2074,6 +2503,7 @@ function normalizeUiState(state) {
         timerPanelOpen: Boolean(state.timerPanelOpen),
         timerVolume,
         timerMuted: Boolean(state.timerMuted),
+        quietMode: Boolean(state.quietMode),
         phaseMilestones
     };
 }
@@ -2209,48 +2639,113 @@ function saveUiState() { localStorage.setItem(UI_STORAGE_KEY, JSON.stringify(uiS
 let progress = loadProgress();
 let uiState = loadUiState();
 const isDone = task => Boolean(progress[task.id]?.done);
-const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
+const taskMatchesFilter = task => activeFilter === 'all' || activeFilter === 'wip' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); const status = document.getElementById('save-status'); status.textContent = 'Saved locally.'; window.setTimeout(() => { status.textContent = 'Progress saves locally in this browser.'; }, 1200); }
 function esc(value) { return String(value).replace(/[&<>"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[char]); }
-function render() { document.getElementById('horizon').textContent = ROADMAP.meta.horizon; document.getElementById('baseline').textContent = ROADMAP.meta.baseline; renderTimeline(); updateStats(); applyFilter(); }
+function render() { syncQuietMode(); document.getElementById('horizon').textContent = ROADMAP.meta.horizon; document.getElementById('baseline').textContent = ROADMAP.meta.baseline; renderTimeline(); updateStats(); applyFilter(); }
 function cardTasks(card) { const direct = (card.taskIds || []).map(id => taskLookup.get(id)).filter(Boolean); const grouped = (card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean)); if (direct.length || grouped.length) return [...grouped, ...direct]; if (!card.trackId) return []; const track = ROADMAP.tracks.find(item => item.id === card.trackId); return track ? [...(track.groups || []).flatMap(group => group.tasks || []), ...(track.tasks || [])].map(task => taskLookup.get(task.id)).filter(Boolean) : []; }
-function renderTimeline() { const container = document.getElementById('timeline-board'); const lanes = ROADMAP.timeline.lanes; const laneHeads = `<div class="laneHeaderGrid">${lanes.map(lane => `<div class="laneHead" style="--lane-accent:${esc(lane.accent || '#66727d')}"><div class="laneTitle">${esc(lane.title)}</div><div class="laneSummary">${esc(lane.summary)}</div></div>`).join('')}</div>`; const phaseBands = ROADMAP.timeline.rows.map(row => phaseBand(row, lanes)).join(''); container.innerHTML = laneHeads + phaseBands; }
+function cardContainsTask(card, taskId) { return Boolean(card && taskId) && cardTasks(card).some(task => task.id === taskId); }
+function activeWipTask() { return uiState.wipTaskId ? taskLookup.get(uiState.wipTaskId) || null : null; }
+function activeWipCard() {
+    if (uiState.wipTaskId) {
+        return ROADMAP.timeline.cards.find(card => card.row && cardContainsTask(card, uiState.wipTaskId)) || null;
+    }
+    return ROADMAP.timeline.cards.find(card => card.id === uiState.wipCardId) || null;
+}
+function cardIsWip(card) { return activeWipCard()?.id === card.id; }
+function activeWipLabel() {
+    const card = activeWipCard();
+    if (!card) return 'Not set';
+    const lane = ROADMAP.timeline.lanes.find(item => item.id === card.lane);
+    return `${lane?.title || 'Track'} · ${card.title}`;
+}
+function syncQuietMode() {
+    const quiet = Boolean(uiState.quietMode);
+    document.body.classList.toggle('quietMode', quiet);
+    const button = document.getElementById('quiet-toggle');
+    if (button) {
+        button.classList.toggle('active', quiet);
+        button.setAttribute('aria-pressed', String(quiet));
+        button.textContent = quiet ? 'Exit quiet' : 'Quiet view';
+    }
+    if (quiet) activeFilter = 'wip';
+}
+function toggleQuietMode() {
+    uiState.quietMode = !uiState.quietMode;
+    activeFilter = uiState.quietMode ? 'wip' : 'all';
+    saveUiState();
+    syncQuietMode();
+    applyFilter();
+}
+function migrateLegacyWip() {
+    if (uiState.wipTaskId || !uiState.wipCardId) return;
+    const legacyCard = ROADMAP.timeline.cards.find(card => card.id === uiState.wipCardId);
+    const task = legacyCard ? cardTasks(legacyCard).find(item => !isDone(item)) || cardTasks(legacyCard)[0] : null;
+    uiState.wipTaskId = task?.id || null;
+    uiState.wipCardId = null;
+    saveUiState();
+}
+function renderTimeline() { const container = document.getElementById('timeline-board'); const lanes = ROADMAP.timeline.lanes; const laneHeads = `<div class="laneHeaderGrid">${lanes.map(lane => { const complete = laneIsComplete(lane.id); return `<div class="laneHead${complete ? ' isComplete' : ''}" data-lane-id="${esc(lane.id)}" data-complete="${complete}" style="--lane-accent:${esc(lane.accent || '#66727d')}"><div class="laneTitle">${esc(lane.title)}</div><div class="laneSummary">${esc(lane.summary)}</div></div>`; }).join('')}</div>`; const phaseBands = ROADMAP.timeline.rows.map(row => phaseBand(row, lanes)).join(''); container.innerHTML = laneHeads + phaseBands; }
 function rowIndex(rowId) { return ROADMAP.timeline.rows.findIndex(row => row.id === rowId); }
 function cardAppearsInPhase(card, row) { const start = rowIndex(card.row); const current = rowIndex(row.id); const span = card.span || 1; return start >= 0 && current >= start && current < start + span; }
 function cardsForPhase(row) { return ROADMAP.timeline.cards.filter(card => cardAppearsInPhase(card, row)); }
 function phaseConceptChips(row) { return (row.concepts || []).map(concept => `<span class="phaseChip ${concept.toLowerCase().includes('project') ? 'project' : ''}">${esc(concept)}</span>`).join(''); }
 function shortLabel(label, max = 64) { const text = String(label || ''); return text.length > max ? text.slice(0, max - 1).trimEnd() + '…' : text; }
 function cardProgress(tasks) { const doneTasks = tasks.filter(isDone); const leftTasks = tasks.filter(task => !isDone(task)); return { doneCount: doneTasks.length, total: tasks.length, leftCount: leftTasks.length, leftHours: sum(leftTasks), doneHours: sum(doneTasks), next: leftTasks[0] || null, leftTasks, doneTasks }; }
-function snapshotOpenCards() { return [...document.querySelectorAll('details.timelineCard[open]')].map(el => ({ cardId: el.dataset.cardId, phaseId: el.closest('[data-phase-id]')?.dataset.phaseId, continuation: el.classList.contains('continuation') })); }
-function restoreOpenCards(snapshot) { for (const item of snapshot) { if (!item.phaseId || !item.cardId) continue; const phase = document.querySelector(`[data-phase-id="${CSS.escape(item.phaseId)}"]`); if (!phase) continue; const selector = item.continuation ? `details.timelineCard.continuation[data-card-id="${CSS.escape(item.cardId)}"]` : `details.timelineCard[data-card-id="${CSS.escape(item.cardId)}"]:not(.continuation)`; const card = phase.querySelector(selector); if (card) card.open = true; } }
+function uniqueTasks(tasks) { return [...new Map(tasks.map(task => [task.id, task])).values()]; }
+function laneTasks(laneId) { return uniqueTasks(ROADMAP.timeline.cards.filter(card => card.lane === laneId).flatMap(cardTasks)); }
+function laneIsComplete(laneId) { const tasks = laneTasks(laneId); return tasks.length > 0 && tasks.every(isDone); }
+function snapshotOpenCards() { return [...document.querySelectorAll('details.timelineCard[open]:not(.isComplete)')].map(el => ({ cardId: el.dataset.cardId, phaseId: el.closest('[data-phase-id]')?.dataset.phaseId, continuation: el.classList.contains('continuation') })); }
+function restoreOpenCards(snapshot) { for (const item of snapshot) { if (!item.phaseId || !item.cardId) continue; const phase = document.querySelector(`[data-phase-id="${CSS.escape(item.phaseId)}"]`); if (!phase) continue; const selector = item.continuation ? `details.timelineCard.continuation[data-card-id="${CSS.escape(item.cardId)}"]` : `details.timelineCard[data-card-id="${CSS.escape(item.cardId)}"]:not(.continuation)`; const card = phase.querySelector(selector); if (card && !card.classList.contains('isComplete')) card.open = true; } }
 function phaseRangeLabel(card) { const start = rowIndex(card.row); const span = card.span || 1; if (start < 0 || span <= 1) return ''; const end = Math.min(start + span - 1, ROADMAP.timeline.rows.length - 1); const a = ROADMAP.timeline.rows[start]; const b = ROADMAP.timeline.rows[end]; const short = label => String(label || '').replace(/^Phase\s*/i, '').split('·')[0].trim(); return span === 1 ? '' : `Spans ${span} phases · ${short(a.label)}–${short(b.label)}`; }
-function laneSpanChips(row, lane, laneCards) { const chips = laneCards.filter(card => card.row === row.id && (card.span || 1) > 1).map(card => `<span class="spanChip" title="${esc(card.title)}">${esc(card.title)} · ${esc(phaseRangeLabel(card))}</span>`); return chips.length ? `<div class="spanChipRow">${chips.join('')}</div>` : ''; }
-function phaseBand(row, lanes) { const cards = cardsForPhase(row); const collapsed = uiState.collapsedPhases?.includes(row.id); const laneCells = lanes.map(lane => { const laneCards = cards.filter(card => card.lane === lane.id); const chips = laneSpanChips(row, lane, laneCards); const content = laneCards.map(card => timelineCard(card, row, lane, card.row !== row.id)).join(''); return `<div class="laneSlot" style="--lane-accent:${esc(lane.accent || '#66727d')}">${chips}${content || '<div class="emptyLane" aria-hidden="true"></div>'}</div>`; }).join(''); const concepts = phaseConceptChips(row); const estimate = phaseEstimateLabel(row); return `<section class="phaseBand ${row.active ? 'is-active' : ''} ${esc(row.tone || '')}" data-phase-id="${esc(row.id)}"><button class="phaseDivider" type="button" aria-expanded="${collapsed ? 'false' : 'true'}"><span class="phaseCopy"><span class="phaseTitle">${esc(row.label)} <span class="phaseRange" title="Min at 6h/day · max at 2h/day">${esc(estimate)}</span></span><span class="phaseGoal">${esc(row.goal || '')}</span>${concepts ? `<span class="phaseConcepts">${concepts}</span>` : ''}</span><span class="chevron">v</span></button><div class="phaseGrid" ${collapsed ? 'hidden' : ''}>${laneCells}</div></section>`; }
+function laneSpanChips(row, laneCards) { const chips = laneCards.filter(card => card.row === row.id && (card.span || 1) > 1).map(card => `<span class="spanChip" data-card-id="${esc(card.id)}" title="${esc(card.title)}">${esc(card.title)} · ${esc(phaseRangeLabel(card))}</span>`); return chips.length ? `<div class="spanChipRow">${chips.join('')}</div>` : ''; }
+function phaseBand(row, lanes) { const cards = cardsForPhase(row); const collapsed = uiState.collapsedPhases?.includes(row.id); const laneCells = lanes.map(lane => { const laneCards = cards.filter(card => card.lane === lane.id); const complete = laneIsComplete(lane.id); const chips = laneSpanChips(row, laneCards); const content = laneCards.map(card => timelineCard(card, row, lane, card.row !== row.id)).join(''); return `<div class="laneSlot${complete ? ' isComplete' : ''}" data-lane-id="${esc(lane.id)}" data-complete="${complete}" style="--lane-accent:${esc(lane.accent || '#66727d')}">${chips}${content || '<div class="emptyLane" aria-hidden="true"></div>'}</div>`; }).join(''); const concepts = phaseConceptChips(row); const estimate = phaseEstimateLabel(row); return `<section class="phaseBand ${row.active ? 'is-active' : ''} ${esc(row.tone || '')}" data-phase-id="${esc(row.id)}"><button class="phaseDivider" type="button" aria-expanded="${collapsed ? 'false' : 'true'}"><span class="phaseCopy"><span class="phaseTitle">${esc(row.label)} <span class="phaseRange" title="Min at 6h/day · max at 2h/day">${esc(estimate)}</span></span><span class="phaseGoal">${esc(row.goal || '')}</span>${concepts ? `<span class="phaseConcepts">${concepts}</span>` : ''}</span><span class="chevron">v</span></button><div class="phaseGrid" ${collapsed ? 'hidden' : ''}>${laneCells}</div></section>`; }
 function timelineCard(card, row, lane, isContinuation = false) {
     const tasks = cardTasks(card);
     const stats = cardProgress(tasks);
+    const isComplete = stats.total > 0 && stats.leftCount === 0;
+    const laneComplete = laneIsComplete(lane.id);
     const mustLeft = sum(stats.leftTasks.filter(task => task.priority === 'must'));
     const electiveLeft = sum(stats.leftTasks.filter(task => task.priority === 'elective'));
-    const open = !isContinuation && card.defaultOpen ? 'open' : '';
+    const open = !isComplete && !laneComplete && !isContinuation && card.defaultOpen ? 'open' : '';
     const compact = isContinuation || !card.defaultOpen ? ' compactSummary' : '';
     const pct = stats.total ? Math.round((stats.doneCount / stats.total) * 100) : 0;
-    const isWip = !isContinuation && uiState.wipCardId === card.id;
+    const isWip = cardIsWip(card);
     const continuation = isContinuation ? `<span class="pill continues">${stats.doneCount}/${stats.total} done</span>` : '';
     const guideBadge = card.badge ? `<span class="pill guide">${esc(card.badge)}</span>` : '';
-    const wipBtn = isContinuation || card.guideOnly && !tasks.length ? '' : `<button type="button" class="wipBtn${isWip ? ' active' : ''}" data-wip-card="${esc(card.id)}" title="Mark this section as in progress for Focus">${isWip ? 'In progress' : 'Set WIP'}</button>`;
     const summary = isContinuation ? continuationSummary(card, stats) : `<div class="cardSummary">${esc(card.summary || '')}</div>`;
-    const meta = isContinuation
+    const meta = isComplete
+        ? `<span class="pill doneSoft">✓ All ${stats.total} tasks complete</span>`
+        : isContinuation
         ? `${stats.leftCount ? `<span class="pill continues">${stats.leftCount} left · ${formatHours(stats.leftHours)}</span>` : '<span class="pill doneSoft">Complete</span>'}${mustLeft ? `<span class="pill must">${formatHours(mustLeft)}</span>` : ''}${electiveLeft ? `<span class="pill elective">${formatHours(electiveLeft)}</span>` : ''}<span class="pill">${pct}%</span>`
-        : `${mustLeft || sum(tasks.filter(task => task.priority === 'must')) ? `<span class="pill must" title="MUST">${formatHours(isContinuation ? mustLeft : sum(tasks.filter(task => task.priority === 'must')))}</span>` : ''}${electiveLeft || sum(tasks.filter(task => task.priority === 'elective')) ? `<span class="pill elective" title="ELECTIVE">${formatHours(isContinuation ? electiveLeft : sum(tasks.filter(task => task.priority === 'elective')))}</span>` : ''}<span class="pill">${tasks.length}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}${wipBtn}`;
-    return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}${compact}${isWip ? ' isWip' : ''}" ${open} data-card-id="${esc(card.id)}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}${isWip ? '<span class="pill must">WIP</span>' : ''}</div>${summary}</div><span class="chevron">v</span></div><div class="timelineMeta">${meta}</div></summary>${isContinuation ? renderContinuationBody(card, row.id, stats) : renderCardBody(card, row.id)}</details>`;
+        : `${mustLeft || sum(tasks.filter(task => task.priority === 'must')) ? `<span class="pill must" title="MUST">${formatHours(isContinuation ? mustLeft : sum(tasks.filter(task => task.priority === 'must')))}</span>` : ''}${electiveLeft || sum(tasks.filter(task => task.priority === 'elective')) ? `<span class="pill elective" title="ELECTIVE">${formatHours(isContinuation ? electiveLeft : sum(tasks.filter(task => task.priority === 'elective')))}</span>` : ''}<span class="pill">${tasks.length}</span>${card.guideUrl ? `<a class="resourceLink" href="${esc(card.guideUrl)}">Guide</a>` : ''}`;
+    return `<details class="timelineCard ${esc(row?.tone || '')} ${isContinuation ? 'continuation' : ''}${compact}${isWip ? ' isWip' : ''}${isComplete ? ' isComplete' : ''}" ${open} data-card-id="${esc(card.id)}" data-complete="${isComplete}" ${card.guideOnly ? 'data-guide-only="true"' : ''} style="--lane-accent:${esc(lane.accent || '#66727d')}"><summary class="timelineSummary"><div class="cardHead"><div><div class="cardTitleRow"><div class="cardTitle">${esc(card.title)}</div>${continuation}${guideBadge}${isComplete ? '<span class="pill doneSoft">✓ Done</span>' : ''}${isWip ? '<span class="pill wip">● WIP</span>' : ''}</div>${summary}</div><span class="chevron">v</span></div><div class="timelineMeta">${meta}</div></summary>${isContinuation ? renderContinuationBody(card, row.id, stats) : renderCardBody(card, row.id)}</details>`;
 }
 function continuationSummary(card, stats) { if (!stats.total) return `<div class="cardSummary">${esc(card.summary || '')}</div>`; if (!stats.leftCount) return `<div class="cardSummary"><span class="nextHint">All items done in earlier phases.</span><div class="continueProgress"><span class="continueBar" aria-hidden="true"><span style="width:100%"></span></span><span class="pill doneSoft">${stats.doneCount}/${stats.total}</span></div></div>`; const pct = Math.round((stats.doneCount / stats.total) * 100); return `<div class="cardSummary"><span class="nextHint"><strong>Up next:</strong> ${esc(shortLabel(stats.next.label))}</span><div class="continueProgress"><span class="continueBar" aria-hidden="true"><span style="width:${pct}%"></span></span><span class="pill doneSoft">${stats.doneCount} done</span><span class="pill continues">${stats.leftCount} continuing</span></div></div>`; }
 function renderContinuationBody(card, contextId, stats) { const ctx = `${card.id}-${contextId}-cont`; if (!stats.leftCount) return `<div class="remainingLabel">Nothing left — finished earlier</div>`; const remaining = `<div class="remainingLabel">Still open</div><div class="taskList">${stats.leftTasks.map(task => taskRow(task, ctx)).join('')}</div>`; const done = stats.doneCount ? `<details class="weekGroup doneGroup" data-group-id="${esc(card.id)}-done"><summary class="weekHead"><div class="weekHeadTop"><strong>Done earlier</strong><span class="weekHeadMeta"><span class="pill doneSoft">${stats.doneCount}</span><span class="chevron">v</span></span></div><p class="weekSummary">Completed in a previous phase — shared progress.</p></summary><div class="weekTasks">${stats.doneTasks.map(task => taskRow(task, `${ctx}-done`)).join('')}</div></details>` : ''; return remaining + done; }
 function renderGuide(guide) { if (!guide) return ''; const chapters = (guide.chapters || []).map(chapter => `<li>${esc(chapter)}</li>`).join(''); const links = (guide.links || []).map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label)}</a>`; }).join(''); return `<details class="readingGuide"><summary class="readingGuideHead"><span>How to read</span><span class="chevron">v</span></summary><div class="readingGuideBody">${guide.startWhen ? `<p><strong>Start when:</strong> ${esc(guide.startWhen)}</p>` : ''}${guide.prerequisites ? `<p><strong>Prerequisites:</strong> ${esc(guide.prerequisites)}</p>` : ''}${guide.doneMeans ? `<p><strong>Done means:</strong> ${esc(guide.doneMeans)}</p>` : ''}${chapters ? `<ul class="guideChapters">${chapters}</ul>` : ''}${links ? `<div class="guideLinks">${links}</div>` : ''}</div></details>`; }
 function renderCardBody(card, contextId) { const guideBlock = renderGuide(card.guide); const groups = (card.groupIds || []).map(id => groupRow(groupLookup.get(id), `${card.id}-${contextId}`)).join(''); const groupTaskIds = new Set((card.groupIds || []).flatMap(id => (groupLookup.get(id)?.tasks || []).map(task => task.id))); const directTasks = cardTasks(card).filter(task => !groupTaskIds.has(task.id)); const taskList = directTasks.length ? `<div class="taskList">${directTasks.map(task => taskRow(task, `${card.id}-${contextId}`)).join('')}</div>` : ''; return guideBlock + groups + taskList; }
-function groupRow(group, contextId) { if (!group) return ''; const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean); const must = sum(tasks.filter(task => task.priority === 'must')); const elective = sum(tasks.filter(task => task.priority === 'elective')); const open = tasks.length > 1 ? 'open' : ''; return `<details class="weekGroup" ${open} data-group-id="${esc(group.id)}"><summary class="weekHead"><div class="weekHeadTop"><strong>${esc(group.title)}</strong><span class="weekHeadMeta"><span class="pill">${tasks.length}</span>${must ? `<span class="pill must">${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">${formatHours(elective)}</span>` : ''}<span class="chevron">v</span></span></div>${group.summary ? `<p class="weekSummary">${esc(group.summary)}</p>` : ''}</summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`; }
+function groupRow(group, contextId) {
+    if (!group) return '';
+    const tasks = (group.tasks || []).map(task => taskLookup.get(task.id)).filter(Boolean);
+    const must = sum(tasks.filter(task => task.priority === 'must'));
+    const elective = sum(tasks.filter(task => task.priority === 'elective'));
+    const isComplete = tasks.length > 0 && tasks.every(isDone);
+    const open = !isComplete && tasks.length > 1 ? 'open' : '';
+    const meta = isComplete
+        ? '<span class="cardDoneTag">✓ DONE</span>'
+        : `<span class="pill">${tasks.length}</span>${must ? `<span class="pill must">${formatHours(must)}</span>` : ''}${elective ? `<span class="pill elective">${formatHours(elective)}</span>` : ''}<span class="chevron">v</span>`;
+    return `<details class="weekGroup${isComplete ? ' isComplete' : ''}" ${open} data-group-id="${esc(group.id)}" data-complete="${isComplete}"><summary class="weekHead"><div class="weekHeadTop"><strong>${esc(group.title)}</strong><span class="weekHeadMeta">${meta}</span></div>${group.summary ? `<p class="weekSummary">${esc(group.summary)}</p>` : ''}</summary>${renderGuide(group.guide)}<div class="weekTasks">${tasks.map(task => taskRow(task, `${contextId}-${group.id}`)).join('')}</div></details>`;
+}
 function resourceLinks(task) { const links = task.links || (task.url ? [{ label: 'Open', url: task.url }] : []); return links.length ? `<span class="resourceLinks">${links.map(link => { const external = /^https?:\/\//i.test(link.url); return `<a class="resourceLink" href="${esc(link.url)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(link.label || 'Open')}</a>`; }).join('')}</span>` : ''; }
-function taskRow(task, contextId = 'main') { const checked = isDone(task) ? 'checked' : ''; const doneClass = isDone(task) ? ' done' : ''; const inputId = 'task-' + task.id + '-' + contextId; return `<div class="task${doneClass}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="hours">${formatHours(task.hours)}</span></div></div>`; }
+function taskRow(task, contextId = 'main') {
+    const checked = isDone(task) ? 'checked' : '';
+    const doneClass = isDone(task) ? ' done' : '';
+    const isWip = uiState.wipTaskId === task.id;
+    const inputId = 'task-' + task.id + '-' + contextId;
+    const wipLabel = isWip ? 'In progress' : 'Mark in progress';
+    return `<div class="task${doneClass}${isWip ? ' isWipTask' : ''}" data-task-id="${esc(task.id)}" data-priority="${task.priority}"><input id="${esc(inputId)}" type="checkbox" ${checked} aria-label="${esc(task.label)}"><label class="taskLabel" for="${esc(inputId)}">${esc(task.label)}</label><div class="taskMetaLine">${resourceLinks(task)}<span class="hours">${formatHours(task.hours)}</span><button type="button" class="taskWipBtn${isWip ? ' active' : ''}" data-wip-task="${esc(task.id)}" aria-pressed="${isWip}" title="${wipLabel}"><span aria-hidden="true">${isWip ? '●' : '○'}</span><span>WIP</span></button></div></div>`;
+}
 function orderedFocusCandidates() {
     const lanes = ROADMAP.timeline.lanes;
     const rows = ROADMAP.timeline.rows;
@@ -2318,84 +2813,86 @@ function parallelLaneHeads(phaseId, excludeCardId = null) {
     return parallels;
 }
 function pickFocusTargets() {
-    const wipCard = ROADMAP.timeline.cards.find(card => card.id === uiState.wipCardId) || null;
+    const wipCard = activeWipCard();
+    const ordered = dedupeByTaskPreferHome(orderedFocusCandidates()).filter(item => !isDone(item.task));
+    const alternativesFor = item => {
+        if (!item) return [];
+        const seenCards = new Set([item.card.id]);
+        return ordered.filter(candidate => {
+            if (candidate.row.id !== item.row.id || seenCards.has(candidate.card.id)) return false;
+            seenCards.add(candidate.card.id);
+            return true;
+        }).slice(0, 4);
+    };
     if (!wipCard) {
-        const phase = ROADMAP.timeline.rows.find(row => parallelLaneHeads(row.id).length) || ROADMAP.timeline.rows[0];
+        const recommendedStart = ordered[0] || null;
         return {
-            now: null,
-            nextMust: null,
-            nextElectives: [],
-            parallels: parallelLaneHeads(phase.id),
             needsWip: true,
-            phase
+            recommendedStart,
+            alternatives: alternativesFor(recommendedStart)
         };
     }
 
     const onCard = itemsForCard(wipCard).filter(item => !isDone(item.task));
-    const now = onCard.find(item => item.task.priority === 'must') || onCard[0] || null;
+    const explicitWip = activeWipTask();
+    const now = onCard.find(item => item.task.id === explicitWip?.id) || onCard.find(item => item.task.priority === 'must') || onCard[0] || null;
     if (!now) {
         return {
             now: null,
-            nextMust: null,
-            nextElectives: [],
-            parallels: parallelLaneHeads(wipCard.row, wipCard.id),
             needsWip: false,
             wipDone: true,
-            wipCard
+            wipCard,
+            recommendedStart: ordered.find(item => item.card.id !== wipCard.id) || null,
+            alternatives: []
         };
     }
 
     const afterNow = onCard.slice(onCard.findIndex(item => item.task.id === now.task.id) + 1);
-    const nextMust = afterNow.find(item => item.task.priority === 'must') || null;
-    const gap = nextMust
-        ? afterNow.slice(0, afterNow.findIndex(item => item.task.id === nextMust.task.id))
-        : afterNow;
-    const nextElectives = gap.filter(item => item.task.priority === 'elective').slice(0, 3);
     const parallels = parallelLaneHeads(wipCard.row, wipCard.id);
-    return { now, nextMust, nextElectives, parallels, needsWip: false, wipCard };
+    return { now, upcoming: afterNow.slice(0, 4), parallels, needsWip: false, wipCard };
 }
 function focusJumpAttrs(item, { setWip = false, className = 'focusItem' } = {}) {
     return `class="${esc(className)}" type="button" data-task-id="${esc(item.task.id)}" data-card-id="${esc(item.card.id)}" data-phase-id="${esc(item.row.id)}"${setWip ? ' data-set-wip="true"' : ''}`;
 }
-function focusPrimaryHtml(item) {
-    return `<button ${focusJumpAttrs(item, { className: 'focusPrimary focusItem' })}><span class="focusPrimaryEyebrow">Do now</span><span class="focusPrimaryTitle">${esc(item.task.label)}</span><span class="focusPrimaryMeta">${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span><span class="focusPrimaryCta">Open on board →</span></button>`;
+function focusPrimaryHtml(item, eyebrow = 'Do now', setWip = false) {
+    return `<button ${focusJumpAttrs(item, { setWip, className: 'focusPrimary focusItem' })}><span class="focusPrimaryEyebrow">${esc(eyebrow)}</span><span class="focusPrimaryTitle">${esc(item.task.label)}</span><span class="focusPrimaryMeta">${esc(item.card.title)} · ${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span><span class="focusPrimaryCta">Open on board →</span></button>`;
 }
-function focusQuietHtml(item, note = '') {
-    const noteText = note ? ` · ${note}` : '';
-    return `<button ${focusJumpAttrs(item, { className: 'focusQuiet focusItem' })}><span class="focusQuietTitle">${esc(shortLabel(item.task.label, 88))}</span><span class="focusQuietMeta">${formatHours(item.task.hours)}${noteText}</span></button>`;
+function focusPathHtml(items) {
+    if (!items?.length) return '';
+    return `<div class="focusBlock"><div class="focusBlockTitle">Then, in this order</div><div class="focusPathList">${items.map((item, index) => `<button ${focusJumpAttrs(item, { setWip: true, className: 'focusPathStep focusItem' })}><span class="focusPathNumber">${index + 2}</span><span class="focusPathTitle">${esc(shortLabel(item.task.label, 92))}</span><span class="focusPathMeta">${formatHours(item.task.hours)} · ${item.task.priority.toUpperCase()}</span></button>`).join('')}</div></div>`;
 }
 function focusLaneHtml(item) {
-    return `<button ${focusJumpAttrs(item, { setWip: true, className: 'focusLane focusItem' })}><span class="focusLaneName">${esc(item.lane.title)}</span><span class="focusLaneTask">${esc(shortLabel(item.task.label, 72))}</span><span class="focusLaneMeta">${esc(shortLabel(item.card.title, 28))} · ${formatHours(item.task.hours)} · switch WIP</span></button>`;
+    return `<button ${focusJumpAttrs(item, { setWip: true, className: 'focusLane focusItem' })}><span class="focusLaneName">${esc(item.lane.title)}</span><span class="focusLaneTask">${esc(shortLabel(item.task.label, 72))}</span><span class="focusLaneMeta">${esc(shortLabel(item.card.title, 28))} · ${formatHours(item.task.hours)} · make active</span></button>`;
 }
-function focusLanesBlock(parallels, title) {
-    if (!parallels?.length) return '';
-    return `<div class="focusBlock"><div class="focusBlockTitle">${esc(title)}</div><div class="focusLaneGrid">${parallels.map(focusLaneHtml).join('')}</div></div>`;
+function focusOptionalHtml(items, label = 'Optional parallel tracks') {
+    if (!items?.length) return '';
+    return `<details class="focusOptional"><summary>${esc(label)} · ${items.length}</summary><div class="focusLaneGrid">${items.map(focusLaneHtml).join('')}</div></details>`;
 }
 function openFocusOverlay() {
     const targets = pickFocusTargets();
-    const { now, nextMust, nextElectives, parallels, needsWip, wipDone, wipCard } = targets;
+    const { now, upcoming, parallels, needsWip, wipDone, wipCard, recommendedStart, alternatives } = targets;
     const list = document.getElementById('focus-list');
     const sub = document.getElementById('focus-sub');
 
     if (needsWip) {
-        sub.textContent = 'Pick what you are working on. Lanes in the same phase can run side by side.';
-        list.innerHTML = focusLanesBlock(parallels, 'Start a track') || `<div class="focusEmpty">Nothing left to start.</div>`;
+        sub.textContent = recommendedStart
+            ? `Start with the earliest unfinished step in ${recommendedStart.row.label}.`
+            : 'No unfinished work remains.';
+        list.innerHTML = recommendedStart
+            ? `<div class="focusBlock">${focusPrimaryHtml(recommendedStart, 'Recommended start', true)}</div>${focusOptionalHtml(alternatives, 'Other tracks in this phase')}`
+            : `<div class="focusEmpty"><span class="focusDoneMark">All clear</span></div>`;
     } else if (wipDone) {
-        sub.textContent = `${wipCard.title} is done on this phase. Pick the next WIP.`;
-        list.innerHTML = focusLanesBlock(parallels, 'Switch to') || `<div class="focusEmpty"><span class="focusDoneMark">All clear</span></div>`;
+        sub.textContent = `${wipCard.title} is complete. Here is the next recommended step.`;
+        list.innerHTML = recommendedStart
+            ? `<div class="focusBlock">${focusPrimaryHtml(recommendedStart, 'Continue here', true)}</div>`
+            : `<div class="focusEmpty"><span class="focusDoneMark">All clear</span></div>`;
     } else if (!now) {
         sub.textContent = '';
         list.innerHTML = `<div class="focusEmpty"><span class="focusDoneMark">All clear</span><div style="margin-top:8px">No incomplete tasks left.</div></div>`;
     } else {
         const phaseLabel = now.row.label;
-        sub.textContent = `Working on ${now.card.title} · ${phaseLabel}`;
-        const thenItems = [];
-        if (nextMust && nextMust.task.id !== now.task.id) thenItems.push(focusQuietHtml(nextMust, 'next MUST'));
-        for (const elective of nextElectives) thenItems.push(focusQuietHtml(elective, 'optional'));
-        const thenBlock = thenItems.length
-            ? `<div class="focusBlock"><div class="focusBlockTitle">Then on this track</div>${thenItems.join('')}</div>`
-            : '';
-        list.innerHTML = `<div class="focusBlock">${focusPrimaryHtml(now)}</div>${thenBlock}${focusLanesBlock(parallels, `Also in ${phaseLabel}`)}`;
+        sub.textContent = `${now.card.title} · ${phaseLabel}. Follow this sequence before switching topics.`;
+        list.innerHTML = `<div class="focusBlock">${focusPrimaryHtml(now)}</div>${focusPathHtml(upcoming)}${focusOptionalHtml(parallels)}`;
     }
 
     const overlay = document.getElementById('focus-overlay');
@@ -2956,7 +3453,7 @@ function initTimer() {
     document.addEventListener('visibilitychange', catchUpTimerIfNeeded);
     window.addEventListener('focus', catchUpTimerIfNeeded);
 }
-function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
+function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = uiState.quietMode ? 'wip' : 'all'; const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
 function updateStats() {
     const tasks = allTasks();
     const mustTasks = byPriority('must');
@@ -2977,6 +3474,9 @@ function updateStats() {
     document.getElementById('progress-left-label').textContent = formatHours(totalRemaining) + ' left · ' + pct + '%';
     document.getElementById('finish-must').textContent = pace.mustFinishText;
     document.getElementById('finish-total').textContent = pace.totalFinishText;
+    document.getElementById('today-hours').textContent = formatHours(hoursLoggedOnDate(todayIso()));
+    document.getElementById('active-column').textContent = activeWipLabel();
+    document.getElementById('active-column').title = activeWipLabel();
     document.getElementById('pace-stat').innerHTML = pace.paceStatHtml;
     document.getElementById('overall-progress').style.width = pct + '%';
     syncPaceControls(pace);
@@ -3144,7 +3644,14 @@ function toggleTask(row, checked = undefined) {
     const checkbox = row.querySelector('input[type="checkbox"]');
     const id = row.dataset.taskId;
     const next = checked ?? !checkbox.checked;
-    if (next) progress[id] = { done: true, completedAt: new Date().toISOString() };
+    if (next) {
+        progress[id] = { done: true, completedAt: new Date().toISOString() };
+        if (uiState.wipTaskId === id) {
+            uiState.wipTaskId = null;
+            uiState.wipCardId = null;
+            saveUiState();
+        }
+    }
     else delete progress[id];
     refreshPhaseMilestones(id);
     const openSnap = snapshotOpenCards();
@@ -3156,17 +3663,33 @@ function toggleTask(row, checked = undefined) {
 }
 function applyFilter() {
     const tasks = allTasks();
+    const wipCard = activeFilter === 'wip' ? activeWipCard() : null;
+    const wipLaneId = wipCard?.lane || null;
+    const board = document.getElementById('timeline-board');
+    board.classList.toggle('wipView', activeFilter === 'wip' && Boolean(wipCard));
+    document.querySelectorAll('.laneHead,.laneSlot').forEach(lane => {
+        lane.classList.toggle('wipLaneHidden', activeFilter === 'wip' && lane.dataset.laneId !== wipLaneId);
+    });
+    document.querySelectorAll('.spanChip').forEach(chip => {
+        chip.classList.toggle('hidden', activeFilter === 'wip' && chip.dataset.cardId !== wipCard?.id);
+    });
     let visible = 0;
     for (const task of tasks) {
         const rows = document.querySelectorAll(`[data-task-id="${CSS.escape(task.id)}"]`);
         const show = taskMatchesFilter(task);
-        rows.forEach(row => row.classList.toggle('hidden', !show));
-        if (show) visible += 1;
+        rows.forEach(row => {
+            row.classList.toggle('hidden', !show);
+        });
+        if (show && (activeFilter !== 'wip' || cardContainsTask(wipCard, task.id))) visible += 1;
     }
     document.querySelectorAll('.weekGroup').forEach(group => {
         group.classList.toggle('hidden', !group.querySelector('.task:not(.hidden)'));
     });
     document.querySelectorAll('.timelineCard').forEach(card => {
+        if (activeFilter === 'wip') {
+            card.classList.toggle('hidden', !wipCard || card.dataset.cardId !== wipCard.id);
+            return;
+        }
         const showGuide = card.dataset.guideOnly && activeFilter === 'all';
         const hasVisibleTask = card.querySelector('.task:not(.hidden)');
         const isContinuation = card.classList.contains('continuation');
@@ -3180,7 +3703,9 @@ function applyFilter() {
     const leftCount = tasks.length - doneCount;
     const filterNote = activeFilter === 'all' ? '' : ` · ${visible} visible`;
     document.getElementById('visible-count').innerHTML = `<strong>${doneCount}/${tasks.length}</strong> <span style="color:var(--muted);font-weight:500">${leftCount} left${filterNote}</span>`;
-    document.getElementById('empty-state').style.display = visible ? 'none' : 'block';
+    const empty = document.getElementById('empty-state');
+    empty.textContent = activeFilter === 'wip' ? 'Nothing is marked in progress yet.' : 'No tasks match this filter.';
+    empty.style.display = visible ? 'none' : 'block';
     document.querySelectorAll('.filterButton').forEach(button => {
         button.classList.toggle('active', button.dataset.filter === activeFilter);
     });
@@ -3199,6 +3724,11 @@ function bindEvents() {
         toggleTask(row, checkbox.checked);
     });
     document.body.addEventListener('click', event => {
+        const completedSummary = event.target.closest('.timelineCard.isComplete > summary, .weekGroup.isComplete > summary');
+        if (completedSummary && !event.target.closest('a')) {
+            event.preventDefault();
+            return;
+        }
         const customChip = event.target.closest('[data-timer-custom]');
         if (customChip) {
             openCustomTimerInput(customChip.dataset.timerCustom);
@@ -3234,23 +3764,26 @@ function bindEvents() {
             saveUiState();
             return;
         }
-        const wipButton = event.target.closest('[data-wip-card]');
+        const wipButton = event.target.closest('[data-wip-task]');
         if (wipButton) {
             event.preventDefault();
             event.stopPropagation();
-            const id = wipButton.dataset.wipCard;
-            uiState.wipCardId = uiState.wipCardId === id ? null : id;
+            const id = wipButton.dataset.wipTask;
+            uiState.wipTaskId = uiState.wipTaskId === id ? null : id;
+            uiState.wipCardId = null;
             saveUiState();
             const openSnap = snapshotOpenCards();
             renderTimeline();
             restoreOpenCards(openSnap);
+            updateStats();
             applyFilter();
             return;
         }
         const focusItem = event.target.closest('.focusItem');
         if (focusItem) {
             if (focusItem.dataset.setWip === 'true') {
-                uiState.wipCardId = focusItem.dataset.cardId;
+                uiState.wipTaskId = focusItem.dataset.taskId;
+                uiState.wipCardId = null;
                 saveUiState();
             }
             jumpToFocus(focusItem.dataset.taskId, focusItem.dataset.cardId, focusItem.dataset.phaseId);
@@ -3270,14 +3803,18 @@ function bindEvents() {
         uiState.collapsedPhases = [];
         saveUiState();
         document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = false; });
-        document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'true'));
-        document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = true; });
+        document.querySelectorAll('.phaseDivider').forEach(button => {
+            button.setAttribute('aria-expanded', 'true');
+        });
+        document.querySelectorAll('details.timelineCard:not(.isComplete), details.weekGroup:not(.isComplete), details.readingGuide').forEach(section => { section.open = true; });
     });
     document.getElementById('collapse-all').addEventListener('click', () => {
         uiState.collapsedPhases = ROADMAP.timeline.rows.map(row => row.id);
         saveUiState();
         document.querySelectorAll('.phaseGrid').forEach(grid => { grid.hidden = true; });
-        document.querySelectorAll('.phaseDivider').forEach(button => button.setAttribute('aria-expanded', 'false'));
+        document.querySelectorAll('.phaseDivider').forEach(button => {
+            button.setAttribute('aria-expanded', 'false');
+        });
         document.querySelectorAll('details.timelineCard, details.weekGroup, details.readingGuide').forEach(section => { section.open = false; });
     });
     document.getElementById('reset-progress').addEventListener('click', () => {
@@ -3289,6 +3826,7 @@ function bindEvents() {
         render();
     });
     document.getElementById('focus-open').addEventListener('click', openFocusOverlay);
+    document.getElementById('quiet-toggle').addEventListener('click', toggleQuietMode);
     document.getElementById('focus-close').addEventListener('click', closeFocusOverlay);
     document.getElementById('focus-overlay').addEventListener('click', event => { if (event.target.id === 'focus-overlay') closeFocusOverlay(); });
     document.getElementById('timer-open').addEventListener('click', () => {
@@ -3331,7 +3869,7 @@ function bindEvents() {
         if (uiState.timerPanelOpen) closeTimerPanel();
     });
 }
-render(); bindEvents(); initTimer();
+migrateLegacyWip(); render(); bindEvents(); initTimer();
 </script>
 </body>
 </html>
