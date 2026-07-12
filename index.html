@@ -123,19 +123,28 @@
 .timerBtn { border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:var(--radius); min-height:34px; padding:0 12px; font-weight:750; }
 .timerBtn:hover { border-color:rgba(127,176,214,.55); }
 .timerBtn.active { border-color:var(--elective); background:var(--elective-soft); }
-.timerPanel { position:fixed; bottom:20px; right:20px; z-index:90; width:min(300px,calc(100vw - 28px)); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); padding:14px; display:none; gap:12px; }
+.timerPanel { position:fixed; bottom:20px; right:20px; z-index:90; width:min(320px,calc(100vw - 28px)); border:1px solid var(--border); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); padding:14px; display:none; gap:12px; }
 .timerPanel.open { display:grid; }
 .timerPanel.donePulse { animation:timerDonePulse 700ms ease; }
 @keyframes timerDonePulse { 0% { box-shadow:0 0 0 0 rgba(227,166,61,.55); border-color:var(--must); } 100% { box-shadow:var(--shadow); } }
 .timerPanelHead { display:flex; justify-content:space-between; align-items:center; gap:8px; }
 .timerPanelHead h2 { margin:0; font-size:14px; font-weight:850; letter-spacing:.02em; }
 .timerClose { border:1px solid var(--border); background:var(--surface-2); color:var(--muted); border-radius:var(--radius); min-height:28px; padding:0 8px; font-size:12px; }
-.timerModeRow,.timerChipRow { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
-.timerModeBtn,.timerLenChip { display:inline-flex; align-items:center; justify-content:center; min-height:26px; padding:0 10px; border-radius:999px; border:1px solid var(--border); background:var(--surface-2); color:var(--muted); font-size:11px; font-weight:750; cursor:pointer; }
-.timerModeBtn:hover,.timerLenChip:hover { color:var(--text); border-color:rgba(255,255,255,.2); }
-.timerModeBtn.active.work,.timerLenChip.active.work { border-color:var(--must); background:var(--must-soft); color:var(--text); }
-.timerModeBtn.active.break,.timerLenChip.active.break { border-color:var(--elective); background:var(--elective-soft); color:var(--text); }
-.timerSectionLabel { color:var(--faint); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; width:100%; }
+.timerChipRow { display:grid; grid-template-columns:52px repeat(4,minmax(0,1fr)); gap:6px; align-items:center; padding:6px; border-radius:10px; border:1px solid transparent; background:rgba(255,255,255,.02); transition:border-color 160ms ease, background 160ms ease, opacity 160ms ease; }
+.timerChipRow:not(.currentMode) { opacity:.72; }
+.timerChipRow.currentMode { opacity:1; border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.05); }
+#timer-work-chips.currentMode { border-color:rgba(227,166,61,.45); background:rgba(227,166,61,.08); }
+#timer-break-chips.currentMode { border-color:rgba(127,176,214,.45); background:rgba(127,176,214,.08); }
+.timerSectionLabel { color:var(--faint); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.timerLenChip { display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:0 8px; border-radius:10px; border:1px solid var(--border); background:var(--surface-2); color:var(--muted); font-size:13px; font-weight:800; cursor:pointer; font-variant-numeric:tabular-nums; }
+.timerLenChip:hover { color:var(--text); border-color:rgba(255,255,255,.22); }
+.timerLenChip.work.active { border-color:var(--must); background:var(--must-soft); color:var(--text); box-shadow:inset 0 0 0 1px rgba(227,166,61,.25); }
+.timerLenChip.break.active { border-color:var(--elective); background:var(--elective-soft); color:var(--text); box-shadow:inset 0 0 0 1px rgba(127,176,214,.25); }
+.timerLenChip.custom { border-style:dashed; font-size:11px; letter-spacing:.02em; }
+.timerCustomInput { width:100%; min-height:34px; padding:0 6px; border-radius:10px; border:1px solid var(--border); background:var(--surface-2); color:var(--text); font-size:13px; font-weight:800; font-variant-numeric:tabular-nums; text-align:center; box-sizing:border-box; }
+.timerCustomInput.work { border-color:var(--must); box-shadow:inset 0 0 0 1px rgba(227,166,61,.25); }
+.timerCustomInput.break { border-color:var(--elective); box-shadow:inset 0 0 0 1px rgba(127,176,214,.25); }
+.timerCustomInput:focus { outline:none; border-color:var(--text); }
 .timerDisplayWrap { display:grid; gap:4px; justify-items:center; padding:8px 0 2px; }
 .timerBadge { display:inline-flex; align-items:center; min-height:18px; padding:0 8px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:.08em; }
 .timerBadge.work { color:var(--must); background:var(--must-soft); }
@@ -145,20 +154,30 @@
 .timerControls button { flex:1; min-height:34px; border-radius:var(--radius); border:1px solid var(--border); background:var(--surface-2); color:var(--text); font-weight:750; font-size:12px; }
 .timerControls button.primary { border-color:var(--must); background:var(--must-soft); }
 .timerControls button:disabled { opacity:.45; cursor:default; }
-.timerChipFloat { position:fixed; bottom:20px; right:20px; z-index:89; display:none; align-items:center; gap:8px; min-height:44px; padding:0 14px 0 12px; border-radius:999px; border:1px solid var(--border); background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),var(--surface); box-shadow:var(--shadow); cursor:pointer; color:var(--text); font:inherit; }
+.timerAudioRow { display:grid; gap:8px; padding-top:4px; border-top:1px solid rgba(48,57,70,.55); }
+.timerAudioControls { display:flex; gap:8px; align-items:center; }
+.timerMuteBtn { border:1px solid var(--border); background:var(--surface-2); color:var(--muted); border-radius:var(--radius); min-height:32px; padding:0 10px; font-size:12px; font-weight:750; white-space:nowrap; }
+.timerMuteBtn.active { border-color:var(--danger); color:var(--danger); background:rgba(212,125,114,.12); }
+.timerVolume { flex:1; accent-color:var(--must); }
+.timerVolumeLabel { color:var(--faint); font-size:10px; font-weight:750; letter-spacing:.06em; text-transform:uppercase; }
+.timerChipFloat { position:fixed; top:16px; right:16px; z-index:95; display:none; align-items:center; gap:10px; min-height:56px; padding:0 18px 0 14px; border-radius:999px; border:1px solid var(--border); background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02)),var(--surface); box-shadow:0 12px 40px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.04); cursor:pointer; color:var(--text); font:inherit; animation:timerChipIn 220ms ease; }
 .timerChipFloat.visible { display:inline-flex; }
-.timerChipFloat.work { border-color:rgba(227,166,61,.55); }
-.timerChipFloat.break { border-color:rgba(127,176,214,.55); }
-.timerChipFloat:hover { border-color:var(--text); }
-.timerChipFloatDot { width:8px; height:8px; border-radius:50%; flex-shrink:0; background:var(--must); box-shadow:0 0 0 3px rgba(227,166,61,.2); }
-.timerChipFloat.break .timerChipFloatDot { background:var(--elective); box-shadow:0 0 0 3px rgba(127,176,214,.2); }
-.timerChipFloat.paused .timerChipFloatDot { animation:timerChipBlink 1.1s ease infinite; }
+.timerChipFloat.work { border-color:rgba(227,166,61,.7); box-shadow:0 12px 40px rgba(0,0,0,.45),0 0 24px rgba(227,166,61,.18); }
+.timerChipFloat.break { border-color:rgba(127,176,214,.7); box-shadow:0 12px 40px rgba(0,0,0,.45),0 0 24px rgba(127,176,214,.16); }
+.timerChipFloat.finished { animation:timerChipAlert 1s ease infinite; }
+@keyframes timerChipIn { from { opacity:0; transform:translateY(-8px) scale(.96); } to { opacity:1; transform:none; } }
+@keyframes timerChipAlert { 0%,100% { box-shadow:0 12px 40px rgba(0,0,0,.45),0 0 0 0 rgba(212,125,114,.0); } 50% { box-shadow:0 12px 40px rgba(0,0,0,.45),0 0 0 6px rgba(212,125,114,.28); } }
+.timerChipFloat:hover { transform:translateY(-1px); }
+.timerChipFloatIcon { font-size:18px; line-height:1; }
+.timerChipFloatDot { width:10px; height:10px; border-radius:50%; flex-shrink:0; background:var(--must); box-shadow:0 0 0 4px rgba(227,166,61,.22); }
+.timerChipFloat.break .timerChipFloatDot { background:var(--elective); box-shadow:0 0 0 4px rgba(127,176,214,.22); }
+.timerChipFloat.paused .timerChipFloatDot,.timerChipFloat.finished .timerChipFloatDot { animation:timerChipBlink 1.1s ease infinite; }
 @keyframes timerChipBlink { 0%,100% { opacity:1; } 50% { opacity:.25; } }
-.timerChipFloatText { display:inline-flex; align-items:baseline; gap:6px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; letter-spacing:.06em; }
-.timerChipFloatMode { font-size:11px; font-weight:800; letter-spacing:.1em; }
+.timerChipFloatText { display:inline-flex; align-items:baseline; gap:8px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; letter-spacing:.06em; }
+.timerChipFloatMode { font-size:12px; font-weight:850; letter-spacing:.12em; }
 .timerChipFloat.work .timerChipFloatMode { color:var(--must); }
 .timerChipFloat.break .timerChipFloatMode { color:var(--elective); }
-.timerChipFloatTime { font-size:18px; font-weight:850; color:var(--text); }
+.timerChipFloatTime { font-size:22px; font-weight:850; color:var(--text); }
 
 @media (max-width:520px) {
   .statusStrip { top:0; border-radius:0; margin-inline:-14px; width:calc(100% + 28px); }
@@ -169,7 +188,7 @@
   .timelineCard .task { grid-template-columns:22px minmax(0,1fr) auto; }
   .taskMetaLine { grid-column:2 / -1; }
   .timerPanel { left:14px; right:14px; bottom:14px; width:auto; }
-  .timerChipFloat { left:14px; right:14px; bottom:14px; justify-content:center; }
+  .timerChipFloat { left:14px; right:14px; top:10px; justify-content:center; }
 }
 
 </style>
@@ -230,21 +249,21 @@
     <h2>Pomodoro</h2>
     <button class="timerClose" id="timer-close" type="button">Close</button>
   </div>
-  <div class="timerModeRow" role="group" aria-label="Session type">
-    <button type="button" class="timerModeBtn work active" data-timer-mode="work">Work</button>
-    <button type="button" class="timerModeBtn break" data-timer-mode="break">Break</button>
-  </div>
   <div class="timerChipRow" id="timer-work-chips" role="group" aria-label="Work length">
     <span class="timerSectionLabel">Work</span>
-    <button type="button" class="timerLenChip work" data-timer-work="15">15</button>
-    <button type="button" class="timerLenChip work" data-timer-work="30">30</button>
-    <button type="button" class="timerLenChip work" data-timer-work="45">45</button>
+    <button type="button" class="timerLenChip work" data-timer-pick="work" data-timer-mins="15">15</button>
+    <button type="button" class="timerLenChip work" data-timer-pick="work" data-timer-mins="30">30</button>
+    <button type="button" class="timerLenChip work" data-timer-pick="work" data-timer-mins="45">45</button>
+    <button type="button" class="timerLenChip work custom" data-timer-custom="work" id="timer-custom-work-btn">Custom</button>
+    <input class="timerCustomInput work" id="timer-custom-work-input" type="number" min="1" max="180" step="1" inputmode="numeric" hidden aria-label="Custom work minutes">
   </div>
   <div class="timerChipRow" id="timer-break-chips" role="group" aria-label="Break length">
     <span class="timerSectionLabel">Break</span>
-    <button type="button" class="timerLenChip break" data-timer-break="5" title="Short break">5</button>
-    <button type="button" class="timerLenChip break" data-timer-break="15" title="Long break">15</button>
-    <button type="button" class="timerLenChip break" data-timer-break="30" title="Huge break">30</button>
+    <button type="button" class="timerLenChip break" data-timer-pick="break" data-timer-mins="5" title="Short">5</button>
+    <button type="button" class="timerLenChip break" data-timer-pick="break" data-timer-mins="15" title="Long">15</button>
+    <button type="button" class="timerLenChip break" data-timer-pick="break" data-timer-mins="30" title="Huge">30</button>
+    <button type="button" class="timerLenChip break custom" data-timer-custom="break" id="timer-custom-break-btn">Custom</button>
+    <input class="timerCustomInput break" id="timer-custom-break-input" type="number" min="1" max="180" step="1" inputmode="numeric" hidden aria-label="Custom break minutes">
   </div>
   <div class="timerDisplayWrap">
     <span class="timerBadge work" id="timer-badge">WORK</span>
@@ -256,8 +275,17 @@
     <button type="button" id="timer-resume" hidden>Resume</button>
     <button type="button" id="timer-reset">Reset</button>
   </div>
+  <div class="timerAudioRow">
+    <div class="timerVolumeLabel">Alarm</div>
+    <div class="timerAudioControls">
+      <button type="button" class="timerMuteBtn" id="timer-mute" title="Silence alarm">Mute</button>
+      <input class="timerVolume" id="timer-volume" type="range" min="0" max="100" value="80" aria-label="Alarm volume">
+      <button type="button" class="timerMuteBtn" id="timer-silence" hidden>Silence</button>
+    </div>
+  </div>
 </div>
 <button type="button" class="timerChipFloat" id="timer-chip" hidden aria-label="Open Pomodoro timer">
+  <span class="timerChipFloatIcon" id="timer-chip-icon" aria-hidden="true">⏱</span>
   <span class="timerChipFloatDot" aria-hidden="true"></span>
   <span class="timerChipFloatText"><span class="timerChipFloatMode" id="timer-chip-mode">WORK</span><span class="timerChipFloatTime" id="timer-chip-time">30:00</span></span>
 </button>
@@ -2021,10 +2049,20 @@ function clampStartDate(value) {
     if (next > today) next = today;
     return next;
 }
+function clampTimerMins(value) {
+    const n = Math.round(Number(value));
+    if (!Number.isFinite(n)) return null;
+    return Math.min(180, Math.max(1, n));
+}
+function normalizeTimerMins(value, fallback) {
+    return clampTimerMins(value) ?? fallback;
+}
 function normalizeUiState(state) {
     const targetPace = PACE_OPTIONS.includes(state.targetPace) ? state.targetPace : 4;
-    const workMins = [15, 30, 45].includes(state.timerWorkMins) ? state.timerWorkMins : 30;
-    const breakMins = [5, 15, 30].includes(state.timerBreakMins) ? state.timerBreakMins : 5;
+    const workMins = normalizeTimerMins(state.timerWorkMins, 30);
+    const breakMins = normalizeTimerMins(state.timerBreakMins, 5);
+    const rawVol = typeof state.timerVolume === 'number' ? state.timerVolume : 0.8;
+    const timerVolume = Math.min(1, Math.max(0, rawVol > 1 ? rawVol / 100 : rawVol));
     const phaseMilestones = state.phaseMilestones && typeof state.phaseMilestones === 'object' ? state.phaseMilestones : {};
     return {
         collapsedPhases: Array.isArray(state.collapsedPhases) ? state.collapsedPhases : [],
@@ -2034,6 +2072,8 @@ function normalizeUiState(state) {
         timerWorkMins: workMins,
         timerBreakMins: breakMins,
         timerPanelOpen: Boolean(state.timerPanelOpen),
+        timerVolume,
+        timerMuted: Boolean(state.timerMuted),
         phaseMilestones
     };
 }
@@ -2365,16 +2405,31 @@ function openFocusOverlay() {
 }
 function closeFocusOverlay() { const overlay = document.getElementById('focus-overlay'); overlay.classList.remove('open'); overlay.hidden = true; }
 
+const TIMER_PAGE_TITLE = 'Tech Learning Roadmap';
+const TIMER_WORK_PRESETS = [15, 30, 45];
+const TIMER_BREAK_PRESETS = [5, 15, 30];
 const TIMER_WORK_SOUNDS = ['sounds/Viktor_Original_Laugh_0.ogg', 'sounds/Viktor_Original_Laugh_3.ogg'];
 const TIMER_BREAK_SOUNDS = ['sounds/Gnar_Original_Dance_buff_0.ogg', 'sounds/Gnar_Astronaut_Dance_buff_1.ogg'];
+const TIMER_SILENT_WAV = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
 const timerState = {
     mode: 'work',
     remainingMs: 30 * 60 * 1000,
     running: false,
     paused: false,
     finished: false,
+    alerting: false,
     endsAt: null,
-    tickId: null
+    tickId: null,
+    doneTimeoutId: null,
+    titleFlashId: null,
+    titleFlashOn: false,
+    keepAliveAudio: null,
+    alarmAudio: null,
+    unlocked: false,
+    unlockedAudios: {},
+    faviconBase: null,
+    lastChromeKey: '',
+    editingCustom: null
 };
 function selectedTimerMins() {
     return timerState.mode === 'work' ? uiState.timerWorkMins : uiState.timerBreakMins;
@@ -2385,17 +2440,243 @@ function formatTimerMs(ms) {
     const secs = totalSec % 60;
     return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
 }
-function playAlarm(mode) {
-    const pool = mode === 'work' ? TIMER_WORK_SOUNDS : TIMER_BREAK_SOUNDS;
-    const src = pool[Math.floor(Math.random() * pool.length)];
-    const audio = new Audio(src);
-    audio.play().catch(() => {});
+function alarmVolume() {
+    if (uiState.timerMuted) return 0;
+    return typeof uiState.timerVolume === 'number' ? uiState.timerVolume : 0.8;
+}
+function stopAlarmAudio() {
+    if (timerState.alarmAudio) {
+        try {
+            timerState.alarmAudio.pause();
+            timerState.alarmAudio.currentTime = 0;
+        } catch (_) {}
+        timerState.alarmAudio = null;
+    }
+}
+function stopTitleFlash() {
+    if (timerState.titleFlashId) {
+        clearInterval(timerState.titleFlashId);
+        timerState.titleFlashId = null;
+    }
+    timerState.titleFlashOn = false;
+}
+function clearDoneTimeout() {
+    if (timerState.doneTimeoutId) {
+        clearTimeout(timerState.doneTimeoutId);
+        timerState.doneTimeoutId = null;
+    }
 }
 function stopTimerTick() {
     if (timerState.tickId) {
         clearInterval(timerState.tickId);
         timerState.tickId = null;
     }
+    clearDoneTimeout();
+}
+function stopKeepAlive() {
+    if (timerState.keepAliveAudio) {
+        try {
+            timerState.keepAliveAudio.pause();
+        } catch (_) {}
+        timerState.keepAliveAudio = null;
+    }
+}
+function ensureFaviconBase() {
+    if (timerState.faviconBase) return timerState.faviconBase;
+    const link = document.querySelector('link[rel="icon"][sizes="32x32"]') || document.querySelector('link[rel="icon"]');
+    timerState.faviconBase = link ? link.href : '/favico/favicon-32x32.png';
+    return timerState.faviconBase;
+}
+function setDynamicFavicon(dataUrl) {
+    let link = document.getElementById('timer-dynamic-favicon');
+    if (!link) {
+        link = document.createElement('link');
+        link.id = 'timer-dynamic-favicon';
+        link.rel = 'icon';
+        link.type = 'image/png';
+        document.head.appendChild(link);
+    }
+    link.href = dataUrl;
+}
+function restoreFavicon() {
+    const link = document.getElementById('timer-dynamic-favicon');
+    if (link) link.remove();
+}
+function paintFavicon(opts = {}) {
+    const { alert = false, pulse = false, mode = timerState.mode } = opts;
+    const size = 32;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const drawBadge = () => {
+        if (alert || pulse) {
+            const r = pulse && timerState.titleFlashOn ? 7 : 6;
+            ctx.beginPath();
+            ctx.arc(size - 7, 7, r, 0, Math.PI * 2);
+            ctx.fillStyle = '#e24b4b';
+            ctx.fill();
+            ctx.strokeStyle = '#1a1f27';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        } else if (timerState.running || timerState.paused) {
+            ctx.beginPath();
+            ctx.arc(size - 7, 7, 5, 0, Math.PI * 2);
+            ctx.fillStyle = mode === 'work' ? '#e3a63d' : '#7fb0d6';
+            ctx.fill();
+            ctx.strokeStyle = '#1a1f27';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+        setDynamicFavicon(canvas.toDataURL('image/png'));
+    };
+    const img = new Image();
+    img.onload = () => {
+        ctx.clearRect(0, 0, size, size);
+        ctx.drawImage(img, 0, 0, size, size);
+        drawBadge();
+    };
+    img.onerror = () => {
+        ctx.fillStyle = '#1a1f27';
+        ctx.fillRect(0, 0, size, size);
+        ctx.fillStyle = mode === 'work' ? '#e3a63d' : '#7fb0d6';
+        ctx.fillRect(6, 6, 20, 20);
+        drawBadge();
+    };
+    img.src = ensureFaviconBase();
+}
+function updateTabChrome() {
+    const clock = formatTimerMs(timerState.remainingMs);
+    const modeLabel = timerState.mode === 'work' ? 'WORK' : 'BREAK';
+    const sessionLive = timerState.running || timerState.paused || timerState.finished;
+    if (!sessionLive) {
+        document.title = TIMER_PAGE_TITLE;
+        restoreFavicon();
+        timerState.lastChromeKey = '';
+        return;
+    }
+    if (timerState.alerting || timerState.finished) {
+        const flashKey = 'done:' + (timerState.titleFlashOn ? '1' : '0') + ':' + modeLabel;
+        document.title = timerState.titleFlashOn
+            ? `🔔 ${modeLabel} DONE · ${TIMER_PAGE_TITLE}`
+            : `● ${modeLabel} 00:00 · ${TIMER_PAGE_TITLE}`;
+        if (timerState.lastChromeKey !== flashKey) {
+            timerState.lastChromeKey = flashKey;
+            paintFavicon({ alert: true, pulse: true });
+        }
+        return;
+    }
+    const prefix = timerState.paused ? '⏸' : '⏱';
+    document.title = `${prefix} ${modeLabel} ${clock} · ${TIMER_PAGE_TITLE}`;
+    const runKey = 'run:' + modeLabel + ':' + (timerState.paused ? 'p' : 'r') + ':' + clock.slice(0, 2);
+    if (timerState.lastChromeKey !== runKey) {
+        timerState.lastChromeKey = runKey;
+        paintFavicon({ alert: false, pulse: false });
+    }
+}
+function startTitleFlash() {
+    stopTitleFlash();
+    timerState.titleFlashOn = true;
+    updateTabChrome();
+    timerState.titleFlashId = setInterval(() => {
+        timerState.titleFlashOn = !timerState.titleFlashOn;
+        updateTabChrome();
+    }, 700);
+}
+function unlockTimerAudio() {
+    if (!timerState.unlocked) {
+        const all = TIMER_WORK_SOUNDS.concat(TIMER_BREAK_SOUNDS);
+        all.forEach(src => {
+            if (timerState.unlockedAudios[src]) return;
+            const a = new Audio(src);
+            a.preload = 'auto';
+            a.volume = 0;
+            timerState.unlockedAudios[src] = a;
+            const p = a.play();
+            if (p && typeof p.then === 'function') {
+                p.then(() => { a.pause(); a.currentTime = 0; }).catch(() => {});
+            }
+        });
+        timerState.unlocked = true;
+    }
+    if (!timerState.keepAliveAudio) {
+        const keep = new Audio(TIMER_SILENT_WAV);
+        keep.loop = true;
+        keep.volume = 0.001;
+        keep.play().catch(() => {});
+        timerState.keepAliveAudio = keep;
+    }
+    if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+        Notification.requestPermission().catch(() => {});
+    }
+}
+function playAlarm(mode) {
+    stopAlarmAudio();
+    if (uiState.timerMuted || alarmVolume() <= 0) return;
+    const pool = mode === 'work' ? TIMER_WORK_SOUNDS : TIMER_BREAK_SOUNDS;
+    const src = pool[Math.floor(Math.random() * pool.length)];
+    const audio = timerState.unlockedAudios[src] || new Audio(src);
+    timerState.unlockedAudios[src] = audio;
+    try {
+        audio.pause();
+        audio.currentTime = 0;
+    } catch (_) {}
+    audio.loop = true;
+    audio.volume = alarmVolume();
+    timerState.alarmAudio = audio;
+    const tryPlay = () => {
+        const p = audio.play();
+        if (p && typeof p.then === 'function') p.catch(() => {});
+    };
+    tryPlay();
+    // Background tabs sometimes need a second kick after visibility returns
+    const retry = () => {
+        if (timerState.alarmAudio === audio && (audio.paused || audio.ended)) tryPlay();
+    };
+    document.addEventListener('visibilitychange', retry);
+    setTimeout(() => document.removeEventListener('visibilitychange', retry), 8000);
+    setTimeout(retry, 120);
+}
+function notifyTimerDone(mode) {
+    const label = mode === 'work' ? 'Work' : 'Break';
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    try {
+        const n = new Notification(`${label} session done`, {
+            body: 'Timer hit 00:00 — open the tab to continue.',
+            tag: 'pomodoro-done',
+            renotify: true
+        });
+        n.onclick = () => { window.focus(); n.close(); };
+    } catch (_) {}
+}
+function silenceAlarm() {
+    stopAlarmAudio();
+    stopTitleFlash();
+    timerState.alerting = false;
+    const silenceBtn = document.getElementById('timer-silence');
+    if (silenceBtn) silenceBtn.hidden = true;
+    if (timerState.finished) {
+        document.title = `● ${(timerState.mode === 'work' ? 'WORK' : 'BREAK')} DONE · ${TIMER_PAGE_TITLE}`;
+        paintFavicon({ alert: true, pulse: false });
+    } else {
+        updateTabChrome();
+    }
+    syncTimerUi();
+}
+function syncAudioControls() {
+    const muteBtn = document.getElementById('timer-mute');
+    const volume = document.getElementById('timer-volume');
+    const silenceBtn = document.getElementById('timer-silence');
+    if (muteBtn) {
+        muteBtn.classList.toggle('active', Boolean(uiState.timerMuted));
+        muteBtn.textContent = uiState.timerMuted ? 'Unmute' : 'Mute';
+    }
+    if (volume) {
+        volume.value = String(Math.round((uiState.timerVolume || 0) * 100));
+        volume.disabled = Boolean(uiState.timerMuted);
+    }
+    if (silenceBtn) silenceBtn.hidden = !timerState.alerting;
+    if (timerState.alarmAudio) timerState.alarmAudio.volume = alarmVolume();
 }
 function syncTimerUi() {
     const panel = document.getElementById('timer-panel');
@@ -2408,6 +2689,7 @@ function syncTimerUi() {
     const chip = document.getElementById('timer-chip');
     const chipMode = document.getElementById('timer-chip-mode');
     const chipTime = document.getElementById('timer-chip-time');
+    const chipIcon = document.getElementById('timer-chip-icon');
     if (!panel || !display) return;
 
     const clock = formatTimerMs(timerState.remainingMs);
@@ -2416,15 +2698,15 @@ function syncTimerUi() {
     badge.textContent = modeLabel;
     badge.className = 'timerBadge ' + timerState.mode;
 
-    document.querySelectorAll('[data-timer-mode]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.timerMode === timerState.mode);
+    document.querySelectorAll('[data-timer-pick="work"]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.dataset.timerMins) === uiState.timerWorkMins);
     });
-    document.querySelectorAll('[data-timer-work]').forEach(btn => {
-        btn.classList.toggle('active', Number(btn.dataset.timerWork) === uiState.timerWorkMins);
+    document.querySelectorAll('[data-timer-pick="break"]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.dataset.timerMins) === uiState.timerBreakMins);
     });
-    document.querySelectorAll('[data-timer-break]').forEach(btn => {
-        btn.classList.toggle('active', Number(btn.dataset.timerBreak) === uiState.timerBreakMins);
-    });
+    syncCustomTimerChips();
+    document.getElementById('timer-work-chips')?.classList.toggle('currentMode', timerState.mode === 'work');
+    document.getElementById('timer-break-chips')?.classList.toggle('currentMode', timerState.mode === 'break');
 
     const showStart = !timerState.running && !timerState.paused;
     const showPause = timerState.running && !timerState.paused;
@@ -2439,17 +2721,26 @@ function syncTimerUi() {
     openBtn.classList.toggle('active', open);
 
     const sessionLive = timerState.running || timerState.paused || timerState.finished;
-    const showChip = sessionLive && !open;
     if (chip) {
-        chip.hidden = !showChip;
-        chip.classList.toggle('visible', showChip);
+        chip.hidden = !sessionLive;
+        chip.classList.toggle('visible', sessionLive);
         chip.classList.toggle('work', timerState.mode === 'work');
         chip.classList.toggle('break', timerState.mode === 'break');
         chip.classList.toggle('paused', timerState.paused);
+        chip.classList.toggle('finished', timerState.finished || timerState.alerting);
         if (chipMode) chipMode.textContent = modeLabel;
         if (chipTime) chipTime.textContent = clock;
+        if (chipIcon) {
+            chipIcon.textContent = timerState.finished || timerState.alerting
+                ? '🔔'
+                : timerState.paused
+                    ? '⏸'
+                    : timerState.mode === 'work' ? '🔥' : '☕';
+        }
         chip.setAttribute('aria-label', `${modeLabel} ${clock} — open timer`);
     }
+    syncAudioControls();
+    updateTabChrome();
 }
 function openTimerPanel() {
     uiState.timerPanelOpen = true;
@@ -2464,26 +2755,46 @@ function closeTimerPanel() {
 function resetTimerToSelected(stop = true) {
     if (stop) {
         stopTimerTick();
+        stopAlarmAudio();
+        stopTitleFlash();
+        stopKeepAlive();
         timerState.running = false;
         timerState.paused = false;
         timerState.finished = false;
+        timerState.alerting = false;
         timerState.endsAt = null;
+        const silenceBtn = document.getElementById('timer-silence');
+        if (silenceBtn) silenceBtn.hidden = true;
     }
     timerState.remainingMs = selectedTimerMins() * 60 * 1000;
     syncTimerUi();
 }
+function armDoneTimeout() {
+    clearDoneTimeout();
+    if (!timerState.endsAt) return;
+    const delay = Math.max(0, timerState.endsAt - Date.now());
+    timerState.doneTimeoutId = setTimeout(() => {
+        if (timerState.running && !timerState.paused) onTimerComplete();
+    }, delay);
+}
 function onTimerComplete() {
+    if (timerState.finished && timerState.alerting) return;
     stopTimerTick();
     timerState.running = false;
     timerState.paused = false;
     timerState.finished = true;
+    timerState.alerting = true;
     timerState.endsAt = null;
     timerState.remainingMs = 0;
     playAlarm(timerState.mode);
+    notifyTimerDone(timerState.mode);
+    startTitleFlash();
     const panel = document.getElementById('timer-panel');
-    panel.classList.remove('donePulse');
-    void panel.offsetWidth;
-    panel.classList.add('donePulse');
+    if (panel) {
+        panel.classList.remove('donePulse');
+        void panel.offsetWidth;
+        panel.classList.add('donePulse');
+    }
     syncTimerUi();
 }
 function tickTimer() {
@@ -2496,18 +2807,24 @@ function tickTimer() {
     }
     timerState.remainingMs = left;
     const clock = formatTimerMs(left);
-    document.getElementById('timer-display').textContent = clock;
+    const display = document.getElementById('timer-display');
+    if (display) display.textContent = clock;
     const chipTime = document.getElementById('timer-chip-time');
     if (chipTime) chipTime.textContent = clock;
+    updateTabChrome();
 }
 function startTimer() {
+    unlockTimerAudio();
+    silenceAlarm();
     timerState.finished = false;
+    timerState.alerting = false;
     timerState.remainingMs = selectedTimerMins() * 60 * 1000;
     timerState.running = true;
     timerState.paused = false;
     timerState.endsAt = Date.now() + timerState.remainingMs;
     stopTimerTick();
     timerState.tickId = setInterval(tickTimer, 250);
+    armDoneTimeout();
     openTimerPanel();
     syncTimerUi();
 }
@@ -2521,37 +2838,123 @@ function pauseTimer() {
 }
 function resumeTimer() {
     if (!timerState.paused || timerState.remainingMs <= 0) return;
+    unlockTimerAudio();
     timerState.paused = false;
     timerState.running = true;
     timerState.endsAt = Date.now() + timerState.remainingMs;
     stopTimerTick();
     timerState.tickId = setInterval(tickTimer, 250);
+    armDoneTimeout();
     syncTimerUi();
 }
-function setTimerMode(mode) {
-    if (mode !== 'work' && mode !== 'break') return;
-    timerState.mode = mode;
-    resetTimerToSelected(true);
-}
-function setTimerLength(kind, mins) {
-    if (kind === 'work' && [15, 30, 45].includes(mins)) {
-        uiState.timerWorkMins = mins;
+function pickTimerSession(kind, mins) {
+    const clamped = clampTimerMins(mins);
+    if (clamped == null) return;
+    if (kind === 'work') {
+        uiState.timerWorkMins = clamped;
+        timerState.mode = 'work';
         saveUiState();
-        if (timerState.mode === 'work') resetTimerToSelected(true);
-        else syncTimerUi();
+        resetTimerToSelected(true);
         return;
     }
-    if (kind === 'break' && [5, 15, 30].includes(mins)) {
-        uiState.timerBreakMins = mins;
+    if (kind === 'break') {
+        uiState.timerBreakMins = clamped;
+        timerState.mode = 'break';
         saveUiState();
-        if (timerState.mode === 'break') resetTimerToSelected(true);
-        else syncTimerUi();
+        resetTimerToSelected(true);
+    }
+}
+function customTimerEls(kind) {
+    return {
+        btn: document.getElementById(kind === 'work' ? 'timer-custom-work-btn' : 'timer-custom-break-btn'),
+        input: document.getElementById(kind === 'work' ? 'timer-custom-work-input' : 'timer-custom-break-input')
+    };
+}
+function isCustomTimerMins(kind, mins) {
+    const presets = kind === 'work' ? TIMER_WORK_PRESETS : TIMER_BREAK_PRESETS;
+    return !presets.includes(mins);
+}
+function syncCustomTimerChips() {
+    ['work', 'break'].forEach(kind => {
+        const { btn, input } = customTimerEls(kind);
+        if (!btn || !input) return;
+        const mins = kind === 'work' ? uiState.timerWorkMins : uiState.timerBreakMins;
+        const editing = timerState.editingCustom === kind;
+        const customActive = isCustomTimerMins(kind, mins);
+        btn.hidden = editing;
+        input.hidden = !editing;
+        btn.classList.toggle('active', customActive && !editing);
+        btn.textContent = customActive ? String(mins) : 'Custom';
+    });
+}
+function openCustomTimerInput(kind) {
+    if (kind !== 'work' && kind !== 'break') return;
+    if (timerState.editingCustom && timerState.editingCustom !== kind) {
+        cancelCustomTimerInput(timerState.editingCustom);
+    }
+    const { input } = customTimerEls(kind);
+    if (!input) return;
+    const mins = kind === 'work' ? uiState.timerWorkMins : uiState.timerBreakMins;
+    timerState.editingCustom = kind;
+    input.value = isCustomTimerMins(kind, mins) ? String(mins) : '';
+    input.placeholder = 'min';
+    syncCustomTimerChips();
+    requestAnimationFrame(() => {
+        input.focus();
+        input.select();
+    });
+}
+function cancelCustomTimerInput(kind) {
+    const { input } = customTimerEls(kind);
+    if (timerState.editingCustom === kind) timerState.editingCustom = null;
+    if (input) input.hidden = true;
+    syncCustomTimerChips();
+}
+function commitCustomTimerInput(kind) {
+    const { input } = customTimerEls(kind);
+    if (!input) return;
+    const clamped = clampTimerMins(input.value);
+    timerState.editingCustom = null;
+    input.hidden = true;
+    if (clamped == null) {
+        syncCustomTimerChips();
+        syncTimerUi();
+        return;
+    }
+    pickTimerSession(kind, clamped);
+}
+function setTimerMuted(muted) {
+    uiState.timerMuted = Boolean(muted);
+    saveUiState();
+    if (uiState.timerMuted) stopAlarmAudio();
+    else if (timerState.alarmAudio) timerState.alarmAudio.volume = alarmVolume();
+    syncAudioControls();
+}
+function setTimerVolume(pct) {
+    const n = Math.min(100, Math.max(0, Number(pct) || 0));
+    uiState.timerVolume = n / 100;
+    if (n > 0 && uiState.timerMuted) uiState.timerMuted = false;
+    saveUiState();
+    if (timerState.alarmAudio) timerState.alarmAudio.volume = alarmVolume();
+    syncAudioControls();
+}
+function catchUpTimerIfNeeded() {
+    if (timerState.running && !timerState.paused && timerState.endsAt && Date.now() >= timerState.endsAt) {
+        onTimerComplete();
+        return;
+    }
+    if (timerState.running && !timerState.paused && timerState.endsAt) {
+        timerState.remainingMs = Math.max(0, timerState.endsAt - Date.now());
+        syncTimerUi();
     }
 }
 function initTimer() {
     timerState.mode = 'work';
     timerState.remainingMs = uiState.timerWorkMins * 60 * 1000;
+    ensureFaviconBase();
     syncTimerUi();
+    document.addEventListener('visibilitychange', catchUpTimerIfNeeded);
+    window.addEventListener('focus', catchUpTimerIfNeeded);
 }
 function jumpToFocus(taskId, cardId, phaseId) { closeFocusOverlay(); activeFilter = 'all'; const openSnap = snapshotOpenCards(); renderTimeline(); restoreOpenCards(openSnap); updateStats(); applyFilter(); const set = new Set(uiState.collapsedPhases || []); set.delete(phaseId); uiState.collapsedPhases = [...set]; saveUiState(); const phase = document.querySelector(`[data-phase-id="${CSS.escape(phaseId)}"]`); if (!phase) return; const grid = phase.querySelector('.phaseGrid'); if (grid) grid.hidden = false; phase.querySelector('.phaseDivider')?.setAttribute('aria-expanded', 'true'); phase.scrollIntoView({ behavior: 'smooth', block: 'start' }); const cards = [...phase.querySelectorAll(`details.timelineCard[data-card-id="${CSS.escape(cardId)}"]`)]; const card = cards.find(el => !el.classList.contains('continuation')) || cards[0]; if (card) { card.open = true; card.querySelectorAll('details.weekGroup').forEach(group => { if (group.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`)) group.open = true; }); } window.setTimeout(() => { const row = phase.querySelector(`[data-task-id="${CSS.escape(taskId)}"]`); if (!row) return; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.remove('focusPulse'); void row.offsetWidth; row.classList.add('focusPulse'); const input = row.querySelector('input'); if (input) input.focus({ preventScroll: true }); }, 120); }
 function updateStats() {
@@ -2796,19 +3199,15 @@ function bindEvents() {
         toggleTask(row, checkbox.checked);
     });
     document.body.addEventListener('click', event => {
-        const modeBtn = event.target.closest('[data-timer-mode]');
-        if (modeBtn) {
-            setTimerMode(modeBtn.dataset.timerMode);
+        const customChip = event.target.closest('[data-timer-custom]');
+        if (customChip) {
+            openCustomTimerInput(customChip.dataset.timerCustom);
             return;
         }
-        const workChip = event.target.closest('[data-timer-work]');
-        if (workChip) {
-            setTimerLength('work', Number(workChip.dataset.timerWork));
-            return;
-        }
-        const breakChip = event.target.closest('[data-timer-break]');
-        if (breakChip) {
-            setTimerLength('break', Number(breakChip.dataset.timerBreak));
+        const pickChip = event.target.closest('[data-timer-pick]');
+        if (pickChip) {
+            if (timerState.editingCustom) cancelCustomTimerInput(timerState.editingCustom);
+            pickTimerSession(pickChip.dataset.timerPick, Number(pickChip.dataset.timerMins));
             return;
         }
         const paceChip = event.target.closest('.paceChip');
@@ -2902,6 +3301,26 @@ function bindEvents() {
     document.getElementById('timer-pause').addEventListener('click', pauseTimer);
     document.getElementById('timer-resume').addEventListener('click', resumeTimer);
     document.getElementById('timer-reset').addEventListener('click', () => resetTimerToSelected(true));
+    document.getElementById('timer-mute').addEventListener('click', () => setTimerMuted(!uiState.timerMuted));
+    document.getElementById('timer-silence').addEventListener('click', silenceAlarm);
+    document.getElementById('timer-volume').addEventListener('input', event => setTimerVolume(event.target.value));
+    ['work', 'break'].forEach(kind => {
+        const { input } = customTimerEls(kind);
+        if (!input) return;
+        input.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                commitCustomTimerInput(kind);
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                cancelCustomTimerInput(kind);
+                syncTimerUi();
+            }
+        });
+        input.addEventListener('blur', () => {
+            if (timerState.editingCustom === kind) commitCustomTimerInput(kind);
+        });
+    });
     document.addEventListener('keydown', event => {
         if (event.key !== 'Escape') return;
         const focusOpen = document.getElementById('focus-overlay').classList.contains('open');
