@@ -1893,8 +1893,6 @@ const taskLookup = new Map(ROADMAP.tracks.flatMap(track => [
 ]));
 const groupLookup = new Map(ROADMAP.tracks.flatMap(track => (track.groups || []).map(group => [group.id, { ...group, trackId: track.id }])));
 const ROADMAP_TOTAL_HOURS = [...taskLookup.values()].reduce((total, task) => total + task.hours, 0);
-let progress = loadProgress();
-let uiState = loadUiState();
 let activeFilter = 'all';
 const formatHours = value => Number.isInteger(value) ? value + 'h' : value.toFixed(1).replace(/\.0$/, '') + 'h';
 const allTasks = () => [...taskLookup.values()];
@@ -2050,8 +2048,6 @@ function phaseRemainingHours(row) {
 function phaseEstimateLabel(row) {
     return formatPaceRange(phaseRemainingHours(row));
 }
-const isDone = task => Boolean(progress[task.id]);
-const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function loadProgress() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
 function loadUiState() {
     try {
@@ -2061,6 +2057,10 @@ function loadUiState() {
     }
 }
 function saveUiState() { localStorage.setItem(UI_STORAGE_KEY, JSON.stringify(uiState)); }
+let progress = loadProgress();
+let uiState = loadUiState();
+const isDone = task => Boolean(progress[task.id]);
+const taskMatchesFilter = task => activeFilter === 'all' || (activeFilter === 'remaining' ? !isDone(task) : activeFilter === 'done' ? isDone(task) : task.priority === activeFilter);
 function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); const status = document.getElementById('save-status'); status.textContent = 'Saved locally.'; window.setTimeout(() => { status.textContent = 'Progress saves locally in this browser.'; }, 1200); }
 function esc(value) { return String(value).replace(/[&<>"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[char]); }
 function render() { document.getElementById('horizon').textContent = ROADMAP.meta.horizon; document.getElementById('baseline').textContent = ROADMAP.meta.baseline; renderTimeline(); updateStats(); applyFilter(); }
